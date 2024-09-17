@@ -1,10 +1,16 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { CustomBtn } from '.';
 import Link from 'next/link';
+import { HomeType } from '@/app/Features/page';
 
-const HomeCard = () => {
+interface HomeProps{
+  home: HomeType
+  
+}
+const HomeCard:React.FC<HomeProps> = ({home}) => {
+  
   const handleRent=()=>{
     
   }
@@ -17,7 +23,7 @@ const HomeCard = () => {
        </div>
 
        <div className='mt-2'>
-        <h1 className='flex items-center justify-center'>LaLaLand</h1>
+        <h1 className='flex items-center justify-center'>{home.title}</h1>
         
         <div className='flex justify-between mb-3'>
          <p className='text-lg'><strong>$200</strong></p>
@@ -30,12 +36,12 @@ const HomeCard = () => {
 </svg>
 
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#3b82f6" fill="none">
+{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#3b82f6" fill="none">
     <path d="M8.25 14.5C10.25 12.5 13.75 12.5 15.75 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M18.5 11.5C14.7324 8.16667 9.5 8.16667 5.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M2 8.5C8.31579 3.16669 15.6842 3.16668 22 8.49989" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     <circle cx="12" cy="18" r="1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-</svg>
+</svg> */}
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#3b82f6"} fill={"none"}>
     <path d="M17.5 19V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
