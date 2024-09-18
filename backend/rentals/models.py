@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 import uuid
 
@@ -5,6 +6,7 @@ import uuid
 class Homes(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length= 255)
+    main_img = models.ImageField(upload_to='uploads/homes', default='backend/media/uploads/homes/dummy-home.jpg')
     description = models.TextField()
     price_per_month = models.IntegerField()
     address = models.TextField()
@@ -30,6 +32,9 @@ class Homes(models.Model):
 
     def __str__(self):
         return f"{self.title}"
+    
+    def image_url(self):
+        return f'{settings.WEBSITE_URL}{self.image.url}'
 
 class Image(models.Model):
     image = models.ImageField(upload_to='uploads/homes')

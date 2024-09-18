@@ -4,23 +4,25 @@ import SearchFilter from '@/components/SearchFilter'
 import React, { useEffect, useState } from 'react'
 import apiService from '../services/apiService'
 
+// for types for Home Model
 export type HomeType ={
   id: string;
   title: string;
   price_per_month: number;
   address: string;
+  main_img: string;
 }
 
 const FeaturePage = () => {
   const [homes, setHomes] = useState<HomeType[]>([]);
   
+  //fetching data from backend through apiService.ts
   const getHomesList = async()=>{
     const tmpHomes = await apiService.get('/api/homes')
     setHomes(tmpHomes.data)
   }
-
+  // must add useEffect 
   useEffect(()=>{
-    apiService.get('/api/homes')
     getHomesList()
   },[])
   return (

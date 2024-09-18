@@ -5,11 +5,13 @@ import { CustomBtn } from '.';
 import Link from 'next/link';
 import { HomeType } from '@/app/Features/page';
 
+
 interface HomeProps{
   home: HomeType
   
 }
 const HomeCard:React.FC<HomeProps> = ({home}) => {
+
   
   const handleRent=()=>{
     
@@ -17,7 +19,7 @@ const HomeCard:React.FC<HomeProps> = ({home}) => {
   return (
     <div className='home__card-container'>
        <div className='relative w-full h-60 overflow-hidden rounded-xl'>
-        <Image src="/dummy-home.jpg" alt='home' fill 
+        <Image src={`http://localhost:8000${home.main_img}`} alt='home' fill 
         className='object-cover hover:scale-110 w-full h-full'/>
 
        </div>
@@ -26,7 +28,7 @@ const HomeCard:React.FC<HomeProps> = ({home}) => {
         <h1 className='flex items-center justify-center'>{home.title}</h1>
         
         <div className='flex justify-between mb-3'>
-         <p className='text-lg'><strong>$200</strong></p>
+         <p className='text-lg'><strong>${home.price_per_month}</strong></p>
          
          <div className='flex gap-2'>
          <svg className='hover:opacity-100 opacity-60' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#3b82f6"} fill={"none"}>
@@ -60,13 +62,15 @@ const HomeCard:React.FC<HomeProps> = ({home}) => {
         </div>
     
         <hr />
-        <p> Address-Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, consequuntur consectetur magni aut est tempore illum dolorem ullam, perferendis, ratione iure doloremque minus. Quia unde amet, deleniti rerum illum ex?</p>
+        <p> 
+          {home.address}
+        </p>
         
         <div className='mt-3 flex gap-4'>
           <CustomBtn btnName='Rent' handleClick={handleRent} btnStyles='w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition' />
 
           {/* <CustomBtn btnName='More Info' handleClick={handleRent} btnStyles='w-full bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition' /> */}
-          <Link className='w-full text-center bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition'  href='/HomeDetail/id'>More Info</Link>
+          <Link className='w-full text-center bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition'  href={`HomeDetail/${home.id}`}>More Info</Link>
         </div>
        </div>
        
