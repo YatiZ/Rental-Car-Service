@@ -2,34 +2,54 @@
 import { CustomBtn } from "@/components";
 import AuthBox from "@/components/AuthBox";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import apiService from "../services/apiService";
 
-const LoginPage = () => {
-  const handleSubmit = () => {};
+const SignupPage = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('')
+    const [error, setError] = useState<string[]>([]);
+    const [success, setSuccess] = useState(false); 
+  const handleSubmit = async () => {
+    const formData ={
+      email: email,
+      password: password,
+      password2: password2
+    }
+    const response = await apiService.post('/api/auth/register/',JSON.stringify(formData))
+    console.log(formData)
+    
+    setSuccess(true)
+  };
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
+        {success && <div>
+            Success!
+            </div>}
       <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
         <div className="border md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
-          <h1 className="text-xl font-bold leading-relaxed">Login</h1>
+          <h1 className="text-xl font-bold leading-relaxed">Create your account!</h1>
           <p className="text-sm">
-            Doesn't have an account yet?
-            <Link href="Signup" className=" font-bold underline text-blue-400">
-              Sign Up
+            Already have account?
+            <Link href="Login" className=" font-bold underline text-blue-400">
+              Login
             </Link>
           </p>
-          <form className="flex flex-col gap-y-4 mt-3">
+          <form className="flex flex-col gap-y-4 mt-3" action={handleSubmit}>
             <div className="flex flex-col">
               <label className="text-sm mb-1">Email Address</label>
               <input
                 type="text"
                 placeholder="youremail@gmail.com"
                 className="auth__input"
+                onChange={(e)=>setEmail(e.target.value)}
               />
             </div>
 
             <div className="flex-col flex">
               <div className="flex justify-between">
-                <label className="text-sm my-2">Email Address</label>
+                <label className="text-sm my-2">Password</label>
                 <span className="text-sm my-2 underline text-blue-400">
                   Forget Password
                 </span>
@@ -39,12 +59,26 @@ const LoginPage = () => {
                 type="password"
                 placeholder="Enter 8 characters or more"
                 className="auth__input"
+                onChange={(e)=>setPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="flex-col flex">
+              <div className="flex justify-between">
+                <label className="text-sm my-2">confirmation Password</label>
+              </div>
+
+              <input
+                type="password"
+                placeholder="Must same with your password"
+                className="auth__input"
+                onChange={(e)=>setPassword2(e.target.value)}
               />
             </div>
 
             <div className="flex flex-row gap-2">
               <input type="checkbox" />
-              <label className="text-sm">Remember me</label>
+              <label className="text-sm">Accept terms & conditions</label>
             </div>
 
             <div className="">
@@ -52,7 +86,7 @@ const LoginPage = () => {
                 btnType="submit"
                 onClick={handleSubmit}
                 btnStyles="bg-blue-500 p-2 rounded-md text-center text-white w-full"
-                btnName="Login"
+                btnName="Sign Up"
               />
             </div>
           </form>
@@ -109,4 +143,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;
