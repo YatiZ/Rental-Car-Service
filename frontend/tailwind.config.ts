@@ -11,6 +11,9 @@ const config: Config = {
       backgroundImage: {
         'hero-bg': "url('/hero-bg.png')"
       },
+      screens:{
+        'fold':'853px',
+      }
 
     },
   },

@@ -15,7 +15,7 @@ const Hero = () => {
           btnName="Explore Location"
           btnStyles="bg-blue-500 text-white rounded-full p-3 mt-10"
           btnType="button"
-          handleClick={handleScroll}
+          onClick={handleScroll}
         />
       </div>
 
