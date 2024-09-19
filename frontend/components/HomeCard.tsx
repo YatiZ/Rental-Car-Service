@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { CustomBtn } from '.';
 import Link from 'next/link';
-import { HomeType } from '@/app/Features/page';
-
+import { HomeType } from '@/types';
 
 interface HomeProps{
   home: HomeType
   
 }
 const HomeCard:React.FC<HomeProps> = ({home}) => {
-
-  
+  console.log('Home Data:', home);
+  // const additionalImages = home.images?.map(imgObj => `http://localhost:8000${imgObj.image}`);
+  // console.log('Additional Images:', additionalImages);
   const handleRent=()=>{
     
   }
@@ -65,7 +65,14 @@ const HomeCard:React.FC<HomeProps> = ({home}) => {
         <p> 
           {home.address}
         </p>
-        
+
+        {/* {additionalImages.map((image, index)=>(
+          <div>
+             <Image src={image} alt='home' fill 
+        className='object-cover hover:scale-110 w-full h-full'/>
+          </div>
+        ))}
+         */}
         <div className='mt-3 flex gap-4'>
           <CustomBtn btnName='Rent' handleClick={handleRent} btnStyles='w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition' />
 

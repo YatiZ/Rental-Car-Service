@@ -47,3 +47,8 @@
 .home__card-container{
   @apply flex flex-col justify-center items-center p-4 border shadow-xl rounded-xl;
 }
+
+/* for input style */
+.auth__input{
+  @apply border p-2;
+}

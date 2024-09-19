@@ -57,15 +57,13 @@ const NavBar = () => {
             <Link href="/">Contact</Link>
           </div>
         
-          <div>
-          <CustomBtn
-            btnName="Login"
-            btnStyles="bg-blue-500 rounded-full text-white p-2 min-w-[130px]"
-            handleClick={handleLoginPage}
-          />
+     
+            <Link href='/Login' className="bg-blue-500 rounded-full p-2 text-center text-white min-w-[130px]">
+              Login
+            </Link>
+
         </div>
-        </div>
-       
+    
   
     </nav>
   );

@@ -1,39 +1,55 @@
 "use client";
+import apiService from "@/app/services/apiService";
+import { HomeType } from "@/types";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
-import { useState } from "react";
-
-const HomeDetailPage = () => {
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  const [showModal, setShowModal] = useState(false);
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 
-  const openModal = (index: number) => {
-    setCurrentPhotoIndex(index);
-    console.log("Clicked");
-    setShowModal(true);
-  };
 
-  const closeModal = () => setShowModal(false);
+type Props ={
+  home: HomeType | null;
+}
+const HomeDetailPage: React.FC<Props> = ({ home }) => {
+  // const router = useRouter();
+  // const { id } = router.query;
+  // const [home, setHome] = useState<HomeType[]>([]);
 
-  const handlePrevious = () => {
-    setCurrentPhotoIndex((prevIndex) => (prevIndex === 0 ? 3 : prevIndex - 1));
-  };
+  // const getHomeDetail = async () => {
+  //   const homedata = await apiService.get(`/api/homes/${id}/`)
+  //   setHome(homedata.data)
+  // }
 
-  const handleNext = () => {
-    setCurrentPhotoIndex((prevIndex) => (prevIndex === 3 ? 0 : prevIndex + 1));
-  };
+  // useEffect(()=>{
+  //   if (router.isReady) {
+  //     getHomeDetail();
+  //   }
+  // },[router.isReady, id]);
 
   return (
     <div className="mx-4 overflow-hidden relative">
       {/* for images */}
       <div className="grid grid-rows-1 md:grid-cols-4 md:gap-5 md:p-10">
         <div className="relative w-full h-full col-span-3 row-span-2">
+          {/* {home.images?.map((img, index) => (
+            <Image
+              key={index}
+              src={`http://localhost:8000${img}`}
+              alt="home"
+              fill
+              className="object-cover"
+              // onClick={openModal.bind(this, 0)}
+            />
+          ))} */}
+        </div>
+        <div className="relative w-full h-60 col-span-1 row-span-1">
           <Image
             src="/dummy-home.jpg"
             alt="home"
             fill
             className="object-cover"
-            onClick={openModal.bind(this, 0)}
+            // onClick={openModal.bind(this, 0)}
           />
         </div>
         <div className="relative w-full h-60 col-span-1 row-span-1">
@@ -42,16 +58,7 @@ const HomeDetailPage = () => {
             alt="home"
             fill
             className="object-cover"
-            onClick={openModal.bind(this, 0)}
-          />
-        </div>
-        <div className="relative w-full h-60 col-span-1 row-span-1">
-          <Image
-            src="/dummy-home.jpg"
-            alt="home"
-            fill
-            className="object-cover"
-            onClick={openModal.bind(this, 0)}
+            // onClick={openModal.bind(this, 0)}
           />
         </div>
 
@@ -62,7 +69,7 @@ const HomeDetailPage = () => {
               viewBox="0 0 16 16"
               fill="currentColor"
               className="size-4 cursor-pointer"
-              onClick={handlePrevious}
+            
             >
               <path
                 fillRule="evenodd"
@@ -76,7 +83,7 @@ const HomeDetailPage = () => {
               viewBox="0 0 16 16"
               fill="currentColor"
               className="size-4 cursor-pointer"
-              onClick={handleNext}
+            
             >
               <path
                 fillRule="evenodd"
@@ -93,5 +100,6 @@ const HomeDetailPage = () => {
     </div>
   );
 };
+
 
 export default HomeDetailPage;

@@ -3,15 +3,10 @@ import { HomeCard } from '@/components'
 import SearchFilter from '@/components/SearchFilter'
 import React, { useEffect, useState } from 'react'
 import apiService from '../services/apiService'
+import { HomeType } from '@/types'
 
 // for types for Home Model
-export type HomeType ={
-  id: string;
-  title: string;
-  price_per_month: number;
-  address: string;
-  main_img: string;
-}
+
 
 const FeaturePage = () => {
   const [homes, setHomes] = useState<HomeType[]>([]);
