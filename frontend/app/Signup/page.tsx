@@ -6,27 +6,38 @@ import React, { useState } from "react";
 import apiService from "../services/apiService";
 
 const SignupPage = () => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('')
     const [error, setError] = useState<string[]>([]);
-    const [success, setSuccess] = useState(false); 
+   
   const handleSubmit = async () => {
     const formData ={
+      name:name,
       email: email,
       password: password,
       password2: password2
     }
     const response = await apiService.post('/api/auth/register/',JSON.stringify(formData))
     console.log(formData)
-    
-    setSuccess(true)
+
+
   };
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
-        {success && <div>
-            Success!
-            </div>}
+       {error? (
+       <>
+        {error.map((err,index)=>{
+            return (
+                <div className="">{err}</div>
+            )
+        })}
+       </>
+       ):(
+        <div>SUccess</div>
+       )}
+
       <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
         <div className="border md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
           <h1 className="text-xl font-bold leading-relaxed">Create your account!</h1>
@@ -37,6 +48,17 @@ const SignupPage = () => {
             </Link>
           </p>
           <form className="flex flex-col gap-y-4 mt-3" action={handleSubmit}>
+            
+          <div className="flex flex-col">
+              <label className="text-sm mb-1">Username</label>
+              <input
+                type="text"
+                placeholder="your name"
+                className="auth__input"
+                onChange={(e)=>setName(e.target.value)}
+              />
+            </div>
+
             <div className="flex flex-col">
               <label className="text-sm mb-1">Email Address</label>
               <input
