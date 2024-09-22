@@ -4,6 +4,7 @@ from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from django.urls import path
 from rest_framework_simplejwt.views import TokenVerifyView
 
+
 urlpatterns = [
     path('register/',RegisterView.as_view(), name='rest_register'),
 ]

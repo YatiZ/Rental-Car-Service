@@ -17,6 +17,7 @@ const SignupPage = () => {
    
     const handleSubmit = async () => {
         const formData = {
+            name:name,
             email: email,
             password1: password1,
             password2: password2
