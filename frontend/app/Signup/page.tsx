@@ -4,39 +4,51 @@ import AuthBox from "@/components/AuthBox";
 import Link from "next/link";
 import React, { useState } from "react";
 import apiService from "../services/apiService";
+import { useRouter } from "next/navigation";
+import { handleLogin } from "../lib/action";
 
 const SignupPage = () => {
+    const router = useRouter();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('')
-    const [error, setError] = useState<string[]>([]);
+    const [errors, setErrors] = useState<string[]>([]);
    
-  const handleSubmit = async () => {
-    const formData ={
-      name:name,
-      email: email,
-      password: password,
-      password2: password2
-    }
-    const response = await apiService.post('/api/auth/register/',JSON.stringify(formData))
-    console.log(formData)
-
-
-  };
+    const handleSubmit = async () => {
+        const formData = {
+            email: email,
+            password1: password1,
+            password2: password2
+        };
+    
+        try {
+            const response = await apiService.post('/api/auth/register/', formData); // No need to JSON.stringify here
+            console.log('Response:', response);
+    
+            if (response.access) {
+                handleLogin(response.user.pk, response.access, response.refresh);
+                router.push('/');
+            } else {
+                // Handle errors returned from the API
+                const tmpErrors: string[] = Object.values(response).flat().map((error: any) => error);
+                setErrors(tmpErrors);
+            }
+        } catch (error:any) {
+            console.error('Error during registration:', error);
+            setErrors([error.message]); // Show error message to the user
+        }
+    };
+    
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
-       {error? (
-       <>
-        {error.map((err,index)=>{
-            return (
-                <div className="">{err}</div>
-            )
+         {errors.map((error, index) => {
+          return (
+            <div key={`error_${index}`} className="p-5 bg-red-600 text-white rounded-xl opacity-80">
+              {error}
+            </div>
+          );
         })}
-       </>
-       ):(
-        <div>SUccess</div>
-       )}
 
       <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
         <div className="border md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
@@ -62,7 +74,7 @@ const SignupPage = () => {
             <div className="flex flex-col">
               <label className="text-sm mb-1">Email Address</label>
               <input
-                type="text"
+                type="email"
                 placeholder="youremail@gmail.com"
                 className="auth__input"
                 onChange={(e)=>setEmail(e.target.value)}
@@ -81,7 +93,7 @@ const SignupPage = () => {
                 type="password"
                 placeholder="Enter 8 characters or more"
                 className="auth__input"
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e)=>setPassword1(e.target.value)}
               />
             </div>
 

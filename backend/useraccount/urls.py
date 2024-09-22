@@ -5,6 +5,5 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenVerifyView
 
 urlpatterns = [
-    path('register/',RegisterView.as_view(),name='rest_register'),
-   
+    path('register/',RegisterView.as_view(), name='rest_register'),
 ]

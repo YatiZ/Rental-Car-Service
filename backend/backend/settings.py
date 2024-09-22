@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from datetime import timedelta
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,13 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-=$2gruivb*qjnc*-k!!n(_2)%+#j2zs+ck#&uacpl&222x7+!_"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = bool(os.environ.get("DEBUG", default=0))
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+DEBUG =True
+
+AUTH_USER_MODEL = 'useraccount.User'
 
 SITE_ID = 1
-WEBSITE_URL = 'http://localhost:8000'
 
-ALLOWED_HOSTS = []
-AUTH_USER_MODEL ='useraccount.User'
+WEBSITE_URL = 'http://localhost:8000'
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=60),
@@ -46,7 +49,7 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = None
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
@@ -61,8 +64,7 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
-]                                                                                                          
-
+]
 
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -81,33 +83,37 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
-    'rentals',
-    'useraccount',
 
     "rest_framework",
-     "rest_framework.authtoken",
+    "rest_framework.authtoken",
     "rest_framework_simplejwt",
 
     "allauth",
     "allauth.account",
+    'allauth.socialaccount', 
 
     "dj_rest_auth",
     "dj_rest_auth.registration",
 
-    "corsheaders"
+    "corsheaders",
+
+    'rentals',
+    'useraccount',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+
     "corsheaders.middleware.CorsMiddleware",
+    'allauth.account.middleware.AccountMiddleware' ,   
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 
 ROOT_URLCONF = "backend.urls"
 
