@@ -30,8 +30,8 @@ class CustomUserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(unique=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(unique=False,verbose_name='Email', null=True)
+    name = models.CharField(max_length=255, blank=True, null=True, unique=True)
     avatar = models.ImageField(upload_to='uploads/avatars')
 
     is_active = models.BooleanField(default=True)
@@ -43,9 +43,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'name'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['name',]
+    # REQUIRED_FIELDS = ['name',]
 
     def avatar_url(self):
         if self.avatar:
