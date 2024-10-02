@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { NavBar } from "@/components";
 import Footer from "@/components/Footer";
+import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
+
 
 
 
@@ -20,6 +22,7 @@ export default function RootLayout({
       <body className="mx-auto relative">
         <NavBar/>
         {children}
+        <AddRentInfoModal/>
         <Footer/>
       </body>
     </html>

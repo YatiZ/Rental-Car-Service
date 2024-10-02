@@ -29,37 +29,37 @@ SECRET_KEY = "django-insecure-=$2gruivb*qjnc*-k!!n(_2)%+#j2zs+ck#&uacpl&222x7+!_
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 DEBUG =True
 
-AUTH_USER_MODEL = 'useraccount.User'
+# AUTH_USER_MODEL = 'useraccount.User'
 
-SITE_ID = 1
+# SITE_ID = 1
 
 WEBSITE_URL = 'http://localhost:8000'
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME" : timedelta(days=7),
-    "ROTATE_REFRESH_TOKEN" : False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": True,
-    "SIGNING_KEY": "acomplexkey",
-    "ALOGRIGTHM": "HS512",
-}
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME" : timedelta(minutes=60),
+#     "REFRESH_TOKEN_LIFETIME" : timedelta(days=7),
+#     "ROTATE_REFRESH_TOKEN" : False,
+#     "BLACKLIST_AFTER_ROTATION": False,
+#     "UPDATE_LAST_LOGIN": True,
+#     "SIGNING_KEY": "acomplexkey",
+#     "ALOGRIGTHM": "HS512",
+# }
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
 # ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':(
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-),
-'DEFAULT_PERMISSION_CLASSES':(
-    'rest_framework.permissions.IsAuthenticated',
-)
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES':(
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+# ),
+# 'DEFAULT_PERMISSION_CLASSES':(
+#     'rest_framework.permissions.IsAuthenticated',
+# )
     
-}
+# }
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
@@ -69,10 +69,10 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-REST_AUTH ={
-    "USE_JWT": True,
-    "JWT_AUTH_HTTPONLY": False
-}
+# REST_AUTH ={
+#     "USE_JWT": True,
+#     "JWT_AUTH_HTTPONLY": False
+# }
 
 # Application definition
 
@@ -85,20 +85,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "rest_framework",
-    "rest_framework.authtoken",
+    # "rest_framework.authtoken",
     "rest_framework_simplejwt",
 
-    "allauth",
-    "allauth.account",
-    'allauth.socialaccount', 
-
-    "dj_rest_auth",
-    "dj_rest_auth.registration",
 
     "corsheaders",
 
     'rentals',
-    'useraccount',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +99,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
 
     "corsheaders.middleware.CorsMiddleware",
-    'allauth.account.middleware.AccountMiddleware' ,   
+    # 'allauth.account.middleware.AccountMiddleware' ,   
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
