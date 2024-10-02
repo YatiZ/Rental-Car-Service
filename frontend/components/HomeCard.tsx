@@ -4,17 +4,20 @@ import Image from 'next/image';
 import { CustomBtn } from '.';
 import Link from 'next/link';
 import { HomeType } from '@/types';
+import useRentInfoModal from '@/app/hooks/useRentInfoModal';
 
 interface HomeProps{
   home: HomeType
   
 }
 const HomeCard:React.FC<HomeProps> = ({home}) => {
+  const openRentInfoBox = useRentInfoModal();
   console.log('Home Data:', home);
   // const additionalImages = home.images?.map(imgObj => `http://localhost:8000${imgObj.image}`);
   // console.log('Additional Images:', additionalImages);
   const handleRent=()=>{
-    
+    openRentInfoBox.open();
+    console.log('Open')
   }
   return (
     <div className='home__card-container'>

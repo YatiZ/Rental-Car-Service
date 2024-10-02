@@ -58,3 +58,5 @@ for solor -
     <path d="M12 19V22M12 22H14M12 22H10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M12.5 2L10 5.5H14L11.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 </svg>
+
+npm install zustand
