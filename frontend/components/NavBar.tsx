@@ -12,7 +12,9 @@ const NavBar = () => {
         
      
         <div className="m-4 items-center flex">
-          <h3 className="font-bold text-3xl md:text-4xl">Warm</h3>
+          <h3 className="font-bold text-3xl md:text-4xl">
+            <Link href='/'>Warm</Link>
+          </h3>
         </div>
 
         {/* menu icons */}
@@ -44,11 +46,9 @@ const NavBar = () => {
 
         <div className={`md:flex block md:gap-4 right-0 md:bg-white gap-0 absolute z-20 top-20 md:top-1 p-5
          bg-gray-200 w-full md:w-auto mx-0 transition-all duration-200 ${openMenu ? 'block':'hidden'}`}>
+     
           <div className="navbar__link">
-            <Link href="/">Home</Link>
-          </div>
-          <div className="navbar__link">
-            <Link href="/Features">For Rent</Link>
+            <Link href="/Features">Our Cars</Link>
           </div>
           <div className="navbar__link">
             <Link href="/">About Us</Link>

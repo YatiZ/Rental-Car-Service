@@ -80,7 +80,7 @@ const HomeCard:React.FC<HomeProps> = ({home}) => {
           <CustomBtn btnName='Rent' onClick={handleRent} btnStyles='w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition' />
 
           {/* <CustomBtn btnName='More Info' handleClick={handleRent} btnStyles='w-full bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition' /> */}
-          <Link className='w-full text-center bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition'  href={`HomeDetail/${home.id}`}>More Info</Link>
+          <Link className='w-full text-center bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition'  href={`CarDetail/${home.id}`}>More Info</Link>
         </div>
        </div>
        
