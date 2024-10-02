@@ -69,13 +69,6 @@ const HomeCard:React.FC<HomeProps> = ({home}) => {
           {home.address}
         </p>
 
-        {/* {additionalImages.map((image, index)=>(
-          <div>
-             <Image src={image} alt='home' fill 
-        className='object-cover hover:scale-110 w-full h-full'/>
-          </div>
-        ))}
-         */}
         <div className='mt-3 flex gap-4'>
           <CustomBtn btnName='Rent' onClick={handleRent} btnStyles='w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition' />
 

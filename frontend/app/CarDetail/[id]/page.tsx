@@ -1,47 +1,38 @@
 "use client";
 import apiService from "@/app/services/apiService";
+import Calendar from "@/components/forms/Calendar";
+import { Range } from "react-date-range";
 import { HomeType } from "@/types";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { CustomBtn } from "@/components";
 
+const initialDateRange = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
 
-
-type Props ={
+type Props = {
   home: HomeType | null;
-}
-const HomeDetailPage: React.FC<Props> = ({ home }) => {
-  // const router = useRouter();
-  // const { id } = router.query;
-  // const [home, setHome] = useState<HomeType[]>([]);
-
-  // const getHomeDetail = async () => {
-  //   const homedata = await apiService.get(`/api/homes/${id}/`)
-  //   setHome(homedata.data)
-  // }
-
-  // useEffect(()=>{
-  //   if (router.isReady) {
-  //     getHomeDetail();
-  //   }
-  // },[router.isReady, id]);
+};
+const CarDetailPage: React.FC<Props> = ({ home }) => {
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   return (
     <div className="mx-4 overflow-hidden relative">
       {/* for images */}
-      <div className="grid grid-rows-1 md:grid-cols-4 md:gap-5 md:p-10">
+      <div className="grid grid-cols-4 md:gap-5 md:p-10">
         <div className="relative w-full h-full col-span-3 row-span-2">
-          {/* {home.images?.map((img, index) => (
-            <Image
-              key={index}
-              src={`http://localhost:8000${img}`}
-              alt="home"
-              fill
-              className="object-cover"
-              // onClick={openModal.bind(this, 0)}
-            />
-          ))} */}
+          <Image
+            src="/dummy-home.jpg"
+            alt="home"
+            fill
+            className="object-cover"
+            // onClick={openModal.bind(this, 0)}
+          />
         </div>
         <div className="relative w-full h-60 col-span-1 row-span-1">
           <Image
@@ -69,7 +60,6 @@ const HomeDetailPage: React.FC<Props> = ({ home }) => {
               viewBox="0 0 16 16"
               fill="currentColor"
               className="size-4 cursor-pointer"
-            
             >
               <path
                 fillRule="evenodd"
@@ -83,7 +73,6 @@ const HomeDetailPage: React.FC<Props> = ({ home }) => {
               viewBox="0 0 16 16"
               fill="currentColor"
               className="size-4 cursor-pointer"
-            
             >
               <path
                 fillRule="evenodd"
@@ -96,10 +85,50 @@ const HomeDetailPage: React.FC<Props> = ({ home }) => {
       </div>
 
       {/* for text */}
-      <div className="grid grid-cols-3"></div>
+      <div className="flex justify-between md:flex-row flex-col items-center">
+        <div className="flex flex-col items-center justify-center md:ml-14">
+          <div className="">description</div>
+
+          <table className="border-collapse border ">
+            <tbody>
+              <tr>
+                <td className="border border-slate-300 p-4">
+                  "Stone Cold" Steve Austin
+                </td>
+                <td className="border border-slate-300 p-4">
+                  Stone Cold Stunner, Lou Thesz Press
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-slate-300 p-4">
+                  Bret "The Hitman" Hart
+                </td>
+                <td className="border border-slate-300 p-4">
+                  The Sharpshooter
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-slate-300 p-4">Razor Ramon</td>
+                <td className="border border-slate-300 p-4">
+                  Razor's Edge, Fallaway Slam
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex flex-col">
+        <Calendar
+          value={dateRange}
+          onChange={(value) => setDateRange(value.selection)}
+        />
+
+        <CustomBtn btnName="Rent" onClick={()=>console.log('booked')}/>
+        </div>
+       
+      </div>
     </div>
   );
 };
 
-
-export default HomeDetailPage;
+export default CarDetailPage;
