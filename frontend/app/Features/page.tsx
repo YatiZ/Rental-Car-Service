@@ -9,16 +9,17 @@ import { HomeType } from '@/types'
 
 
 const FeaturePage = () => {
-  const [homes, setHomes] = useState<HomeType[]>([]);
+  const [cars, setCars] = useState<HomeType[]>([]);
   
   //fetching data from backend through apiService.ts
-  const getHomesList = async()=>{
-    const tmpHomes = await apiService.get('/api/homes')
-    setHomes(tmpHomes.data)
+  const getCarsList = async()=>{
+    const tmpCars = await apiService.get('/api/cars')
+    setCars(tmpCars.data)
+    console.log('car-list:',tmpCars.data)
   }
   // must add useEffect 
   useEffect(()=>{
-    getHomesList()
+    getCarsList()
   },[])
   return (
     <div>
@@ -26,9 +27,9 @@ const FeaturePage = () => {
        <SearchFilter/>
        </div>
         <div className='home__card-wrappers'>
-      {homes.map((home)=>{
+      {cars.map((car)=>{
         return (
-          <HomeCard  key={home.id} home={home}/>
+          <HomeCard  key={car.id} home={car}/>
         )
       })}
         </div>

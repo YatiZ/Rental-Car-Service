@@ -28,7 +28,7 @@ const HomeCard:React.FC<HomeProps> = ({home}) => {
        </div>
 
        <div className='mt-2'>
-        <h1 className='flex items-center justify-center'>{home.title}</h1>
+        <h1 className='flex items-center justify-center'>{home.brand}</h1>
         
         <div className='flex justify-between mb-3'>
          <p className='text-lg'><strong>${home.price_per_month}</strong></p>

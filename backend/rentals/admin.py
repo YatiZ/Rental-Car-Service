@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Homes,Image, Car
+from .models import Homes,Image, Car, CarGallery
 # Register your models here.
 
 admin.site.register(Homes)
@@ -13,3 +13,4 @@ admin.site.register(Image)
 #         return obj.title
 
 admin.site.register(Car)
+admin.site.register(CarGallery)
