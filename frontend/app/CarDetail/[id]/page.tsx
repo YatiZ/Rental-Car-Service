@@ -1,15 +1,33 @@
-
+'use client'
 import apiService from "@/app/services/apiService";
 import Image from "next/image";
 import DatePicker from "@/components/DatePicker";
+import { useEffect, useState } from "react";
+import { CarType } from "@/types";
 
 
-const CarDetailPage = async({ params}: {params:{id:string}}) => {
- 
-    const car_detail  = await apiService.get(`/api/cars/${params.id}/`);
+const CarDetailPage = ({ params}: {params:{id:string}}) => {
+    const [carDetail, setCarDetail] = useState<CarType | null>(null);
+  
+    useEffect(() => {
+      const fetchCarDetails = async () => {
+
+        try {
+          const car_detail = await apiService.get(`/api/cars/${params.id}/`); 
+          console.log(car_detail); // Check if the image array is included
+          setCarDetail(car_detail)
+        } catch (error) {
+          console.log(error)
+        }
+       
+      };
+      fetchCarDetails();
+    }, []);
     
-    console.log('Car Detail', car_detail)
-    console.log("hello")
+    if (!carDetail) {
+      return <p>Loading...</p>; // Display loading state
+    }
+
 
   
   return (
@@ -18,33 +36,24 @@ const CarDetailPage = async({ params}: {params:{id:string}}) => {
       <div className="grid grid-cols-4 md:gap-5 md:p-10">
         <div className="relative w-full h-full col-span-3 row-span-2">
           <Image
-            src={`http://localhost:8000${car_detail.main_img}`}
+            src={`http://localhost:8000/${carDetail.main_img}`}
             alt="home"
             fill
             className="object-cover"
             // onClick={openModal.bind(this, 0)}
           />
         </div>
-        {Array.isArray(car_detail.image) &&car_detail.image.map((img, index) => (
+        {Array.isArray(carDetail.image) &&carDetail.image.map((img, index) => (
                     <div key={index} className="relative w-full h-60">
                         <Image
                             src={`http://localhost:8000${img.image}`} // Adjust as needed
                             alt={`Car image`}
                             className="object-cover"
+                            fill
                         />
                     </div>
                 ))}
             
-        {car_detail.image}
-        <div className="relative w-full h-60 col-span-1 row-span-1">
-          <Image
-            src="/dummy-home.jpg"
-            alt="home"
-            fill
-            className="object-cover"
-            // onClick={openModal.bind(this, 0)}
-          />
-        </div>
 
         <div className="md:hidden flex justify-between items-center">
           <div className="flex space-x-2">
@@ -81,17 +90,17 @@ const CarDetailPage = async({ params}: {params:{id:string}}) => {
       <div className="flex justify-between md:flex-row flex-col items-center">
         <div className="flex flex-col items-center justify-center md:ml-14">
           <div className="">description
-            {car_detail.description}
+            {carDetail.description}
           </div>
 
           <table className="border-collapse border ">
             <tbody>
               <tr>
                 <td className="border border-slate-300 p-4">
-                  {car_detail.gas_type}
+                  {carDetail.gas_type}
                 </td>
                 <td className="border border-slate-300 p-4">
-                  {car_detail.suitcases}
+                  {carDetail.suitcases}
                 </td>
               </tr>
               <tr>

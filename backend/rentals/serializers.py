@@ -22,7 +22,7 @@ class ImageCarGallerySerializer(serializers.ModelSerializer):
         fields =['image']
 
 class CarListSerializer(serializers.ModelSerializer):
-    image = ImageCarGallerySerializer(many=True, read_only=True)
+    image = ImageCarGallerySerializer(many=True)
     class Meta:
         model = Car
         fields = ['id','brand','main_img','brand_logo','description','model','year','transmission',
