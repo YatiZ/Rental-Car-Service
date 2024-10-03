@@ -6,4 +6,5 @@ urlpatterns = [
     path('api/homes',api.homes_list, name='api_homes_list'),
     path('api/homes/<uuid:id>/',views.home_detail, name='home_detail'),
     path('api/cars', api.car_list, name='api_car_list'),
+    path('api/cars/<uuid:id>/',api.car_detail, name='api_car-detail'),
 ]

@@ -1,26 +1,22 @@
-"use client";
+
 import apiService from "@/app/services/apiService";
 import Calendar from "@/components/forms/Calendar";
 import { Range } from "react-date-range";
 import { CarType } from "@/types";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CustomBtn } from "@/components";
+import DatePicker from "@/components/DatePicker";
 
-const initialDateRange = {
-  startDate: new Date(),
-  endDate: new Date(),
-  key: "selection",
-};
 
-type Props = {
-  car: CarType;
-};
-const CarDetailPage: React.FC<Props> = ({ car }) => {
-  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+const CarDetailPage = async({ params}: {params:{id:string}}) => {
+ 
+    const car_detail  = await apiService.get(`/api/cars/${params.id}/`);
+   
+    console.log('Car Detail', car_detail.data)
 
+  
   return (
     <div className="mx-4 overflow-hidden relative">
       {/* for images */}
@@ -88,14 +84,14 @@ const CarDetailPage: React.FC<Props> = ({ car }) => {
       <div className="flex justify-between md:flex-row flex-col items-center">
         <div className="flex flex-col items-center justify-center md:ml-14">
           <div className="">description
-            {car.description}
+            {car_detail.description}
           </div>
 
           <table className="border-collapse border ">
             <tbody>
               <tr>
                 <td className="border border-slate-300 p-4">
-                  {car?.gas_type}
+                  {car_detail.gas_type}
                 </td>
                 <td className="border border-slate-300 p-4">
                   Stone Cold Stunner, Lou Thesz Press
@@ -120,12 +116,7 @@ const CarDetailPage: React.FC<Props> = ({ car }) => {
         </div>
 
         <div className="flex flex-col">
-        <Calendar
-          value={dateRange}
-          onChange={(value) => setDateRange(value.selection)}
-        />
-
-        <CustomBtn btnName="Rent" onClick={()=>console.log('booked')}/>
+         <DatePicker/>
         </div>
        
       </div>

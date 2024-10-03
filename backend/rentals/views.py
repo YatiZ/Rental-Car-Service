@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Homes
+from .models import Homes, Car
 from django.shortcuts import get_object_or_404
 # Create your views here.
 
@@ -16,3 +16,4 @@ def home_detail(request, id):
         # Add other fields as needed
     }
     return JsonResponse(home_data)
+

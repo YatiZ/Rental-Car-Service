@@ -18,3 +18,9 @@ def car_list(request):
     serializer = CarListSerializer(cars, many=True)
 
     return JsonResponse({'data':serializer.data})
+
+@api_view(['GET'])
+def car_detail(request, id):
+    car = Car.objects.get(id=id)
+    serializer = CarListSerializer(car, many= False)
+    return JsonResponse(serializer.data)
