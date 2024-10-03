@@ -3,13 +3,13 @@ import { HomeCard } from '@/components'
 import SearchFilter from '@/components/SearchFilter'
 import React, { useEffect, useState } from 'react'
 import apiService from '../services/apiService'
-import { HomeType } from '@/types'
+import { CarType } from '@/types'
 
 // for types for Home Model
 
 
 const FeaturePage = () => {
-  const [cars, setCars] = useState<HomeType[]>([]);
+  const [cars, setCars] = useState<CarType[]>([]);
   
   //fetching data from backend through apiService.ts
   const getCarsList = async()=>{
@@ -29,7 +29,7 @@ const FeaturePage = () => {
         <div className='home__card-wrappers'>
       {cars.map((car)=>{
         return (
-          <HomeCard  key={car.id} home={car}/>
+          <HomeCard  key={car.id} car={car}/>
         )
       })}
         </div>

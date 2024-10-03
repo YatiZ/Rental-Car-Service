@@ -37,3 +37,19 @@ export type HomeType = {
     images: string[]; // Assuming images are URLs; adjust as needed based on how you handle images
   };
   
+export type CarType =  {
+    id: string; 
+    brand: string;
+    main_img: string; // URL or path to the main image
+    brand_logo: string; // URL or path to the brand logo
+    description: string;
+    model: string;
+    year: number;
+    transmission: 'automatic' | 'manual'; 
+    color: string;
+    passengers: number;
+    suitcases: number;
+    gas_type: 'gasoline' | 'diesel' | 'electric'; // Specific choices
+    price_per_day: number;
+    status: 'available' | 'rented' | 'maintenance'; // Specific choices
+}

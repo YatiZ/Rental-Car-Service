@@ -2,7 +2,7 @@
 import apiService from "@/app/services/apiService";
 import Calendar from "@/components/forms/Calendar";
 import { Range } from "react-date-range";
-import { HomeType } from "@/types";
+import { CarType } from "@/types";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -16,9 +16,9 @@ const initialDateRange = {
 };
 
 type Props = {
-  home: HomeType | null;
+  car: CarType;
 };
-const CarDetailPage: React.FC<Props> = ({ home }) => {
+const CarDetailPage: React.FC<Props> = ({ car }) => {
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   return (
@@ -87,13 +87,15 @@ const CarDetailPage: React.FC<Props> = ({ home }) => {
       {/* for text */}
       <div className="flex justify-between md:flex-row flex-col items-center">
         <div className="flex flex-col items-center justify-center md:ml-14">
-          <div className="">description</div>
+          <div className="">description
+            {car.description}
+          </div>
 
           <table className="border-collapse border ">
             <tbody>
               <tr>
                 <td className="border border-slate-300 p-4">
-                  "Stone Cold" Steve Austin
+                  {car?.gas_type}
                 </td>
                 <td className="border border-slate-300 p-4">
                   Stone Cold Stunner, Lou Thesz Press
