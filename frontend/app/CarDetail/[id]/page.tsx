@@ -1,20 +1,15 @@
 
 import apiService from "@/app/services/apiService";
-import Calendar from "@/components/forms/Calendar";
-import { Range } from "react-date-range";
-import { CarType } from "@/types";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { CustomBtn } from "@/components";
 import DatePicker from "@/components/DatePicker";
 
 
 const CarDetailPage = async({ params}: {params:{id:string}}) => {
  
     const car_detail  = await apiService.get(`/api/cars/${params.id}/`);
-   
-    console.log('Car Detail', car_detail.data)
+    
+    console.log('Car Detail', car_detail)
+    console.log("hello")
 
   
   return (
@@ -23,22 +18,24 @@ const CarDetailPage = async({ params}: {params:{id:string}}) => {
       <div className="grid grid-cols-4 md:gap-5 md:p-10">
         <div className="relative w-full h-full col-span-3 row-span-2">
           <Image
-            src="/dummy-home.jpg"
+            src={`http://localhost:8000${car_detail.main_img}`}
             alt="home"
             fill
             className="object-cover"
             // onClick={openModal.bind(this, 0)}
           />
         </div>
-        <div className="relative w-full h-60 col-span-1 row-span-1">
-          <Image
-            src="/dummy-home.jpg"
-            alt="home"
-            fill
-            className="object-cover"
-            // onClick={openModal.bind(this, 0)}
-          />
-        </div>
+        {Array.isArray(car_detail.image) &&car_detail.image.map((img, index) => (
+                    <div key={index} className="relative w-full h-60">
+                        <Image
+                            src={`http://localhost:8000${img.image}`} // Adjust as needed
+                            alt={`Car image`}
+                            className="object-cover"
+                        />
+                    </div>
+                ))}
+            
+        {car_detail.image}
         <div className="relative w-full h-60 col-span-1 row-span-1">
           <Image
             src="/dummy-home.jpg"
@@ -94,7 +91,7 @@ const CarDetailPage = async({ params}: {params:{id:string}}) => {
                   {car_detail.gas_type}
                 </td>
                 <td className="border border-slate-300 p-4">
-                  Stone Cold Stunner, Lou Thesz Press
+                  {car_detail.suitcases}
                 </td>
               </tr>
               <tr>

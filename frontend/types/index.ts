@@ -36,7 +36,10 @@ export type HomeType = {
   
     images: string[]; // Assuming images are URLs; adjust as needed based on how you handle images
   };
-  
+
+interface Image{
+    image: string;
+}
 export type CarType =  {
     id: string; 
     brand: string;
@@ -52,4 +55,5 @@ export type CarType =  {
     gas_type: 'gasoline' | 'diesel' | 'electric'; // Specific choices
     price_per_day: number;
     status: 'available' | 'rented' | 'maintenance'; // Specific choices
+    image: Image[];
 }

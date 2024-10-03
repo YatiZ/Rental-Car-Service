@@ -12,7 +12,7 @@ interface CarProps{
 }
 const HomeCard:React.FC<CarProps> = ({car}) => {
   const openRentInfoBox = useRentInfoModal();
-  console.log('Home Data:', car);
+
   // const additionalImages = home.images?.map(imgObj => `http://localhost:8000${imgObj.image}`);
   // console.log('Additional Images:', additionalImages);
   const handleRent=()=>{

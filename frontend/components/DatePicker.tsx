@@ -16,7 +16,7 @@ const initialDateRange = {
 const DatePicker = () => {
     const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   return (
-    <div>
+    <div className="flex flex-col">
          <Calendar
           value={dateRange}
           onChange={(value) => setDateRange(value.selection)}

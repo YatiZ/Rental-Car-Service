@@ -22,5 +22,5 @@ def car_list(request):
 @api_view(['GET'])
 def car_detail(request, id):
     car = Car.objects.get(id=id)
-    serializer = CarListSerializer(car, many= False)
+    serializer = CarListSerializer(car)
     return JsonResponse(serializer.data)
