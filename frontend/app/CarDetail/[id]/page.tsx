@@ -33,7 +33,7 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
   return (
     <div className="mx-4 overflow-hidden relative">
       {/* for images */}
-      <div className="grid grid-cols-4 md:gap-5 md:p-10">
+      {/* <div className="grid grid-cols-4 md:gap-5 md:p-10">
         <div className="relative w-full h-full col-span-3 row-span-2">
           <Image
             src={`http://localhost:8000/${carDetail.main_img}`}
@@ -55,45 +55,28 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
                 ))}
             
 
-        <div className="md:hidden flex justify-between items-center">
-          <div className="flex space-x-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="size-4 cursor-pointer"
-            >
-              <path
-                fillRule="evenodd"
-                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm10.25.75a.75.75 0 0 0 0-1.5H6.56l1.22-1.22a.75.75 0 0 0-1.06-1.06l-2.5 2.5a.75.75 0 0 0 0 1.06l2.5 2.5a.75.75 0 1 0 1.06-1.06L6.56 8.75h4.69Z"
-                clipRule="evenodd"
-              />
-            </svg>
+  
+      </div> */}
 
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="size-4 cursor-pointer"
-            >
-              <path
-                fillRule="evenodd"
-                d="M15 8A7 7 0 1 0 1 8a7 7 0 0 0 14 0ZM4.75 7.25a.75.75 0 0 0 0 1.5h4.69L8.22 9.97a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06l-2.5-2.5a.75.75 0 0 0-1.06 1.06l1.22 1.22H4.75Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-        </div>
+
+   
+      <div className="flex items-center justify-center">
+        <h2 className="text-lg font-bold">{carDetail.brand}</h2>
+        <span>
+          <Image src={`http://localhost:8000${carDetail.brand_logo}`} width={80} height={80} alt="car-logo"/>
+        </span>
       </div>
-
-      {/* for text */}
-      <div className="flex justify-between md:flex-row flex-col items-center">
-        <div className="flex flex-col items-center justify-center md:ml-14">
-          <div className="">description
+         {/* for text */}
+      <div className="flex justify-between md:flex-row flex-col items-center px-auto md:px-12 mx-auto">
+       
+        <div className="col-12 col-lg-6">
+          <p className="">
             {carDetail.description}
-          </div>
+            {carDetail.description}
+          </p>
 
-          <table className="border-collapse border ">
+           <div className="grid grid-cols-2 my-5 gap-x-8 gap-y-3">
+           {/* <table className="border-collapse border w-full">
             <tbody>
               <tr>
                 <td className="border border-slate-300 p-4">
@@ -118,7 +101,15 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
+           </div>
+    
         </div>
 
         <div className="flex flex-col">
