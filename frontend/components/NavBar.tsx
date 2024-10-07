@@ -2,15 +2,18 @@
 import React, { useState } from "react";
 import { CustomBtn } from ".";
 import Link from "next/link";
+import {motion} from "framer-motion";
 
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
 
   const handleLoginPage = () => {};
   return (
-    <nav className="py-2 md:px-14 flex flex-row justify-between items-center border-b">
+    <nav  className="sticky bg-blue-200 top-0 z-50 md:px-14 ">
         
-     
+     <motion.div initial={{y:-250}} animate={{y:0}} transition={{delay:0.2, type:'spring', stiffness:120}} className=" py-2 flex flex-row justify-between items-center ">
+
+
         <div className="m-4 items-center flex">
           <h3 className="font-bold text-3xl md:text-4xl">
             <Link href='/'>Warm</Link>
@@ -24,7 +27,7 @@ const NavBar = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
-            className="size-4"
+            className="size-5"
           >
             <path
               fillRule="evenodd"
@@ -37,18 +40,21 @@ const NavBar = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
-            className="size-4"
+            className="size-6"
           >
             <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
           </svg>
         )}
         </div>
 
-        <div className={`md:flex block md:gap-4 right-0 md:bg-white gap-0 absolute z-20 top-20 md:top-1 p-5
-         bg-gray-200 w-full md:w-auto mx-0 transition-all duration-200 ${openMenu ? 'block':'hidden'}`}>
+        <div className={`md:flex text-center block md:gap-4 md;bg-transparent border-t-2 border-t-blue-800 md:border-none right-0 gap-0 absolute z-20 top-20 md:top-1 p-5
+          w-full md:w-auto mx-0 transition-all duration-200 ${openMenu ? 'block bg-blue-200':'hidden'}`}>
      
           <div className="navbar__link">
             <Link href="/Features">Our Cars</Link>
+          </div>
+          <div className="navbar__link">
+            <Link href="/Features">Q & A</Link>
           </div>
           <div className="navbar__link">
             <Link href="/">About Us</Link>
@@ -63,8 +69,8 @@ const NavBar = () => {
             </Link>
 
         </div>
-    
-  
+
+        </motion.div>
     </nav>
   );
 };
