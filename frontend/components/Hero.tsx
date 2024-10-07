@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { CustomBtn } from ".";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const Hero = () => {
   const handleScroll = () => {};
@@ -12,12 +13,10 @@ const Hero = () => {
         <h1  className="hero__title">Let's Chill in Our Houses</h1>
         <p className="hero__subtitle">Are you looking for renting luxury cars?</p>
 
-        <CustomBtn
-          btnName="Explore Location"
-          btnStyles="bg-blue-500 text-white rounded-full p-3 mt-10"
-          btnType="button"
-          onClick={handleScroll}
-        />
+
+        <motion.button whileHover={{scale:1.1, boxShadow:'0px 0px 8px rgb(255,255,255)',textShadow:'0px 0px 8px rgb(255,255,255)'}} className="text-black rounded-full p-3 mt-10 border border-blue-500">
+          <Link href='/Features'>Explore Best Cars</Link>
+        </motion.button>
       </motion.div>
 
       <div className="hero__image-container">
