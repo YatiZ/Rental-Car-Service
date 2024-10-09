@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomBtn } from ".";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,12 +10,19 @@ import { useRouter } from "next/navigation";
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const router = useRouter();
+  // const [currentPage, setCurrentPage] = useState(router.pathname);
+ 
 
+  // useEffect(()=>{
+  //   setCurrentPage(router.pathname);
+  // },[router.pathname])
 
   const handleLoginPage = () => {};
+
   return (
-    <AnimatePresence >
+    <AnimatePresence>
     <motion.nav className="sticky bg-blue-200 top-0 z-50 md:px-14 ">
+ 
       <motion.div
         initial={{ y: -250 }}
         animate={{ y: 0 }}
@@ -64,13 +71,16 @@ const NavBar = () => {
             openMenu ? "block bg-blue-200" : "hidden"
           }`}
         >
-          <motion.div
+
+            <motion.div
             whileHover={{ scale: 1.1, originX: 0, color: "#f8e112" }}
             transition={{ type: "spring", stiffness: 120 }}
             className="navbar__link"
           >
             <Link href="/Features">Our Cars</Link>
           </motion.div>
+ 
+      
           <motion.div
             whileHover={{ scale: 1.1, originX: 0, color: "#f8e112" }}
             transition={{ type: "spring", stiffness: 120 }}
