@@ -4,10 +4,23 @@ import SearchFilter from '@/components/SearchFilter'
 import React, { useEffect, useState } from 'react'
 import apiService from '../services/apiService'
 import { CarType } from '@/types'
+import {motion} from "framer-motion";
 
 // for types for Home Model
 
-
+const containerVarients = {
+  hidden: {
+    opacity:0,
+  },
+  visible:{
+    opacity:1,
+    transition: {delay:0.5, duration: 0.5}
+  },
+  exit:{
+    x: '-100vh',
+    transition: {ease: 'easeInOut'}
+  }
+}
 const FeaturePage = () => {
   const [cars, setCars] = useState<CarType[]>([]);
   
@@ -22,7 +35,7 @@ const FeaturePage = () => {
     getCarsList()
   },[])
   return (
-    <div>
+    <motion.div variants={containerVarients} initial='hidden' animate='visible' exit='exit'>
        <div className="flex space-x-6 items-center justify-center">
        <SearchFilter/>
        </div>
@@ -34,7 +47,7 @@ const FeaturePage = () => {
       })}
         </div>
    
-    </div>
+    </motion.div>
   )
 }
 

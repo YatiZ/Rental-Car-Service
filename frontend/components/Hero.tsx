@@ -17,10 +17,23 @@ const buttonVariants ={
     }
   }
 }
+const containerVarients = {
+  hidden: {
+    opacity:0,
+  },
+  visible:{
+    opacity:1,
+    transition: {delay:1.5, duration: 1.5}
+  },
+  exit:{
+    x: '-100vh',
+    transition: {ease: 'easeInOut'}
+  }
+}
 const Hero = () => {
   const handleScroll = () => {};
   return (
-    <div className="hero">
+    <motion.div initial='hidden' animate='visible' exit='exit' className="hero">
       <motion.div animate={{opacity:1}} initial={{opacity:0}} transition={{delay:0.1}} className="flex-[1.3] md:pt-36 pt-12 padding-x">
         <h1  className="hero__title">Let's Chill in Our Houses</h1>
         <p className="hero__subtitle">Are you looking for renting luxury cars?</p>
@@ -38,7 +51,7 @@ const Hero = () => {
         </motion.div>
         <div className="hero__img-overlay"></div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

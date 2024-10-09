@@ -2,14 +2,20 @@
 import React, { useState } from "react";
 import { CustomBtn } from ".";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+
+
 
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
+  const router = useRouter();
+
 
   const handleLoginPage = () => {};
   return (
-    <nav className="sticky bg-blue-200 top-0 z-50 md:px-14 ">
+    <AnimatePresence >
+    <motion.nav className="sticky bg-blue-200 top-0 z-50 md:px-14 ">
       <motion.div
         initial={{ y: -250 }}
         animate={{ y: 0 }}
@@ -97,7 +103,8 @@ const NavBar = () => {
           </div>
         </motion.div>
       </motion.div>
-    </nav>
+    </motion.nav>
+    </AnimatePresence>
   );
 };
 
