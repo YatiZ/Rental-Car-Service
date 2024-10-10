@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 
 
+
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const router = useRouter();
@@ -86,21 +87,21 @@ const NavBar = () => {
             transition={{ type: "spring", stiffness: 120 }}
             className="navbar__link"
           >
-            <Link href="/Features">Q & A</Link>
+            <Link href="/Q&Asession">Q & A</Link>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.1, originX: 0, color: "#f8e112" }}
             transition={{ type: "spring", stiffness: 120 }}
             className="navbar__link"
           >
-            <Link href="/">About Us</Link>
+            <Link href="/AboutUs">About Us</Link>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.1, originX: 0, color: "#f8e112" }}
             transition={{ type: "spring", stiffness: 120 }}
             className="navbar__link"
           >
-            <Link href="/">Contact</Link>
+            <Link href="/Contact">Contact</Link>
           </motion.div>
 
           <div className="md:mt-0 mt-5">
