@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion";
 
 const containerVarients = {
@@ -24,11 +24,21 @@ const containerVarients = {
     }
   };
 const ContactPage = () => {
+    const [showAlert, setShowAlert] = useState(false);
+    
+
+    
   return (
     <motion.div   initial="hidden"
     animate="visible"
     exit="exit"
-    variants={containerVarients}>ContactPage</motion.div>
+    variants={containerVarients}>
+        <h2>ContactPage</h2>
+        <form action="">
+            <label htmlFor="">Your message</label>
+            <input type="text" />
+        </form>
+    </motion.div>
   )
 }
 

@@ -11,23 +11,24 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from datetime import timedelta
-import os
+from os import getenv, path
 from pathlib import Path
+import dotenv
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv_file = BASE_DIR/ '.env.local'
+if path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-=$2gruivb*qjnc*-k!!n(_2)%+#j2zs+ck#&uacpl&222x7+!_"
+SECRET_KEY = getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = bool(os.environ.get("DEBUG", default=0))
-# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-DEBUG =True
+
+DEBUG = getenv("DEBUG", "False") == "True"
+ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 # AUTH_USER_MODEL = 'useraccount.User'
 
@@ -51,15 +52,15 @@ WEBSITE_URL = 'http://localhost:8000'
 # ACCOUNT_AUTHENTICATION_METHOD = 'email'
 # ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES':(
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-# ),
-# 'DEFAULT_PERMISSION_CLASSES':(
-#     'rest_framework.permissions.IsAuthenticated',
-# )
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+),
+'DEFAULT_PERMISSION_CLASSES':(
+    'rest_framework.permissions.IsAuthenticated',
+)
     
-# }
+}
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
@@ -85,21 +86,19 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "rest_framework",
-    # "rest_framework.authtoken",
-    "rest_framework_simplejwt",
+    "djoser",
+    
 
 
-    "corsheaders",
+    # "corsheaders",
 
     'rentals',
+    "users",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-
-    "corsheaders.middleware.CorsMiddleware",
-    # 'allauth.account.middleware.AccountMiddleware' ,   
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -175,10 +174,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-MEDIA_ROOT = 'media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR/'media'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+DJOSER = {
+  'PASSWORD_RESET_CONFIRM_URL' : 'password-reset/{uid}/{token}',
+  'SEND_ACTIVATION_EMAIL': True,
+  'ACTIVATION_URL': 'activation/{uid}/{token}',
+  'USER_CREATE_PASSWORD_RETYPE': True,
+  'PASSWORD_RESET_CONFIRM_RETYPE': True,
+  'TOKEN_MODEL': None
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'users.UserAccount'
