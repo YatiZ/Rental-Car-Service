@@ -13,7 +13,7 @@ const Modal = ({ label, content, isOpen, close }: ModalProps) => {
 
   useEffect(() => {
     setShowModal(isOpen);
-    console.log(showModal);
+  
   }, [isOpen]);
 
   const handleClose = useCallback(() => {

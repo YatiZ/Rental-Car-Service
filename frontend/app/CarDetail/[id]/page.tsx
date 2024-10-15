@@ -14,7 +14,7 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
 
         try {
           const car_detail = await apiService.get(`/api/cars/${params.id}/`); 
-          console.log(car_detail); // Check if the image array is included
+          // console.log(car_detail); // Check if the image array is included
           setCarDetail(car_detail)
         } catch (error) {
           console.log(error)

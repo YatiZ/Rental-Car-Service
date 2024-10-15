@@ -33,7 +33,7 @@ const FeaturePage = () => {
   const getCarsList = async()=>{
     const tmpCars = await apiService.get('/api/cars')
     setCars(tmpCars.data)
-    console.log('car-list:',tmpCars.data)
+    // console.log('car-list:',tmpCars.data)
   }
   // must add useEffect 
   useEffect(()=>{
