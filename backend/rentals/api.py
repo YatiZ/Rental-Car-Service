@@ -1,16 +1,8 @@
-from .models import Homes, Car
+from . models import Car
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from .serializers import HomesListSerializer, CarListSerializer
+from .serializers import CarListSerializer
 
-@api_view(['GET'])
-def homes_list(request):
-    homes = Homes.objects.all()
-    serializer = HomesListSerializer(homes, many =True)
-
-    return JsonResponse({
-        'data':serializer.data
-    })
 
 @api_view(['GET'])
 def car_list(request):

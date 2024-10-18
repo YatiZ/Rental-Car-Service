@@ -11,7 +11,7 @@ const SignupPage = () => {
     const router = useRouter();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [password1, setPassword1] = useState('');
+    const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('')
     const [errors, setErrors] = useState<string[]>([]);
    
@@ -19,20 +19,20 @@ const SignupPage = () => {
         const formData = {
             name:name,
             email: email,
-            password1: password1,
-            password2: password2
+            password: password,
+            re_password: password2
         };
     
         try {
-            const response = await apiService.post('/api/auth/register/', formData); // No need to JSON.stringify here
-            // console.log('Response:', response);
+            const response = await apiService.post('/api/users/', formData); // No need to JSON.stringify here
+            console.log('account-registration-Response:', response);
     
             if (response.access) {
                 handleLogin(response.user.pk, response.access, response.refresh);
                 router.push('/');
             } else {
                 // Handle errors returned from the API
-                const tmpErrors: string[] = Object.values(response).flat().map((error: any) => error);
+                const tmpErrors: string[] = Object.values(response).map((error: any) => error);
                 setErrors(tmpErrors);
             }
         } catch (error:any) {
@@ -94,7 +94,7 @@ const SignupPage = () => {
                 type="password"
                 placeholder="Enter 8 characters or more"
                 className="auth__input"
-                onChange={(e)=>setPassword1(e.target.value)}
+                onChange={(e)=>setPassword(e.target.value)}
               />
             </div>
 
