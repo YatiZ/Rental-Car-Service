@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { NavBar } from "@/components";
-import Footer from "@/components/Footer";
+import { NavBar, Footer } from "@/components";
 import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 
 
