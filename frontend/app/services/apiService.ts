@@ -35,15 +35,24 @@ const apiService = {
             });
     
             const json = await response.json(); // Parse the response as JSON
-    
+            console.log('Full response from API:', json);
+
             if (!response.ok) {
-                console.log('Full error response: ',json)
-                // If response is not OK, throw an error with the response
+                // If response is not OK, log and throw an error with the response message
+                console.log('Full error response: ', json);
+    
+                // Check if the response still has account creation data
+                if (json.email && json.id) {
+                    return json; // Return success data
+                }
+    
+                // Throw an error for other cases
                 throw new Error(json.non_field_errors ? json.non_field_errors.join(', ') : 'Unknown error');
             }
     
             console.log('Response from signup', json);
-            return json; // Return the parsed JSON if successful
+            return json;
+
         } catch (error) {
             console.error('Error during API call:', error);
             throw error; // This preserves the error for handling in the calling function

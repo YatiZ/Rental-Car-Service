@@ -28,12 +28,14 @@ const SignupPage = () => {
             const response = await apiService.post('/api/users/', formData); // No need to JSON.stringify here
             console.log('account-registration-Response:', response);
     
-            if (response.data && response.data.id) {
+            if (response && response.id) {
                 setSuccessMessage('Registration successful! Please check your email for activation.');
-            } else {
+            } else if(response.errors) {
                 // Handle errors returned from the API
-                const tmpErrors: string[] = Object.values(response.data).flatMap((error: any) => error);
+                const tmpErrors: string[] = Object.values(response.errors).flatMap((error: any) => error);
                 setErrors(tmpErrors);
+            }else {
+              setErrors(['Unknown error occurred']);
             }
         } catch (error:any) {
             console.error('Error during registration:', error);
