@@ -39,15 +39,18 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 ),
-'DEFAULT_PERMISSION_CLASSES':(
-    'rest_framework.permissions.IsAuthenticated',
-)
+# 'DEFAULT_PERMISSION_CLASSES':(
+#     'rest_framework.permissions.IsAuthenticated',
+# )
+'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
     
 }
 
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000',
+    "http://localhost:8000",
+    "http://localhost:3000",
 ]
 
 

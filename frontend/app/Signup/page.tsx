@@ -14,6 +14,7 @@ const SignupPage = () => {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('')
     const [errors, setErrors] = useState<string[]>([]);
+    const [successMessage, setSuccessMessage] = useState('');
    
     const handleSubmit = async () => {
         const formData = {
@@ -27,12 +28,11 @@ const SignupPage = () => {
             const response = await apiService.post('/api/users/', formData); // No need to JSON.stringify here
             console.log('account-registration-Response:', response);
     
-            if (response.access) {
-                handleLogin(response.user.pk, response.access, response.refresh);
-                router.push('/');
+            if (response.data && response.data.id) {
+                setSuccessMessage('Registration successful! Please check your email for activation.');
             } else {
                 // Handle errors returned from the API
-                const tmpErrors: string[] = Object.values(response).map((error: any) => error);
+                const tmpErrors: string[] = Object.values(response.data).flatMap((error: any) => error);
                 setErrors(tmpErrors);
             }
         } catch (error:any) {
@@ -111,10 +111,10 @@ const SignupPage = () => {
               />
             </div>
 
-            <div className="flex flex-row gap-2">
+            {/* <div className="flex flex-row gap-2">
               <input type="checkbox" />
               <label className="text-sm">Accept terms & conditions</label>
-            </div>
+            </div> */}
 
             <div className="">
               <CustomBtn

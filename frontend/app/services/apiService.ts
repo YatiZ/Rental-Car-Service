@@ -37,6 +37,7 @@ const apiService = {
             const json = await response.json(); // Parse the response as JSON
     
             if (!response.ok) {
+                console.log('Full error response: ',json)
                 // If response is not OK, throw an error with the response
                 throw new Error(json.non_field_errors ? json.non_field_errors.join(', ') : 'Unknown error');
             }
