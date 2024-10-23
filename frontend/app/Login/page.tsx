@@ -2,13 +2,41 @@
 import { CustomBtn } from "@/components";
 import AuthBox from "@/components/AuthBox";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import apiService from "../services/apiService";
+import { handleLogin } from "../lib/action";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const handleSubmit = () => {};
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errors, setErrors] = useState<string[]>([]);
+  const router = useRouter();
+
+  const submitLogin = async(e:React.FormEvent) => {
+    e.preventDefault();
+    const formData = {
+      email: email,
+      password: password
+    }
+
+    const response = await apiService.post('/api/jwt/create/', formData);
+    
+    console.log('Login response:',response)
+    if(response.access){
+       handleLogin(response.user.id, response.access, response.refresh);
+       setSuccessMessage('Login Successfully')
+       router.push('/')
+       
+    }else{
+      setErrors(response)
+    }
+  };
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
       <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
+        <p>{successMessage}</p>
         <div className="border md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
           <h1 className="text-xl font-bold leading-relaxed">Login</h1>
           <p className="text-sm">
@@ -17,19 +45,20 @@ const LoginPage = () => {
               Sign Up
             </Link>
           </p>
-          <form className="flex flex-col gap-y-4 mt-3">
+          <form className="flex flex-col gap-y-4 mt-3" onSubmit={submitLogin}>
             <div className="flex flex-col">
               <label className="text-sm mb-1">Email Address</label>
               <input
                 type="text"
                 placeholder="youremail@gmail.com"
                 className="auth__input"
+                onChange={(e)=>setEmail(e.target.value)}
               />
             </div>
 
             <div className="flex-col flex">
               <div className="flex justify-between">
-                <label className="text-sm my-2">Email Address</label>
+                <label className="text-sm my-2">Password</label>
                 <span className="text-sm my-2 underline text-blue-400">
                   Forget Password
                 </span>
@@ -37,8 +66,9 @@ const LoginPage = () => {
 
               <input
                 type="password"
-                placeholder="Enter 8 characters or more"
+                placeholder="Your Password"
                 className="auth__input"
+                onChange={(e)=>setPassword(e.target.value)}
               />
             </div>
 
@@ -50,7 +80,6 @@ const LoginPage = () => {
             <div className="">
               <CustomBtn
                 btnType="submit"
-                onClick={handleSubmit}
                 btnStyles="bg-blue-500 p-2 rounded-md text-center text-white w-full"
                 btnName="Login"
               />

@@ -1,24 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CustomBtn } from ".";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-
-
-
+import { getUserId } from "@/app/lib/action";
 
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const router = useRouter();
-  // const [currentPage, setCurrentPage] = useState(router.pathname);
- 
+  const [userId, setUserId] = useState<string|null>(null);
 
-  // useEffect(()=>{
-  //   setCurrentPage(router.pathname);
-  // },[router.pathname])
+  useEffect(()=>{
+    const fetchUserId = async()=>{
+      const id = await getUserId();
+      setUserId(id);
+    };
 
-  const handleLoginPage = () => {};
+    fetchUserId();
+  },[])
 
   return (
     <AnimatePresence>
@@ -105,12 +102,17 @@ const NavBar = () => {
           </motion.div>
 
           <div className="md:mt-0 mt-5">
-            <Link
-              href="/Login"
-              className="bg-blue-500 rounded-full p-2 text-center text-white px-10"
-            >
-              Login
-            </Link>
+           {userId? <p>User</p>:
+                     <Link
+                     href="/Login"
+                     className="bg-blue-500 rounded-full p-2 text-center text-white px-10"
+                   >
+                     Login
+                   </Link>
+                
+           }
+  
+           
           </div>
         </motion.div>
       </motion.div>

@@ -24,3 +24,8 @@ export async function handleLogin(userId: string, accessToken: string, refreshTo
         path:'/'
     })
 }
+
+export async function getUserId(){
+    const userId = cookies().get('session_access_token')?.value;
+    return userId? userId : null;
+}

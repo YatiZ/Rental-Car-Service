@@ -57,7 +57,21 @@ const apiService = {
             console.error('Error during API call:', error);
             throw error; // This preserves the error for handling in the calling function
         }
-    }
+    },
+
+    // signUpPost: async function (url: string, data:any):Promise<any> {
+    //     const token = await getAccessToken();
+
+    //     return new Promise((resolve, reject)=>{
+    //         fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+    //             method:'POST',
+    //             body: data,
+    //             headers:{
+    //                 'Authorization':
+    //             }
+    //         })
+    //     })
+    // }
     
  }
 
