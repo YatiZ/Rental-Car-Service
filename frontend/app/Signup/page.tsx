@@ -16,7 +16,8 @@ const SignupPage = () => {
     const [errors, setErrors] = useState<string[]>([]);
     const [successMessage, setSuccessMessage] = useState('');
    
-    const handleSubmit = async () => {
+    const handleSubmit = async (e:React.FormEvent) => {
+      e.preventDefault();
         const formData = {
             name:name,
             email: email,
@@ -62,7 +63,7 @@ const SignupPage = () => {
               Login
             </Link>
           </p>
-          <form className="flex flex-col gap-y-4 mt-3" action={handleSubmit}>
+          <form className="flex flex-col gap-y-4 mt-3" onSubmit={handleSubmit}>
             
           <div className="flex flex-col">
               <label className="text-sm mb-1">Username</label>
@@ -121,7 +122,6 @@ const SignupPage = () => {
             <div className="">
               <CustomBtn
                 btnType="submit"
-                onClick={handleSubmit}
                 btnStyles="bg-blue-500 p-2 rounded-md text-center text-white w-full"
                 btnName="Sign Up"
               />

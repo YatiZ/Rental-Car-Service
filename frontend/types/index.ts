@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 export interface CustomBtnProps{
     btnName: string;
     btnStyles?: string;
-    onClick: MouseEventHandler<HTMLButtonElement>;
+    onClick?: MouseEventHandler<HTMLButtonElement>;
     btnType?: "button" | "submit"
 }
 
