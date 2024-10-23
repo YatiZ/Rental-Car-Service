@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { getUserId } from "@/app/lib/action";
+import LogoutBtn from "./LogoutBtn";
 
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -105,7 +106,9 @@ const NavBar = () => {
           </motion.div>
 
           <div className="md:mt-0 mt-5">
-           {userId? <p>User</p>:
+           {userId? <>
+           <LogoutBtn/>
+           </>:
                      <Link
                      href="/Login"
                      className="bg-blue-500 rounded-full p-2 text-center text-white px-10"
