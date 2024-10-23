@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import apiService from "../services/apiService";
 import { handleLogin } from "../lib/action";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -24,10 +25,26 @@ const LoginPage = () => {
     const response = await apiService.post('/api/jwt/create/', formData);
     
     console.log('Login response:',response)
+    console.log('Login response access:',response.access)
     if(response.access){
-       handleLogin(response.user.id, response.access, response.refresh);
-       setSuccessMessage('Login Successfully')
-       router.push('/')
+
+      const accessToken = response.access;
+      const refreshToken = response.refresh;
+
+      //fetch user details with the access token
+      const userResponse = await axios.get('http://localhost:8000/api/users/me/',{
+        headers:{
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      console.log('Id',userResponse.data.id);
+      if(userResponse && userResponse.data.id){
+        handleLogin(userResponse.data.id, accessToken, refreshToken);
+        setSuccessMessage('Login Successfully')
+        router.push('/');
+      }
+
+     
        
     }else{
       setErrors(response)

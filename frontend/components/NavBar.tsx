@@ -7,7 +7,7 @@ import { getUserId } from "@/app/lib/action";
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [userId, setUserId] = useState<string|null>(null);
-
+ console.log(userId)
   useEffect(()=>{
     const fetchUserId = async()=>{
       const id = await getUserId();
@@ -15,6 +15,9 @@ const NavBar = () => {
     };
 
     fetchUserId();
+
+    const interval = setInterval(fetchUserId, 500);
+    return ()=> clearInterval(interval);
   },[])
 
   return (
