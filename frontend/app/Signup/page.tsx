@@ -44,6 +44,10 @@ const SignupPage = () => {
         }
     };
     
+    const handleGoogleLogin = ()=>{
+      window.location.href = 'http://localhost:8000/api/o/google-oauth2/';
+    };
+
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
          {errors.map((error, index) => {
@@ -130,6 +134,7 @@ const SignupPage = () => {
 
           <div className="flex mt-5 gap-3">
             <button
+              onClick={handleGoogleLogin}
               type="button"
               className="border flex items-center gap-2 border-red-500 rounded-md px-6 py-2 w-40"
             >
