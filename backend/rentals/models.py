@@ -43,3 +43,11 @@ class Car(models.Model):
 class CarGallery(models.Model):
     image =models.ImageField(upload_to='uploads/cars') 
     car = models.ForeignKey(Car, related_name='image', on_delete=models.CASCADE)
+
+class Contact(models.Model):
+    username = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return self.username
