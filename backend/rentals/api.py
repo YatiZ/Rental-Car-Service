@@ -18,13 +18,13 @@ def car_detail(request, id):
     return JsonResponse(serializer.data)
 
 @api_view(['POST'])
-def contact_form(request, id):
+def contact_form(request):
     try:
         username = request.POST.get('username')
         email = request.POST.get('email')
         message = request.POST.get('message')
 
-        contact_form = Contact.objects.create(username, email, message)
+        contact_form = Contact.objects.create(username=username, email=email, message=message)
         return JsonResponse(contact_form)
     except Exception as e:
         print(e)

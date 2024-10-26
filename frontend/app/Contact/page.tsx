@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CustomBtn } from "@/components";
+import apiService from "../services/apiService";
 
 const containerVarients = {
   hidden: {
@@ -29,12 +30,24 @@ const ContactPage = () => {
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errors, setErrors] = useState<string[]>([]);
 
-  const handleSendMessages =()=>{
+  const handleSendMessages =async(e:React.FormEvent)=>{
+    e.preventDefault();
     const formData = {
         username: username,
         email: email,
         message: message
+    }
+
+    const response = await apiService.post('/api/contact', formData);
+    console.log('Response from contact', response)
+    if(response){
+        setSuccessMessage('Your message was sent successfully!')
+        
+    }else{
+        setErrors(response);
     }
   }
   
@@ -47,6 +60,8 @@ const ContactPage = () => {
       variants={containerVarients}
     >
       <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
+      <p>{successMessage}</p>
+      <p>{errors}</p>
         <div className="border w-96 md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
           <h1 className="text-xl font-bold leading-relaxed text-center">
             Contact Us

@@ -45,6 +45,7 @@ class CarGallery(models.Model):
     car = models.ForeignKey(Car, related_name='image', on_delete=models.CASCADE)
 
 class Contact(models.Model):
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
     username = models.CharField(max_length=255)
     email = models.EmailField()
     message = models.TextField()
