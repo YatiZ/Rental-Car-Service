@@ -1,6 +1,6 @@
 from rest_framework import serializers
-
-from . models import CarGallery, Car, Contact
+from users.serializers import UserAccountSerializer
+from . models import CarGallery, Car, Contact, Renter, Reservation, Payment, Review
 
 
 
@@ -20,4 +20,17 @@ class CarListSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
+        fields = '__all__'
+
+class RenterSerializer(serializers.ModelSerializer):
+    account_name = UserAccountSerializer(read_only = True, many=False)
+    class Meta:
+        model = Renter
+        fields = '__all__'
+
+class ReservationSerializer(serializers.ModelSerializer):
+    renter = RenterSerializer(read_only = True, many = False)
+
+    class Meta:
+        model = Reservation
         fields = '__all__'

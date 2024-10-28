@@ -36,3 +36,5 @@ def contact_form(request):
         # General exception handler for other errors
         print(e)
         return Response({'success': False, 'error': 'An unexpected error occurred.'})
+
+# @api_view(['POST'])
