@@ -38,9 +38,9 @@ def contact_form(request):
         return Response({'success': False, 'error': 'An unexpected error occurred.'})
 
 @api_view(['POST'])
-def renter_info(request,pk):
+def renter_info(request,id):
     try:
-        account_name = UserAccount.objects.get(pk=pk)
+        account_name = UserAccount.objects.get(id=id)
         renter_name = request.data.get('renter_name')
         phonenumber = request.data.get('phonenumber')
         address = request.data.get('address')
@@ -62,5 +62,4 @@ def renter_info(request,pk):
     except Exception as e:
         print(e)
         return Response({'success': False, 'error': 'An unexpected error occurred.'})
-    
     
