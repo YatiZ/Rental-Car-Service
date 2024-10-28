@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from users.models import UserAccount
 import uuid
 
 # Create your models here.
@@ -52,3 +53,57 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.username
+    
+class Renter(models.Model):
+        id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+        account_name = models.ForeignKey(UserAccount, related_name='username', on_delete=models.CASCADE)
+        renter_name = models.CharField(max_length=255)
+        phonenumber = models.CharField(max_length=255)
+        address = models.TextField()
+        driver_license_number = models.CharField(max_length=255)
+        license_expiration_date = models.DateField()
+        license_photo = models.ImageField()
+
+        def __str__(self):
+             return f"{self.account_name} {self.renter_name}"
+
+class Reservation(models.Model):
+     STATUS = [
+          ('confirmed','Confirmed'),
+          ('completed','Completed'),
+          ('canceled','Canceled')
+     ]
+     id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+     renter = models.ForeignKey(Renter, related_name='renter_info',on_delete= models.CASCADE)
+     car = models.ForeignKey(Car,related_name='car',on_delete=models.CASCADE)
+     start_date = models.DateTimeField()
+     end_date = models.DateTimeField()
+     total_price = models.FloatField()
+     status = models.CharField(choices=STATUS, default='confirmed',max_length=100)
+     pickup_location = models.TextField()
+     dropoff_location = models.TextField()
+
+class Payment(models.Model):
+    METHOD = [
+         ('credit_card','credit_card'),
+         ('debit','debit'),
+         ('cash','cash')
+    ]
+    STAUTS = [
+         ('completed','completed'),
+         ('pending','pending')
+    ]
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+    reservation = models.ForeignKey(Reservation, related_name='reservation', on_delete=models.CASCADE)
+    amount = models.FloatField()
+    payment_method = models.CharField(choices=METHOD, default='credit_card',max_length=100)
+    payment_date = models.DateTimeField()
+    status = models.CharField(choices=STAUTS, default='pending',max_length=100)
+
+class Review(models.Model):
+     id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+     customer = models.ForeignKey(Renter,on_delete=models.CASCADE)
+     car = models.ForeignKey(Car, on_delete=models.CASCADE)
+     rating = models.IntegerField()
+     comments = models.TextField()
+     review_date = models.DateTimeField()
