@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from . models import CarGallery, Car
+from . models import CarGallery, Car, Contact
 
 
 
@@ -16,4 +16,8 @@ class CarListSerializer(serializers.ModelSerializer):
         fields = ['id','brand','main_img','brand_logo','description','model','year','transmission',
                   'color','passengers','suitcases','gas_type','price_per_day','status', 'image'
                   ]
-        
+    
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = '__all__'

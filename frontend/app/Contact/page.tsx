@@ -40,7 +40,7 @@ const ContactPage = () => {
         email: email,
         message: message
     }
-
+    console.log('FormData:',formData)
     const response = await apiService.post('/api/contact', formData);
     console.log('Response from contact', response)
     if(response){

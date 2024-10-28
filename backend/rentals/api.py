@@ -1,7 +1,9 @@
 from . models import Car, Contact
 from django.http import JsonResponse
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import CarListSerializer
+from .serializers import CarListSerializer,ContactSerializer
+from django.db import IntegrityError
 
 
 @api_view(['GET'])
@@ -20,13 +22,17 @@ def car_detail(request, id):
 @api_view(['POST'])
 def contact_form(request):
     try:
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
+        username = request.data.get('username')
+        email = request.data.get('email')
+        message = request.data.get('message')
 
         contact_form = Contact.objects.create(username=username, email=email, message=message)
-        return JsonResponse(contact_form)
-    except Exception as e:
-        print(e)
+        return Response({'success': True,'message':'Contact form submitted successfully!'})
+    except IntegrityError as e:
 
-        return JsonResponse({'success':False})
+        return Response({'error':'data integrity issue: possibly duplicate entry or constraint violation'})
+    
+    except Exception as e:
+        # General exception handler for other errors
+        print(e)
+        return Response({'success': False, 'error': 'An unexpected error occurred.'})
