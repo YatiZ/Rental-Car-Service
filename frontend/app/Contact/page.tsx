@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CustomBtn } from "@/components";
 import apiService from "../services/apiService";
@@ -26,12 +26,11 @@ const containerVarients = {
   },
 };
 const ContactPage = () => {
-  const [showAlert, setShowAlert] = useState(false);
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState('');
 
   const handleSendMessages =async(e:React.FormEvent)=>{
     e.preventDefault();
@@ -40,16 +39,35 @@ const ContactPage = () => {
         email: email,
         message: message
     }
-    console.log('FormData:',formData)
-    const response = await apiService.post('/api/contact', formData);
+    console.log('form data:',formData);
+
+    try {
+        const response = await apiService.post('/api/contact', formData);
     console.log('Response from contact', response)
-    if(response){
-        setSuccessMessage('Your message was sent successfully!')
-        
+    
+    if(response.success){
+        setSuccessMessage(response.message)
+        setUserName('');
+        setEmail('');
+        setMessage('');
+   
     }else{
-        setErrors(response);
+        setErrors(response.error || 'An error occurred');
     }
-  }
+    } catch (error) {
+        console.error('Error sending message:', error);
+        setErrors('An error occurred while sending the message.');
+    }
+    
+  };
+
+  useEffect(()=>{
+    if(successMessage){
+        setTimeout(()=>{
+            setSuccessMessage('')
+        },2000)
+    }
+  },[successMessage])
   
 
   return (
@@ -59,9 +77,23 @@ const ContactPage = () => {
       exit="exit"
       variants={containerVarients}
     >
+
+               {successMessage && <div className="flex bg-green-100 rounded-lg p-4 mb-4 text-sm text-green-700" role="alert">
+        <svg className="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <div>
+            <span className="font-medium">Success alert!</span> {successMessage}
+        </div>
+    </div>}
+       {errors && 
+        <div className="flex bg-red-100 rounded-lg p-4 mb-4 text-sm text-red-700" role="alert">
+        <svg className="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <div>
+            <span className="font-medium">Danger alert!</span> {errors}
+        </div>
+    </div>
+       }
       <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
-      <p>{successMessage}</p>
-      <p>{errors}</p>
+
         <div className="border w-96 md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
           <h1 className="text-xl font-bold leading-relaxed text-center">
             Contact Us
@@ -74,7 +106,9 @@ const ContactPage = () => {
                 type="text"
                 placeholder="your name"
                 className="auth__input"
+                value={username}
                 onChange={(e)=>setUserName(e.target.value)}
+                required
               />
             </div>
 
@@ -84,7 +118,9 @@ const ContactPage = () => {
                 type="email"
                 placeholder="youremail@gmail.com"
                 className="auth__input"
+                value={email}
                 onChange={(e)=> setEmail(e.target.value)}
+                required
               />
             </div>
 
@@ -93,7 +129,9 @@ const ContactPage = () => {
               <textarea
                 placeholder="Enter your messages"
                 className="auth__input"
+                value={message}
                 onChange={(e)=>setMessage(e.target.value)}
+                required
               ></textarea>
             </div>
 
