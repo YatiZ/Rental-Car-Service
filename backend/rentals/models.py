@@ -62,7 +62,7 @@ class Renter(models.Model):
         address = models.TextField()
         driver_license_number = models.CharField(max_length=255)
         license_expiration_date = models.DateField()
-        license_photo = models.ImageField()
+        license_photo = models.ImageField(upload_to='uploads/license')
 
         def __str__(self):
              return f"{self.account_name} {self.renter_name}"
