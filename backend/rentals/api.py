@@ -2,7 +2,7 @@ from . models import Car, Contact, UserAccount, Renter
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import CarListSerializer,ContactSerializer
+from .serializers import CarListSerializer,ContactSerializer, RenterSerializer
 from django.db import IntegrityError
 
 
@@ -63,3 +63,8 @@ def renter_info(request,id):
         print(e)
         return Response({'success': False, 'error': 'An unexpected error occurred.'})
     
+@api_view(['GET'])
+def renter_info_display(request,id):
+    renter = Renter.objects.get(id=id)
+    serializer = RenterSerializer(renter)
+    return JsonResponse(serializer.data)
