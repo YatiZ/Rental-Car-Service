@@ -16,6 +16,18 @@
   @apply bg-blue-500;
 }
 
+.previous__btn{
+  @apply bg-red-500 p-2 hover:bg-red-800
+}
+
+.next__btn{
+  @apply bg-green-500 p-2 hover:bg-green-800
+}
+
+.submit__btn{
+  @apply bg-blue-500 p-2 hover:bg-blue-800
+}
+
 .hero{
   @apply flex md:flex-row flex-col gap-2 relative z-0 max-w-[1440px] mx-auto;
 }

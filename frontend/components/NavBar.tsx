@@ -8,7 +8,8 @@ import LogoutBtn from "./LogoutBtn";
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [userId, setUserId] = useState<string|null>(null);
- console.log(userId)
+
+
   useEffect(()=>{
     const fetchUserId = async()=>{
       const id = await getUserId();
@@ -21,6 +22,7 @@ const NavBar = () => {
     return ()=> clearInterval(interval);
   },[])
 
+  console.log('User Id:',userId)
   return (
     <AnimatePresence>
     <motion.nav className="sticky bg-blue-200 top-0 z-50 md:px-14 ">

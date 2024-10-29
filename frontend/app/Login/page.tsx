@@ -26,9 +26,12 @@ const LoginPage = () => {
     
     console.log('Login response:',response)
     console.log('Login response access:',response.access)
-    if(response.access){
+    if(!response.access){
+      setErrors(response);
+      return;
+    }
 
-      const accessToken = response.access;
+    const accessToken = response.access;
       const refreshToken = response.refresh;
 
       //fetch user details with the access token
@@ -38,17 +41,13 @@ const LoginPage = () => {
         }
       });
       console.log('Id',userResponse.data.id);
+
       if(userResponse && userResponse.data.id){
         handleLogin(userResponse.data.id, accessToken, refreshToken);
         setSuccessMessage('Login Successfully')
         router.push('/');
       }
-
-     
-       
-    }else{
-      setErrors(response)
-    }
+      
   };
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
