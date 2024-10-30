@@ -14,10 +14,12 @@ const AddRentInfoModal = () => {
   const [renterName, setRenterName] = useState('');
   const [phoneno, setPhoneno] = useState('');
   const [address, setAddress] = useState('');
-  const [driverLicense, setDriverLicenseNo] = useState('')
+  const [driverLicense, setDriverLicenseNo] = useState('');
   const [licenseExpiration,setLicenseExpiration] = useState('')
-  const [LicensePhoto, setLicensePhoto] = useState('')
+  const [LicensePhoto, setLicensePhoto] = useState<File | null>(null)
   const [userId, setUserId] = useState<string|null>(null);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter();
 
   useEffect(()=>{
@@ -31,6 +33,16 @@ const AddRentInfoModal = () => {
     return ()=> clearInterval(interval);
   },[])
   console.log('User Id from add rent info',userId)
+
+  const handleChangePhoto =(e:React.ChangeEvent<HTMLInputElement>)=>{
+    const file = e.target.files ? e.target.files[0] : null;
+    if(file){
+      setLicensePhoto(file);
+    }else{
+      console.error("No file selected");
+    }
+   
+  }
 
   const submitRenterInfo= async(e:React.FormEvent)=>{
     e.preventDefault();
@@ -59,25 +71,82 @@ const AddRentInfoModal = () => {
       },
       });
 
-      // console.log('Response from renter info form:',response)
-      if(response){
-        router.push('/');
+      console.log('Response from renter info form:',response)
+      if(response.data.success === true){
+        setAlertMessage('');
+        setSuccessMessage(response.data.message);
+        useEffect(()=>{
+          if(successMessage){
+            setTimeout(()=>{
+              setSuccessMessage('')
+            },2000)
+          }
+        },[successMessage])
         addRentInfoModal.close()
+      
+      
+      }else{
+        setAlertMessage('Must fill data!')
       }
   
-      
+
     } catch (error) {
       console.log(error)
     }
-  }
-  
+  };
   
 
+
   const content = (
-    
-    <div className="flex flex-col gap-y-4 mt-3">
+    <>
+          {successMessage && (
+        <div
+          className="flex bg-green-100 rounded-lg p-4 mb-4 text-sm text-green-700"
+          role="alert"
+        >
+          <svg
+            className="w-5 h-5 inline mr-3"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+          <div>
+            <span className="font-medium">Success alert!</span> {successMessage}
+          </div>
+        </div>
+      )}
+      {alertMessage && (
+        <div
+          className="flex bg-red-100 rounded-lg p-4 mb-4 text-sm text-red-700"
+          role="alert"
+        >
+          <svg
+            className="w-5 h-5 inline mr-3"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+          <div>
+            <span className="font-medium">Danger alert!</span> {alertMessage}
+          </div>
+        </div>
+      )}
+  
+    <form className="flex flex-col gap-y-4 mt-3">
       {currentStep == 1? (
-         <><h2 className="">Your Info</h2>
+         <><h2 className="border-b-4 border-b-blue-700 w-fit">Renter Information</h2>
       
            <input
                 type="text"
@@ -85,6 +154,7 @@ const AddRentInfoModal = () => {
                 className="auth__input"
                 value={renterName}
                 onChange={(e)=>setRenterName(e.target.value)}
+                required
               />
 
            <input
@@ -93,6 +163,7 @@ const AddRentInfoModal = () => {
                 className="auth__input"
                 value={phoneno}
                 onChange={(e)=>setPhoneno(e.target.value)}
+                required
               />
 
            <input
@@ -101,13 +172,14 @@ const AddRentInfoModal = () => {
                 className="auth__input"
                 value={address}
                 onChange={(e)=>setAddress(e.target.value)}
+                required
               />
           
     
          <CustomBtn btnName='Next' onClick={()=>setCurrentStep(2)} btnStyles='next__btn'/>
          </>
       ): currentStep == 2? (
-        <><h2 className="">Your Driver License Info</h2>
+        <><h2 className="border-b-4 border-b-blue-700 w-fit">Your Driver License Info</h2>
        
        <div className="flex flex-col gap-y-1">
        <label htmlFor='licenseDate'>License No:</label>
@@ -117,6 +189,7 @@ const AddRentInfoModal = () => {
                 className="auth__input"
                 value={driverLicense}
                 onChange={(e)=>setDriverLicenseNo(e.target.value)}
+                required
               />
        </div>
         
@@ -128,6 +201,7 @@ const AddRentInfoModal = () => {
                 className="auth__input"
                 value={licenseExpiration}
                 onChange={(e)=>setLicenseExpiration(e.target.value)}
+                required
               />
        </div>
 
@@ -137,21 +211,33 @@ const AddRentInfoModal = () => {
       ):
       (
         <>
+       
+        {successMessage? <div className='next__btn text-center'>Complete</div>:<>
+
+          <h1 className='border-b-4 border-b-blue-700 w-fit'>Upload renter license photo</h1>
           <input
                 type="file"
                 placeholder="your phone no"
                 className="auth__input"
-                value={LicensePhoto}
-                onChange={(e)=>setLicensePhoto(e.target.value)}
+                // value={LicensePhoto}
+                onChange={handleChangePhoto}
+                accept="image/*"
               />
-        <CustomBtn btnName='Previous' onClick={()=>setCurrentStep(2)} btnStyles='previous__btn'/>
-        <CustomBtn btnName='Submit' onClick={submitRenterInfo} btnStyles='submit__btn'/>
+          <CustomBtn btnName='Previous' onClick={()=>setCurrentStep(2)} btnStyles='previous__btn'/>
+          <CustomBtn btnName='Submit' onClick={submitRenterInfo} btnStyles='submit__btn'/>
+        </>}
+        
         </>
       )}
-    </div>
+    </form>
+    </>
   )
   return (
-    <Modal label='Add rent info' isOpen={addRentInfoModal.isOpen} content={content} close={addRentInfoModal.close}/>
+
+
+     <Modal label='Add rent info' isOpen={addRentInfoModal.isOpen} content={content} close={addRentInfoModal.close}/>
+
+   
   )
 }
 
