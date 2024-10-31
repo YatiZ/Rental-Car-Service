@@ -7,9 +7,10 @@ import { getUserId } from '@/app/lib/action'
 import apiService from '@/app/services/apiService'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import useAlertBox from '@/app/hooks/useAlertBox'
 
-const AddRentInfoModal = () => {
-  const addRentInfoModal = useRentInfoModal();
+const UpdateRentInfoModal = () => {
+  const updateRentInfoModal = useAlertBox();
   const [currentStep, setCurrentStep] = useState(1);
   const [renterName, setRenterName] = useState('');
   const [phoneno, setPhoneno] = useState('');
@@ -20,6 +21,7 @@ const AddRentInfoModal = () => {
   const [userId, setUserId] = useState<string|null>(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const router = useRouter();
 
   useEffect(()=>{
     const fetchUserId = async()=>{
@@ -46,13 +48,6 @@ const AddRentInfoModal = () => {
   const submitRenterInfo= async(e:React.FormEvent)=>{
     e.preventDefault();
 
-    // const formData = new FormData();
-    // formData.append('renter_name', renterName);
-    //     formData.append('phonenumber', phoneno);
-    //     formData.append('address', address);
-    //     formData.append('driver_license_number', driverLicense);
-    //     formData.append('license_expiration_date', licenseExpiration);
-    //     formData.append('license_photo', LicensePhoto);
     const formData = {
       renter_name: renterName,
       phonenumber: phoneno,
@@ -81,7 +76,7 @@ const AddRentInfoModal = () => {
             },2000)
           }
         },[successMessage])
-        addRentInfoModal.close()
+        updateRentInfoModal.close()
       
       
       }else{
@@ -98,7 +93,7 @@ const AddRentInfoModal = () => {
 
   const content = (
     <>
-          {successMessage && (
+          {/* {successMessage && (
         <div
           className="flex bg-green-100 rounded-lg p-4 mb-4 text-sm text-green-700"
           role="alert"
@@ -228,16 +223,18 @@ const AddRentInfoModal = () => {
         
         </>
       )}
-    </form>
+    </form> */}
+
+    <h1>hello</h1>
     </>
   )
   return (
 
 
-     <Modal label='Add rent info' isOpen={addRentInfoModal.isOpen} content={content} close={addRentInfoModal.close}/>
+     <Modal label='Add rent info' isOpen={updateRentInfoModal.isOpen} content={content} close={updateRentInfoModal.close}/>
 
    
   )
 }
 
-export default AddRentInfoModal
+export default UpdateRentInfoModal;

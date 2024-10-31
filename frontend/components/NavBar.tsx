@@ -9,10 +9,11 @@ const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [userId, setUserId] = useState<string|null>(null);
 
-
+  
   useEffect(()=>{
     const fetchUserId = async()=>{
       const id = await getUserId();
+      console.log('Id Testing',id)
       setUserId(id);
     };
 
@@ -22,7 +23,7 @@ const NavBar = () => {
     return ()=> clearInterval(interval);
   },[])
 
-  console.log('User Id:',userId)
+  console.log('User Id from NavBar:',userId)
   return (
     <AnimatePresence>
     <motion.nav className="sticky bg-blue-200 top-0 z-50 md:px-14 ">
@@ -105,6 +106,13 @@ const NavBar = () => {
             className="navbar__link"
           >
             <Link href="/Contact">Contact</Link>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.1, originX: 0, color: "#f8e112" }}
+            transition={{ type: "spring", stiffness: 120 }}
+            className="navbar__link"
+          >
+            <Link href="/RenterInfo">Your Info</Link>
           </motion.div>
 
           <div className="md:mt-0 mt-5">

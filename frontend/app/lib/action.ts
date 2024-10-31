@@ -27,6 +27,7 @@ export async function handleLogin(userId: string, accessToken: string, refreshTo
 
 export async function getUserId(){
     const userId = cookies().get('session_userid')?.value;
+    console.log('UserId from getUserId fun',userId)
     return userId? userId : null;
 }
 

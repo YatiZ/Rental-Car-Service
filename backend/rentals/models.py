@@ -56,7 +56,7 @@ class Contact(models.Model):
     
 class Renter(models.Model):
         id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
-        account_name = models.ForeignKey(UserAccount, related_name='username', on_delete=models.CASCADE)
+        account_name = models.OneToOneField(UserAccount, related_name='renter', on_delete=models.CASCADE)
         renter_name = models.CharField(max_length=255)
         phonenumber = models.CharField(max_length=255)
         address = models.TextField()
@@ -65,7 +65,7 @@ class Renter(models.Model):
         license_photo = models.ImageField(upload_to='uploads/license')
 
         def __str__(self):
-             return f"{self.account_name} {self.renter_name}"
+             return f"{self.account_name} - {self.renter_name}"
 
 class Reservation(models.Model):
      STATUS = [

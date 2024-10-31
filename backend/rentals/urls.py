@@ -9,5 +9,6 @@ urlpatterns = [
     path('api/contact',api.contact_form, name='contact-form'),
     path('api/renter_info/<int:id>',api.renter_info, name='renter_info'),
     path('api/renter_info_display/<uuid:id>',api.renter_info_display, name='api_renter_info_display'),
-    
+    path('api/renter_info_check',api.renter_info_check, name='renter-info-check'),
+
 ]
