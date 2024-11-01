@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { NavBar, Footer } from "@/components";
 import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
+import UpdateRentInfoModal from "@/components/modals/UpdateRentInfo";
 
 
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <NavBar/>
         {children}
         <AddRentInfoModal/>
+        <UpdateRentInfoModal/>
         <Footer/>
       </body>
     </html>

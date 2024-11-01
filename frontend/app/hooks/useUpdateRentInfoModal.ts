@@ -4,7 +4,7 @@ interface AlertBoxStore{
     open: ()=> void;
     close: ()=> void;
 }
-const useAlertBox = create<AlertBoxStore>((set)=>(
+const useUpdateRentInfoModal = create<AlertBoxStore>((set)=>(
     {
         isOpen: false,
         open: ()=> set({isOpen: true}),
@@ -12,4 +12,4 @@ const useAlertBox = create<AlertBoxStore>((set)=>(
     }
 ));
 
-export default useAlertBox;
+export default useUpdateRentInfoModal;

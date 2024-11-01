@@ -115,7 +115,6 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
         <div className="flex flex-col">
          <DatePicker/>
         </div>
-       
       </div>
     </div>
   );

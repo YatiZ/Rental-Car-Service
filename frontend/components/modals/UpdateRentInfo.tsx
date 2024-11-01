@@ -7,10 +7,10 @@ import { getUserId } from '@/app/lib/action'
 import apiService from '@/app/services/apiService'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import useAlertBox from '@/app/hooks/useAlertBox'
+import useUpdateRentInfoModal from '@/app/hooks/useUpdateRentInfoModal'
 
 const UpdateRentInfoModal = () => {
-  const updateRentInfoModal = useAlertBox();
+  const updateRentInfoModal = useUpdateRentInfoModal();
   const [currentStep, setCurrentStep] = useState(1);
   const [renterName, setRenterName] = useState('');
   const [phoneno, setPhoneno] = useState('');

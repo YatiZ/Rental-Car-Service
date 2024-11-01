@@ -44,7 +44,7 @@ def renter_info(request,id):
     try:
         account_name = UserAccount.objects.get(id=id)
 
-        if Renter.objects.filter(account_name == account_name).exists():
+        if Renter.objects.filter(account_name = account_name).exists():
             return Response({'success':False,'message':'Renter Info already exists for this account.','renter_exists':'renter_exists'},status=400)
         
         renter_name = request.data.get('renter_name')

@@ -46,13 +46,6 @@ const AddRentInfoModal = () => {
   const submitRenterInfo= async(e:React.FormEvent)=>{
     e.preventDefault();
 
-    // const formData = new FormData();
-    // formData.append('renter_name', renterName);
-    //     formData.append('phonenumber', phoneno);
-    //     formData.append('address', address);
-    //     formData.append('driver_license_number', driverLicense);
-    //     formData.append('license_expiration_date', licenseExpiration);
-    //     formData.append('license_photo', LicensePhoto);
     const formData = {
       renter_name: renterName,
       phonenumber: phoneno,
@@ -211,7 +204,7 @@ const AddRentInfoModal = () => {
       (
         <>
        
-        {successMessage? <div className='next__btn text-center'>Complete</div>:<>
+        {successMessage? <div className='next__btn text-center'></div>:<>
 
           <h1 className='border-b-4 border-b-blue-700 w-fit'>Upload renter license photo</h1>
           <input
