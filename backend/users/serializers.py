@@ -5,5 +5,5 @@ class UserAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
         fields = (
-            'id','username','email','avatar'
+            'id','name','email','avatar'
         )

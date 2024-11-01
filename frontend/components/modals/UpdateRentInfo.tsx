@@ -32,6 +32,10 @@ const UpdateRentInfoModal = () => {
     
     const interval = setInterval(fetchUserId, 500);
     return ()=> clearInterval(interval);
+
+    //get data from the backend 
+    
+    
   },[])
   console.log('User Id from add rent info',userId)
 

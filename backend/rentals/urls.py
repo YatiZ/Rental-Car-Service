@@ -10,5 +10,5 @@ urlpatterns = [
     path('api/renter_info/<int:id>',api.renter_info, name='renter_info'),
     path('api/renter_info_display/<uuid:id>',api.renter_info_display, name='api_renter_info_display'),
     path('api/renter_info_check/<int:id>',api.renter_info_check, name='renter-info-check'),
-
+    path('api/update_renter_info/<int:id>',api.update_renter_info, name='update-renter-info'),
 ]

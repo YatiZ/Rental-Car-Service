@@ -1,6 +1,7 @@
 from . models import Car, Contact, UserAccount, Renter
 from django.http import JsonResponse
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .serializers import CarListSerializer,ContactSerializer, RenterSerializer
 from django.db import IntegrityError
@@ -93,3 +94,37 @@ def renter_info_check(request, id):
             'success': False,
             'error': 'An unexpected error occurred.'
         }, status=500)
+    
+@api_view(['PUT','PATCH'])
+def update_renter_info(request,id):
+    try:
+        account_name = UserAccount.objects.get(id=id)
+        renter_info = Renter.objects.get(account_name=account_name)
+
+        # Update the fields if they are provided in the request
+        renter_name = request.data.get('renter_name',renter_info.renter_name)
+        phonenumber = request.data.get('phonenumber',renter_info.phonenumber)
+        address = request.data.get('address',renter_info.address)
+        driver_license_number = request.data.get('driver_license_number',renter_info.driver_license_number)
+        license_expiration_date = request.data.get('license_expiration_date',renter_info.license_expiration_date)
+        license_photo = request.data.get('license_photo',renter_info.license_photo)
+
+        # Update the Renter object fields
+        renter_info.renter_name = renter_name
+        renter_info.phonenumber = phonenumber
+        renter_info.address = address
+        renter_info.driver_license_number = driver_license_number
+        renter_info.license_expiration_date = license_expiration_date
+        renter_info.license_photo = license_photo
+
+        renter_info.save()
+
+        return Response({'success':True, 'messsage':'Renter Info was successfully updated!'}, status=status.HTTP_200_OK)
+    except UserAccount.DoesNotExist:
+        return Response({'success':False,'error':'User account doesnt exist'}, status=status.HTTP_404_NOT_FOUND)
+    
+    except Renter.DoesNotExist:
+        return Response({'success':False, 'error':'Renter doesnt exist'},status = status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        print(e)
+        return Response({'success': False,'error':'An error occurred!'})
