@@ -1,6 +1,7 @@
 from . models import Car, Contact, UserAccount, Renter
 from django.http import JsonResponse
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .serializers import CarListSerializer,ContactSerializer, RenterSerializer
@@ -95,36 +96,68 @@ def renter_info_check(request, id):
             'error': 'An unexpected error occurred.'
         }, status=500)
     
-@api_view(['PUT','PATCH'])
+# @api_view(['PUT','PATCH'])
+# def update_renter_info(request,id):
+#     try:
+#         account_name = UserAccount.objects.get(id=id)
+#         renter_info = Renter.objects.get(account_name=account_name)
+
+#         # Update the fields if they are provided in the request
+#         renter_name = request.data.get('renter_name',renter_info.renter_name)
+#         phonenumber = request.data.get('phonenumber',renter_info.phonenumber)
+#         address = request.data.get('address',renter_info.address)
+#         driver_license_number = request.data.get('driver_license_number',renter_info.driver_license_number)
+#         license_expiration_date = request.data.get('license_expiration_date',renter_info.license_expiration_date)
+#         license_photo = request.data.get('license_photo',renter_info.license_photo)
+
+#         # Update the Renter object fields
+#         renter_info.renter_name = renter_name
+#         renter_info.phonenumber = phonenumber
+#         renter_info.address = address
+#         renter_info.driver_license_number = driver_license_number
+#         renter_info.license_expiration_date = license_expiration_date
+#         renter_info.license_photo = license_photo
+
+#         renter_info.save()
+
+#         return Response({'success':True, 'messsage':'Renter Info was successfully updated!'}, status=status.HTTP_200_OK)
+#     except UserAccount.DoesNotExist:
+#         return Response({'success':False,'error':'User account doesnt exist'}, status=status.HTTP_404_NOT_FOUND)
+    
+#     except Renter.DoesNotExist:
+#         return Response({'success':False, 'error':'Renter doesnt exist'},status = status.HTTP_404_NOT_FOUND)
+#     except Exception as e:
+#         print(e)
+#         return Response({'success': False,'error':'An error occurred!'}) 
+
+@api_view(['GET','PATCH'])
+# @permission_classes([IsAuthenticated])
 def update_renter_info(request,id):
     try:
         account_name = UserAccount.objects.get(id=id)
-        renter_info = Renter.objects.get(account_name=account_name)
+        renter = Renter.objects.filter(account_name=account_name).first()
 
-        # Update the fields if they are provided in the request
-        renter_name = request.data.get('renter_name',renter_info.renter_name)
-        phonenumber = request.data.get('phonenumber',renter_info.phonenumber)
-        address = request.data.get('address',renter_info.address)
-        driver_license_number = request.data.get('driver_license_number',renter_info.driver_license_number)
-        license_expiration_date = request.data.get('license_expiration_date',renter_info.license_expiration_date)
-        license_photo = request.data.get('license_photo',renter_info.license_photo)
+        # Check if the renter data exists
+        if not renter:
+            return Response({'error': 'Renter info not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+        if request.method == 'GET':
+            serializer = RenterSerializer(renter)
+            return Response(serializer.data)
+        
+        elif request.method == 'PATCH':
+            # Combine request.data and request.FILES for the serializer
+            data = request.data.copy()
+            if 'license_photo' in request.FILES:
+                data['license_photo'] = request.FILES['license_photo']
 
-        # Update the Renter object fields
-        renter_info.renter_name = renter_name
-        renter_info.phonenumber = phonenumber
-        renter_info.address = address
-        renter_info.driver_license_number = driver_license_number
-        renter_info.license_expiration_date = license_expiration_date
-        renter_info.license_photo = license_photo
-
-        renter_info.save()
-
-        return Response({'success':True, 'messsage':'Renter Info was successfully updated!'}, status=status.HTTP_200_OK)
+            serializer = RenterSerializer(renter, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'success': True, 'message': 'Renter info updated successfully!'}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except UserAccount.DoesNotExist:
-        return Response({'success':False,'error':'User account doesnt exist'}, status=status.HTTP_404_NOT_FOUND)
-    
-    except Renter.DoesNotExist:
-        return Response({'success':False, 'error':'Renter doesnt exist'},status = status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'User account not found.'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        print(e)
-        return Response({'success': False,'error':'An error occurred!'})
+        print(f"Error updating renter info: {e}")
+        return Response({'error': 'An unexpected error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

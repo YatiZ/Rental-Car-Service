@@ -26,6 +26,7 @@ const UpdateRentInfoModal = () => {
   useEffect(()=>{
     const fetchUserId = async()=>{
       const id = await getUserId();
+      const response = await apiService.get(`api/update_renter_info/${id}`)
       setUserId(id);
     };
     fetchUserId();
@@ -63,7 +64,7 @@ const UpdateRentInfoModal = () => {
     console.log('Form Data:', formData)
     try {
   
-      const response = await axios.post(`http://localhost:8000/api/renter_info/${userId}`,formData,{
+      const response = await axios.patch(`http://localhost:8000/api/update_renter_info/${userId}`,formData,{
         headers: {
           'Content-Type': 'multipart/form-data',
       },
@@ -97,7 +98,7 @@ const UpdateRentInfoModal = () => {
 
   const content = (
     <>
-          {/* {successMessage && (
+          {successMessage && (
         <div
           className="flex bg-green-100 rounded-lg p-4 mb-4 text-sm text-green-700"
           role="alert"
@@ -227,9 +228,9 @@ const UpdateRentInfoModal = () => {
         
         </>
       )}
-    </form> */}
+    </form>
 
-    <h1>hello</h1>
+
     </>
   )
   return (
