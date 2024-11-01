@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Modal from '../Modal'
 import useRentInfoModal from '@/app/hooks/useRentInfoModal'
 import CustomBtn from '../CustomBtn'
@@ -8,6 +9,7 @@ import apiService from '@/app/services/apiService'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import useUpdateRentInfoModal from '@/app/hooks/useUpdateRentInfoModal'
+import Link from 'next/link'
 
 const UpdateRentInfoModal = () => {
   const updateRentInfoModal = useUpdateRentInfoModal();
@@ -16,53 +18,63 @@ const UpdateRentInfoModal = () => {
   const [phoneno, setPhoneno] = useState('');
   const [address, setAddress] = useState('');
   const [driverLicense, setDriverLicenseNo] = useState('');
-  const [licenseExpiration,setLicenseExpiration] = useState('')
-  const [LicensePhoto, setLicensePhoto] = useState<File | null>(null)
+  const [licenseExpiration,setLicenseExpiration] = useState('');
+
+  const [LicensePhoto, setLicensePhoto] = useState<File | null>(null);
+  const [LicensePhotoPath, setLicensePhotoPath] = useState<string>('');
+
   const [userId, setUserId] = useState<string|null>(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter();
 
-//   useEffect(()=>{
-//     const fetchUserId = async()=>{
-//       const id = await getUserId();
-//       setUserId(id);
-//       const response = await apiService.get(`/api/update_renter_info/${id}`)
-//       console.log('Response from update rent info',response)
-     
-//     };
-//     fetchUserId();
-    
-//     // const interval = setInterval(fetchUserId, 500);
-//     // return ()=> clearInterval(interval);
-
-//     //get data from the backend 
-    
-    
-//   },[])
 
   //trying not to get every render
-  const fetchUserId = async()=>{
-    const id = await getUserId();
-    setUserId(id);
-    const renterData = await apiService.get(`/api/update_renter_info/${id}`);
-    console.log('renterData from update rent info',renterData)
+  useEffect(() => {
+    const fetchRenterInfo = async () => {
+        const id = await getUserId();
+        setUserId(id);
+       
+        const response = await apiService.get(`/api/update_renter_info/${id}`);
+        const renterData = response.data || response;
+        console.log('renterData from update rent info',renterData)
+        
+        setRenterName(renterData.renter_name)
+        setPhoneno(renterData.phonenumber)
+        setAddress(renterData.address)
+        setDriverLicenseNo(renterData.driver_license_number)
+        setLicenseExpiration(renterData.license_expiration_date)
+        const url = 'http://localhost:8000'
+        const filePath = (`${url}${renterData.license_photo}`);
+        setLicensePhotoPath(filePath)
+    };
+    fetchRenterInfo();
+}, [userId]);
+console.log('License Photo Path: ',LicensePhotoPath)
+//   const fetchUserId = async()=>{
+//     const id = await getUserId();
+//     setUserId(id);
+//     const renterData = await apiService.get(`/api/update_renter_info/${id}`);
+//     console.log('renterData from update rent info',renterData)
     
-    setRenterName(renterData.renter_name)
-    setPhoneno(renterData.phonenumber)
-    setAddress(renterData.address)
-    setDriverLicenseNo(renterData.driver_license_number)
-    setLicenseExpiration(renterData.license_expiration_date)
-    setLicensePhoto(renterData.license_photo)
-  }
+//     setRenterName(renterData.renter_name)
+//     setPhoneno(renterData.phonenumber)
+//     setAddress(renterData.address)
+//     setDriverLicenseNo(renterData.driver_license_number)
+//     setLicenseExpiration(renterData.license_expiration_date)
+//     setLicensePhoto(renterData.license_photo)
+//   }
 
-  fetchUserId();
-  console.log('User Id from add rent info',userId)
+//   fetchUserId();
+//   console.log('User Id from add rent info',userId)
 
   const handleChangePhoto =(e:React.ChangeEvent<HTMLInputElement>)=>{
     const file = e.target.files ? e.target.files[0] : null;
     if(file){
       setLicensePhoto(file);
+     
+    //   setLicensePhotoPath(file.name);
+
     }else{
       console.error("No file selected");
     }
@@ -71,15 +83,19 @@ const UpdateRentInfoModal = () => {
 
   const submitRenterInfo= async(e:React.FormEvent)=>{
     e.preventDefault();
-
-    const formData = {
-      renter_name: renterName,
-      phonenumber: phoneno,
-      address: address,
-      driver_license_number: driverLicense,
-      license_expiration_date: licenseExpiration,
-      license_photo: LicensePhoto
+    
+    const formData = new FormData();
+    formData.append('renter_name', renterName);
+    formData.append('phonenumber', phoneno);
+    formData.append('address', address);
+    formData.append('driver_license_number', driverLicense);
+    formData.append('license_expiration_date', licenseExpiration);
+    
+    if(LicensePhoto){
+        formData.append('license_photo', LicensePhoto);
     }
+   
+
     console.log('Form Data:', formData)
     try {
   
@@ -230,17 +246,30 @@ const UpdateRentInfoModal = () => {
       (
         <>
        
-        {successMessage? <div className='next__btn text-center'>Complete</div>:<>
+        {successMessage? <div className='next__btn text-center'>
+            <Link href='/Features'>Explore Cars</Link>
+        </div>:<>
 
           <h1 className='border-b-4 border-b-blue-700 w-fit'>Upload renter license photo</h1>
+        
           <input
-                type="file"
-                placeholder="your phone no"
+                type="text"
+                
                 className="auth__input"
-                // value={LicensePhoto}
+                value={LicensePhotoPath}
+                onChange={()=>document.getElementById("fileInput")?.click()}
+               
+                readOnly
+              />
+         <input
+                type="file"
+                id='fileInput'
+                // className="hidden"
+                
                 onChange={handleChangePhoto}
                 accept="image/*"
               />
+            <Image src={LicensePhotoPath} alt='license-pic' width={200} height={200}/>
           <CustomBtn btnName='Previous' onClick={()=>setCurrentStep(2)} btnStyles='previous__btn'/>
           <CustomBtn btnName='Submit' onClick={submitRenterInfo} btnStyles='submit__btn'/>
         </>}
