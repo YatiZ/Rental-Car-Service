@@ -107,13 +107,17 @@ const NavBar = () => {
           >
             <Link href="/Contact">Contact</Link>
           </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.1, originX: 0, color: "#f8e112" }}
-            transition={{ type: "spring", stiffness: 120 }}
-            className="navbar__link"
-          >
-            <Link href="/RenterInfo">Your Info</Link>
-          </motion.div>
+
+          {userId && 
+           <motion.div
+           whileHover={{ scale: 1.1, originX: 0, color: "#f8e112" }}
+           transition={{ type: "spring", stiffness: 120 }}
+           className="navbar__link"
+         >
+           <Link href="/RenterInfo">Your Info</Link>
+         </motion.div>
+          }
+         
 
           <div className="md:mt-0 mt-5">
            {userId? <>

@@ -79,9 +79,9 @@ def renter_info_display(request,id):
 def renter_info_check(request, id):
     try:
         account_name = UserAccount.objects.get(id=id)
-        renter_exists = Renter.objects.filter(account_name == account_name).exists()
+        renter_exists = Renter.objects.filter(account_name = account_name).exists()
 
-        return Response({'success':True,'renter_exists':renter_exists})
+        return Response({'success': True, 'renter_exists': renter_exists})
     
     except UserAccount.DoesNotExist:
         return Response({
