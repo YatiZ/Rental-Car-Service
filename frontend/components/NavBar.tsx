@@ -14,12 +14,13 @@ const NavBar = () => {
     const fetchUserId = async () => {
       const id = await getUserId();
       console.log("Id Testing", id);
-      setUserId(id);
+        setUserId(id);
+     
     };
 
     fetchUserId();
 
-    const interval = setInterval(fetchUserId, 500);
+    const interval = setInterval(fetchUserId, 5000);
     return () => clearInterval(interval);
   }, []);
 
