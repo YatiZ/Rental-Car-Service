@@ -72,8 +72,8 @@ console.log('License Photo Path: ',LicensePhotoPath)
     const file = e.target.files ? e.target.files[0] : null;
     if(file){
       setLicensePhoto(file);
-     
-    //   setLicensePhotoPath(file.name);
+     const preview = URL.createObjectURL(file); 
+      setLicensePhotoPath(preview);
 
     }else{
       console.error("No file selected");
@@ -247,7 +247,7 @@ console.log('License Photo Path: ',LicensePhotoPath)
         <>
        
         {successMessage? <div className='next__btn text-center'>
-            <Link href='/Features'>Explore Cars</Link>
+            {/* <Link href='/Features'>Explore Cars</Link> */}
         </div>:<>
 
           <h1 className='border-b-4 border-b-blue-700 w-fit'>Upload renter license photo</h1>
