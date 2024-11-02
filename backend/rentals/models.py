@@ -74,10 +74,11 @@ class Reservation(models.Model):
           ('canceled','Canceled')
      ]
      id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
-     renter = models.ForeignKey(Renter, related_name='renter_info',on_delete= models.CASCADE)
+     renter = models.ForeignKey(UserAccount, related_name='renter_info',on_delete= models.CASCADE)
      car = models.ForeignKey(Car,related_name='car',on_delete=models.CASCADE)
      start_date = models.DateTimeField()
      end_date = models.DateTimeField()
+     total_date =models.IntegerField(default=1)
      total_price = models.FloatField()
      status = models.CharField(choices=STATUS, default='confirmed',max_length=100)
      pickup_location = models.TextField()

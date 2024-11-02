@@ -161,3 +161,7 @@ def update_renter_info(request,id):
     except Exception as e:
         print(f"Error updating renter info: {e}")
         return Response({'error': 'An unexpected error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+# @api_view(['POST'])
+# def reservation(request, id):
+#     return Response()
