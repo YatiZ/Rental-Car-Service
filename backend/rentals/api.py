@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .serializers import CarListSerializer,ContactSerializer, RenterSerializer
 from django.db import IntegrityError
+from django.utils import timezone
 
 
 @api_view(['GET'])
@@ -135,8 +136,26 @@ def reservation(request, id):
 
         # renter = UserAccount.objects.get(id = renter_id)
         car_info = Car.objects.get(id=id)
+        car_info.status = 'Renting'
+        car_info.save()
         start_date = request.data.get('start_date')
         end_date = request.data.get('end_date')
+
+        #converting date into obj
+        start_date_dt = timezone.datetime.fromisoformat(start_date)
+        end_date_dt = timezone.datetime.fromisoformat(end_date)
+
+        #check existing booking info
+        existing_reservation = Reservation.objects.filter(
+            car = car_info,
+            start_date = start_date_dt,
+            end_date = end_date_dt
+        ).exists()
+
+        if existing_reservation:
+            return Response({'success':False,'message':'This car is unavailable for the selected dates'}, status= status.HTTP_400_BAD_REQUEST)
+
+
         total_date = request.data.get('total_date')
         total_price = request.data.get('total_price')
         pickup_location = request.data.get('pickup_location')
@@ -162,6 +181,10 @@ def reservation(request, id):
             dropoff_location = dropoff_location
         )
         return Response({'success':True,'message':'Booking set up successfully!'},status=status.HTTP_201_CREATED)
+    except UserAccount.DoesNotExist:
+        return Response({'success': False, 'message':'User account does not exist'},status= status.HTTP_404_NOT_FOUND)
+    except Car.DoesNotExist:
+        return Response({'success':False,'message':'Car does not exist!'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         print(e)
     return Response({'success':False,'message':'An error occurred!'})

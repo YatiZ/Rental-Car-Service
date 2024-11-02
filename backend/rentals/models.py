@@ -78,6 +78,9 @@ class Reservation(models.Model):
      pickup_location = models.TextField()
      dropoff_location = models.TextField()
 
+     def __str__(self):
+          return f"{self.renter} - {self.car}"
+
 class Payment(models.Model):
     METHOD = [
          ('credit_card','credit_card'),
