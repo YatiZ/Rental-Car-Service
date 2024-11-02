@@ -1,4 +1,4 @@
-from . models import Car, Contact, UserAccount, Renter
+from . models import Car, Contact, UserAccount, Renter, Reservation
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -96,39 +96,6 @@ def renter_info_check(request, id):
             'error': 'An unexpected error occurred.'
         }, status=500)
     
-# @api_view(['PUT','PATCH'])
-# def update_renter_info(request,id):
-#     try:
-#         account_name = UserAccount.objects.get(id=id)
-#         renter_info = Renter.objects.get(account_name=account_name)
-
-#         # Update the fields if they are provided in the request
-#         renter_name = request.data.get('renter_name',renter_info.renter_name)
-#         phonenumber = request.data.get('phonenumber',renter_info.phonenumber)
-#         address = request.data.get('address',renter_info.address)
-#         driver_license_number = request.data.get('driver_license_number',renter_info.driver_license_number)
-#         license_expiration_date = request.data.get('license_expiration_date',renter_info.license_expiration_date)
-#         license_photo = request.data.get('license_photo',renter_info.license_photo)
-
-#         # Update the Renter object fields
-#         renter_info.renter_name = renter_name
-#         renter_info.phonenumber = phonenumber
-#         renter_info.address = address
-#         renter_info.driver_license_number = driver_license_number
-#         renter_info.license_expiration_date = license_expiration_date
-#         renter_info.license_photo = license_photo
-
-#         renter_info.save()
-
-#         return Response({'success':True, 'messsage':'Renter Info was successfully updated!'}, status=status.HTTP_200_OK)
-#     except UserAccount.DoesNotExist:
-#         return Response({'success':False,'error':'User account doesnt exist'}, status=status.HTTP_404_NOT_FOUND)
-    
-#     except Renter.DoesNotExist:
-#         return Response({'success':False, 'error':'Renter doesnt exist'},status = status.HTTP_404_NOT_FOUND)
-#     except Exception as e:
-#         print(e)
-#         return Response({'success': False,'error':'An error occurred!'}) 
 
 @api_view(['GET','PATCH'])
 # @permission_classes([IsAuthenticated])
@@ -162,6 +129,39 @@ def update_renter_info(request,id):
         print(f"Error updating renter info: {e}")
         return Response({'error': 'An unexpected error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-# @api_view(['POST'])
-# def reservation(request, id):
-#     return Response()
+@api_view(['POST'])
+def reservation(request, id):
+    try:
+
+        # renter = UserAccount.objects.get(id = renter_id)
+        car_info = Car.objects.get(id=id)
+        start_date = request.data.get('start_date')
+        end_date = request.data.get('end_date')
+        total_date = request.data.get('total_date')
+        total_price = request.data.get('total_price')
+        pickup_location = request.data.get('pickup_location')
+        dropoff_location = request.data.get('dropoff_location')
+        
+        # if request.user.is_authenticated:
+        #     renter = request.user
+        # else:
+        #     email = request.data.get('email')
+        #     renter, created = UserAccount.objects.get_or_create(email=email)
+
+        renter_id = request.data.get('renter_id')
+        renter = UserAccount.objects.get(id = renter_id)
+
+        Reservation.objects.create(
+            renter = renter,
+            car = car_info,
+            start_date = start_date,
+            end_date = end_date,
+            total_date = total_date,
+            total_price = total_price,
+            pickup_location = pickup_location,
+            dropoff_location = dropoff_location
+        )
+        return Response({'success':True,'message':'Booking set up successfully!'},status=status.HTTP_201_CREATED)
+    except Exception as e:
+        print(e)
+    return Response({'success':False,'message':'An error occurred!'})

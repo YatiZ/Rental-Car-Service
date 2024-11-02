@@ -68,11 +68,6 @@ class Renter(models.Model):
              return f"{self.account_name} - {self.renter_name}"
 
 class Reservation(models.Model):
-     STATUS = [
-          ('confirmed','Confirmed'),
-          ('completed','Completed'),
-          ('canceled','Canceled')
-     ]
      id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
      renter = models.ForeignKey(UserAccount, related_name='renter_info',on_delete= models.CASCADE)
      car = models.ForeignKey(Car,related_name='car',on_delete=models.CASCADE)
@@ -80,7 +75,6 @@ class Reservation(models.Model):
      end_date = models.DateTimeField()
      total_date =models.IntegerField(default=1)
      total_price = models.FloatField()
-     status = models.CharField(choices=STATUS, default='confirmed',max_length=100)
      pickup_location = models.TextField()
      dropoff_location = models.TextField()
 
