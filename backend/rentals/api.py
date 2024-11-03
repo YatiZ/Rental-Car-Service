@@ -133,8 +133,6 @@ def update_renter_info(request,id):
 @api_view(['POST'])
 def reservation(request, id):
     try:
-
-        # renter = UserAccount.objects.get(id = renter_id)
         car_info = Car.objects.get(id=id)
         car_info.status = 'Renting'
         car_info.save()

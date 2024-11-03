@@ -1,33 +1,40 @@
-'use client'
+// 'use client'
 import apiService from "@/app/services/apiService";
 import Image from "next/image";
 import DatePicker from "@/components/DatePicker";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { CarType } from "@/types";
+import { getUserId } from "@/app/lib/action";
 
 
-const CarDetailPage = ({ params}: {params:{id:string}}) => {
-    const [carDetail, setCarDetail] = useState<CarType | null>(null);
-  
-    useEffect(() => {
-      const fetchCarDetails = async () => {
-
-        try {
-          const car_detail = await apiService.get(`/api/cars/${params.id}/`); 
-          // console.log(car_detail); // Check if the image array is included
-          setCarDetail(car_detail)
-        } catch (error) {
-          console.log(error)
-        }
+const CarDetailPage = async({ params}: {params:{id:string}}) => {
+    // const [carDetail, setCarDetail] = useState<CarType | null>(null);
+    // const [carId, setCarId] = useState<string>('');
+    // const [userId, setUserId] = useState
+    // useEffect(() => {
+    //   const fetchCarDetails = async () => {
+        
+    //     try {
+    //       const userId = await getUserId();
+    //       const car_detail = await apiService.get(`/api/cars/${params.id}/`); 
+    //       console.log('Car Detail->',car_detail.id); // Check if the image array is included
+    //       setCarDetail(car_detail)
+    //       setCarId(car_detail.id)
+    //     } catch (error) {
+    //       console.log(error)
+    //     }
        
-      };
-      fetchCarDetails();
-    }, []);
+    //   };
+    //   fetchCarDetails();
+    // }, []);
     
-    if (!carDetail) {
-      return <p>Loading...</p>; // Display loading state
-    }
-
+    // if (!carDetail) {
+    //   return <p>Loading...</p>; // Display loading state
+    // }
+ 
+            const userId = await getUserId();
+            const car_detail = await apiService.get(`/api/cars/${params.id}/`); 
+            console.log('Car Detail->',car_detail.id); // Check if the image array is included
 
   
   return (
@@ -61,9 +68,9 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
 
    
       <div className="flex items-center justify-center">
-        <h2 className="text-lg font-bold">{carDetail.brand}</h2>
+        <h2 className="text-lg font-bold">{car_detail.brand}</h2>
         <span>
-          <Image src={`http://localhost:8000${carDetail.brand_logo}`} width={80} height={80} alt="car-logo"/>
+          <Image src={`http://localhost:8000${car_detail.brand_logo}`} width={80} height={80} alt="car-logo"/>
         </span>
       </div>
          {/* for text */}
@@ -71,8 +78,8 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
        
         <div className="col-12 col-lg-6">
           <p className="">
-            {carDetail.description}
-            {carDetail.description}
+            {car_detail.description}
+            {car_detail.description}
           </p>
 
            <div className="grid grid-cols-2 my-5 gap-x-8 gap-y-3">
@@ -80,10 +87,10 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
             <tbody>
               <tr>
                 <td className="border border-slate-300 p-4">
-                  {carDetail.gas_type}
+                  {car_detail.gas_type}
                 </td>
                 <td className="border border-slate-300 p-4">
-                  {carDetail.suitcases}
+                  {car_detail.suitcases}
                 </td>
               </tr>
               <tr>
@@ -102,18 +109,18 @@ const CarDetailPage = ({ params}: {params:{id:string}}) => {
               </tr>
             </tbody>
           </table> */}
-            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
-            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
-            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
-            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
-            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
-            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{carDetail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{car_detail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{car_detail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{car_detail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{car_detail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{car_detail.brand}</div>
+            <div className="bg-blue-400 rounded-full p-2 text-center shadow-md">{car_detail.brand}</div>
            </div>
     
         </div>
 
         <div className="flex flex-col">
-         <DatePicker/>
+         <DatePicker car = {car_detail} userId = {userId}/>
         </div>
       </div>
     </div>
