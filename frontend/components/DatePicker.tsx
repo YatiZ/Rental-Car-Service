@@ -35,7 +35,9 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
     const [bookedDates, setBookedDates] = useState<Date[]>([]);
     const [pickup, setPickup] = useState<string>('');
     const [dropoff, setDropoff] = useState<string>('');
+    const [totalDate, setTotalDate] = useState<number>(1);
     const [totalPrice, setTotalPrice] = useState<number>();
+    const [texFee, setTexFee] = useState<number>();
     const [error, setError] = useState('');
 
 
@@ -43,10 +45,11 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
       const fetchRenterInfo = async()=>{
         const renter_info = await apiService.get(`/api/renter_info_check/${userId}`);
         setRenter(renter_info)
+        
       }
       fetchRenterInfo();
     },[])
-
+      
     const bookCar = (e:React.FormEvent)=>{
       e.preventDefault()
       
@@ -56,9 +59,10 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
 
           
           const formData = {
+            renter: userId,
             start_date: format(dateRange.startDate,"yyyy-MM-dd"),
             end_date:format(dateRange.endDate,"yyyy-MM-dd"),
-            total_date: differenceInDays(dateRange.endDate, dateRange.startDate),
+            total_date: totalDate,
             total_pirce: totalPrice,
             pickup_location: pickup,
             dropoff_location: dropoff
@@ -110,7 +114,22 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
 
     useEffect(()=>{
       get_reservation();
-    },[])
+       
+      if(dateRange.startDate && dateRange.endDate){
+        const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate)
+        
+        if(dayCount && car.price_per_day){
+          const _taxFee = ((dayCount * car.price_per_day)/100) * 5;
+          setTexFee(_taxFee);
+          setTotalPrice(dayCount * car.price_per_day + _taxFee);
+          setTotalDate(dayCount)
+        }else{
+          const _taxFee = (car.price_per_day/100) * 5;
+          setTexFee(_taxFee)
+          setTotalPrice(car.price_per_day + _taxFee);
+        }
+      }
+    },[dateRange])
   return (
     <form className="flex flex-col border" >
         <div className="flex">
@@ -130,7 +149,12 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
           <textarea name="dropoff_location" id="" className="border" onChange={(e)=>setDropoff(e.target.value)}></textarea>
         </div>
         </div>
-       
+      
+        </div>
+        <div className="">
+          car price per day : {car.price_per_day}
+          Tax Fees: {texFee}
+          total cost: {totalPrice}
         </div>
          
 
