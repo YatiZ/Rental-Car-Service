@@ -51,16 +51,31 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
       if (renter && userId){
         console.log(renter)
         if(dateRange.startDate && dateRange.endDate){
-          
-          
-          const formData = {
-             start_date: format(dateRange.startDate,"yyyy-MM-dd"),
-             end_date:format(dateRange.endDate,"yyyy-MM-dd"),
-             pickup_location: pickup,
-             dropoff_location: dropoff
-          }
 
-          console.log("FormData from date picker",formData)
+          const startDate:Date = dateRange.startDate as Date;
+          const endDate:Date = dateRange.endDate as Date;
+
+          if(isNaN(startDate.getTime()) || isNaN(endDate.getTime())){
+            console.log('Date error')
+          }else{
+            const timeDifference = endDate.getTime() - startDate.getTime();
+
+            const numberOfDays = timeDifference /(1000 * 60 * 60 * 24)
+            console.log("number of days:", numberOfDays)
+
+            const formData = {
+              start_date: format(dateRange.startDate,"yyyy-MM-dd"),
+              end_date:format(dateRange.endDate,"yyyy-MM-dd"),
+              number_of_days: numberOfDays,
+              pickup_location: pickup,
+              dropoff_location: dropoff
+           }
+ 
+           console.log("FormData from date picker",formData)
+          }
+          
+          
+         
         }
       }else{
         setError('errpr')
