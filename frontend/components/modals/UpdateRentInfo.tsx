@@ -49,7 +49,7 @@ const UpdateRentInfoModal = () => {
         setLicensePhotoPath(filePath)
     };
     fetchRenterInfo();
-}, [userId]);
+}, []);
 console.log('License Photo Path: ',LicensePhotoPath)
 //   const fetchUserId = async()=>{
 //     const id = await getUserId();

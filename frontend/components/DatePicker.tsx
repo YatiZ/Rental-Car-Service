@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { CustomBtn } from "@/components";
 import apiService from "@/app/services/apiService";
 import { renameSync } from "fs";
-import { differenceInDays, format } from "date-fns";
+import { differenceInDays, eachDayOfInterval, format, setDate } from "date-fns";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -32,6 +32,7 @@ interface ReservationProps{
 const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
     const [renter, setRenter] = useState('');
     const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+    const [bookedDates, setBookedDates] = useState<Date[]>([]);
     const [pickup, setPickup] = useState<string>('');
     const [dropoff, setDropoff] = useState<string>('');
     const [totalPrice, setTotalPrice] = useState<number>();
@@ -70,13 +71,53 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
         setError('errpr')
       }
     }
+    
+    const get_reservation = async()=>{
+      const reservation_list = await apiService.get(`/api/get_bookings/${car.id}`);
+      console.log('Reservation:',reservation_list.reservation_data)
+      const reservations = reservation_list.reservation_data;
 
+      let dates: Date[] = [];
+
+      reservations.map((reservation:any)=>{
+        const range = eachDayOfInterval({
+          start: new Date(reservation.start_date),
+          end: new Date(reservation.end_date)
+        });
+        console.log('Range',range)
+        dates = [...dates, ...range];
+        console.log('dates',dates)
+      })
+      setBookedDates(dates)
+      
+    }
+    console.log('Booked Dates:',bookedDates)
+
+    const _setDateRange =(selection:any)=>{
+       const newStartDate = new Date(selection.startDate)
+       const newEndDate = new Date(selection.endDate)
+
+       if(newEndDate <= newStartDate){
+        newEndDate.setDate(newStartDate.getDate() + 1);
+       }
+
+       setDateRange({
+        ...dateRange,
+        startDate:newStartDate,
+        endDate: newEndDate
+       });
+    }
+
+    useEffect(()=>{
+      get_reservation();
+    },[])
   return (
     <form className="flex flex-col border" >
         <div className="flex">
         <Calendar
           value={dateRange}
-          onChange={(value) => setDateRange(value.selection)}
+          bookedDates={bookedDates}
+          onChange={(value) => _setDateRange(value.selection)}
         />
         <div className="flex flex-col mt-10">
         <div className="flex flex-col h-28">
