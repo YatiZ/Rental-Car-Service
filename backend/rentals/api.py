@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .serializers import CarListSerializer,ContactSerializer, RenterSerializer
+from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer
 from django.db import IntegrityError
 from django.utils import timezone
 
@@ -179,6 +179,32 @@ def reservation(request, id):
             dropoff_location = dropoff_location
         )
         return Response({'success':True,'message':'Booking set up successfully!'},status=status.HTTP_201_CREATED)
+    except UserAccount.DoesNotExist:
+        return Response({'success': False, 'message':'User account does not exist'},status= status.HTTP_404_NOT_FOUND)
+    except Car.DoesNotExist:
+        return Response({'success':False,'message':'Car does not exist!'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        print(e)
+    return Response({'success':False,'message':'An error occurred!'})
+
+@api_view(['GET'])
+def get_reservation(request, id):
+    try:
+        car_info = Car.objects.get(id=id)
+        reservations = car_info.car.all() #car from reservation model's car attribute's related_name 
+        print(reservations)
+        reservation_data= [{
+            'renter':reservation.renter.id,
+            'start_date':reservation.start_date,
+            'end_date': reservation.end_date,
+            'total_date' : reservation.total_date,
+            'total_price': reservation.total_price,
+            'pickup_location': reservation.pickup_location,
+            'dropoff_location': reservation.dropoff_location
+
+        } for reservation in reservations]
+        return Response({'success':True, 'reservation_data': reservation_data})
+
     except UserAccount.DoesNotExist:
         return Response({'success': False, 'message':'User account does not exist'},status= status.HTTP_404_NOT_FOUND)
     except Car.DoesNotExist:

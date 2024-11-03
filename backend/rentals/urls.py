@@ -13,5 +13,6 @@ urlpatterns = [
     path('api/update_renter_info/<int:id>',api.update_renter_info, name='update-renter-info'),
 
     #booking 
-    path('api/booking/<uuid:id>',api.reservation, name='car-booking')
+    path('api/booking/<uuid:id>',api.reservation, name='car-booking'),
+    path('api/get_bookings/<uuid:id>',api.get_reservation, name='get-reservation'),
 ]

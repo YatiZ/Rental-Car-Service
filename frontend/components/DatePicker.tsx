@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { CustomBtn } from "@/components";
 import apiService from "@/app/services/apiService";
 import { renameSync } from "fs";
-import { format } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -34,6 +34,7 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
     const [dateRange, setDateRange] = useState<Range>(initialDateRange);
     const [pickup, setPickup] = useState<string>('');
     const [dropoff, setDropoff] = useState<string>('');
+    const [totalPrice, setTotalPrice] = useState<number>();
     const [error, setError] = useState('');
 
 
@@ -52,29 +53,17 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
         console.log(renter)
         if(dateRange.startDate && dateRange.endDate){
 
-          const startDate:Date = dateRange.startDate as Date;
-          const endDate:Date = dateRange.endDate as Date;
-
-          if(isNaN(startDate.getTime()) || isNaN(endDate.getTime())){
-            console.log('Date error')
-          }else{
-            const timeDifference = endDate.getTime() - startDate.getTime();
-
-            const numberOfDays = timeDifference /(1000 * 60 * 60 * 24)
-            console.log("number of days:", numberOfDays)
-
-            const formData = {
-              start_date: format(dateRange.startDate,"yyyy-MM-dd"),
-              end_date:format(dateRange.endDate,"yyyy-MM-dd"),
-              number_of_days: numberOfDays,
-              pickup_location: pickup,
-              dropoff_location: dropoff
-           }
- 
-           console.log("FormData from date picker",formData)
-          }
           
-          
+          const formData = {
+            start_date: format(dateRange.startDate,"yyyy-MM-dd"),
+            end_date:format(dateRange.endDate,"yyyy-MM-dd"),
+            total_date: differenceInDays(dateRange.endDate, dateRange.startDate),
+            total_pirce: totalPrice,
+            pickup_location: pickup,
+            dropoff_location: dropoff
+         }
+
+         console.log("FormData from date picker",formData)
          
         }
       }else{
