@@ -8,6 +8,7 @@ import { CustomBtn } from "@/components";
 import apiService from "@/app/services/apiService";
 import { renameSync } from "fs";
 import { differenceInDays, eachDayOfInterval, format, setDate } from "date-fns";
+import axios from "axios";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -39,7 +40,7 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
     const [totalPrice, setTotalPrice] = useState<number>();
     const [texFee, setTexFee] = useState<number>();
     const [error, setError] = useState('');
-
+    const [message, setMessage] = useState<string>('');
 
     useEffect(()=>{
       const fetchRenterInfo = async()=>{
@@ -50,31 +51,7 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
       fetchRenterInfo();
     },[])
       
-    const bookCar = (e:React.FormEvent)=>{
-      e.preventDefault()
-      
-      if (renter && userId){
-        console.log(renter)
-        if(dateRange.startDate && dateRange.endDate){
 
-          
-          const formData = {
-            renter: userId,
-            start_date: format(dateRange.startDate,"yyyy-MM-dd"),
-            end_date:format(dateRange.endDate,"yyyy-MM-dd"),
-            total_date: totalDate,
-            total_pirce: totalPrice,
-            pickup_location: pickup,
-            dropoff_location: dropoff
-         }
-
-         console.log("FormData from date picker",formData)
-         
-        }
-      }else{
-        setError('errpr')
-      }
-    }
     
     const get_reservation = async()=>{
       const reservation_list = await apiService.get(`/api/get_bookings/${car.id}`);
@@ -117,21 +94,68 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
        
       if(dateRange.startDate && dateRange.endDate){
         const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate)
-        
-        if(dayCount && car.price_per_day){
-          const _taxFee = ((dayCount * car.price_per_day)/100) * 5;
+        const pricePerDay = car.price_per_day;
+        if(dayCount && pricePerDay){
+          const _taxFee = ((dayCount * pricePerDay)/100) * 5;
+         
           setTexFee(_taxFee);
-          setTotalPrice(dayCount * car.price_per_day + _taxFee);
+          setTotalPrice(dayCount * pricePerDay + _taxFee);
           setTotalDate(dayCount)
         }else{
-          const _taxFee = (car.price_per_day/100) * 5;
+          const _taxFee = (pricePerDay/100) * 5;
           setTexFee(_taxFee)
-          setTotalPrice(car.price_per_day + _taxFee);
+          setTotalPrice(pricePerDay + _taxFee);
         }
       }
     },[dateRange])
+
+    const bookCar = async(e:React.FormEvent)=>{
+      e.preventDefault()
+      
+      if (renter && userId){
+        console.log(renter)
+        if(dateRange.startDate && dateRange.endDate){
+
+          
+          const formData = {
+            renter_id: userId,
+            start_date: format(dateRange.startDate,"yyyy-MM-dd"),
+            end_date:format(dateRange.endDate,"yyyy-MM-dd"),
+            total_date: totalDate,
+            total_price: totalPrice,
+            pickup_location: pickup,
+            dropoff_location: dropoff
+         }
+
+         console.log("FormData from date picker",formData)
+         
+         const response = await apiService.BookPost(`/api/booking/${car.id}`,formData)
+         .then(response=>{
+          if(response &&response.success){
+            console.log("Response booking result:",response)
+            console.log("Booking successful", response);
+            setMessage(response.message)
+          }else{
+            console.log("error")
+            setMessage(response.message)
+          }
+         })
+         .catch(error=>{
+             console.log(error)
+         })
+      
+         
+
+        }
+      }else{
+        setError('errpr')
+      }
+    }
+
   return (
-    <form className="flex flex-col border" >
+    <>
+    <p>{message}</p>
+        <form className="flex flex-col border" >
         <div className="flex">
         <Calendar
           value={dateRange}
@@ -160,6 +184,9 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
 
         <CustomBtn btnName="Rent" btnType="submit" onClick={bookCar}/>
     </form>
+
+    </>
+
   )
 }
 

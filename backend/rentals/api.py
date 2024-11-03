@@ -1,3 +1,4 @@
+from datetime import datetime
 from . models import Car, Contact, UserAccount, Renter, Reservation
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -139,9 +140,9 @@ def reservation(request, id):
         start_date = request.data.get('start_date')
         end_date = request.data.get('end_date')
 
-        #converting date into obj
-        start_date_dt = timezone.datetime.fromisoformat(start_date)
-        end_date_dt = timezone.datetime.fromisoformat(end_date)
+       # Convert to datetime objects and make timezone-aware
+        start_date_dt = timezone.make_aware(timezone.datetime.fromisoformat(start_date))
+        end_date_dt = timezone.make_aware(timezone.datetime.fromisoformat(end_date))
 
         #check existing booking info
         existing_reservation = Reservation.objects.filter(
@@ -153,7 +154,7 @@ def reservation(request, id):
         if existing_reservation:
             return Response({'success':False,'message':'This car is unavailable for the selected dates'}, status= status.HTTP_400_BAD_REQUEST)
 
-
+        
         total_date = request.data.get('total_date')
         total_price = request.data.get('total_price')
         pickup_location = request.data.get('pickup_location')
@@ -164,11 +165,19 @@ def reservation(request, id):
         # else:
         #     email = request.data.get('email')
         #     renter, created = UserAccount.objects.get_or_create(email=email)
-
+        
         renter_id = request.data.get('renter_id')
         renter = UserAccount.objects.get(id = renter_id)
 
-        Reservation.objects.create(
+        if total_price is None:
+            return Response({'success': False, 'message': 'Total price cannot be null'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Convert total_price to float if necessary, or check its value
+        try:
+            total_price = float(total_price)
+        except ValueError:
+            return Response({'success': False, 'message': 'Invalid total price'}, status=status.HTTP_400_BAD_REQUEST)
+        result = Reservation.objects.create(
             renter = renter,
             car = car_info,
             start_date = start_date,
@@ -178,6 +187,7 @@ def reservation(request, id):
             pickup_location = pickup_location,
             dropoff_location = dropoff_location
         )
+        print("result:",result)
         return Response({'success':True,'message':'Booking set up successfully!'},status=status.HTTP_201_CREATED)
     except UserAccount.DoesNotExist:
         return Response({'success': False, 'message':'User account does not exist'},status= status.HTTP_404_NOT_FOUND)

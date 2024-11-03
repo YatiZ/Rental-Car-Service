@@ -58,6 +58,26 @@ const apiService = {
             throw error; // This preserves the error for handling in the calling function
         }
     },
+    BookPost: async function(url: string, data: any): Promise<any> {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
+                method: 'POST',
+                body: JSON.stringify(data), // Ensure data is stringified
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if(!response.ok){
+                const errorResponse = await response.json();
+                throw new Error(errorResponse || 'AN error ')
+            }
+            return await response.json();
+
+        } catch (error) {
+            console.error('Error during API call:', error);
+            throw error; // This preserves the error for handling in the calling function
+        }
+    },
 
     // signUpPost: async function (url: string, data:any):Promise<any> {
     //     const token = await getAccessToken();
