@@ -45,8 +45,11 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
 
     useEffect(()=>{
       const fetchRenterInfo = async()=>{
-        const renter_info = await apiService.get(`/api/renter_info_check/${userId}`);
-        setRenter(renter_info)
+        if(userId){
+          const renter_info = await apiService.get(`/api/renter_info_check/${userId}`);
+          setRenter(renter_info)
+        }
+       
         
       }
       fetchRenterInfo();

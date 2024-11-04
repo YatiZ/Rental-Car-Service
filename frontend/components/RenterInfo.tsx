@@ -19,13 +19,16 @@ const AddRenterPage = () => {
       const id = await getUserId();
       console.log("Id from renterinfo", id);
       try {
-        const response = await apiService.get(`/api/renter_info_check/${id}`);
-        console.log(response);
-        if (response.renter_exists === true) {
-          setRenterExists(true);
-        } else {
-          setRenterExists(false);
+        if(id){
+          const response = await apiService.get(`/api/renter_info_check/${id}`);
+          console.log(response);
+          if (response.renter_exists === true) {
+            setRenterExists(true);
+          } else {
+            setRenterExists(false);
+          }
         }
+        
       } catch (error) {
         setErrorMessage("An error occurred!");
       }

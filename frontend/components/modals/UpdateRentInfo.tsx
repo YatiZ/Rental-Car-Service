@@ -35,18 +35,22 @@ const UpdateRentInfoModal = () => {
         const id = await getUserId();
         setUserId(id);
        
-        const response = await apiService.get(`/api/update_renter_info/${id}`);
-        const renterData = response.data || response;
-        console.log('renterData from update rent info',renterData)
+        if(id){
+            const response = await apiService.get(`/api/update_renter_info/${id}`);
+            const renterData = response.data || response;
+            console.log('renterData from update rent info',renterData)
+            setRenterName(renterData.renter_name)
+            setPhoneno(renterData.phonenumber)
+            setAddress(renterData.address)
+            setDriverLicenseNo(renterData.driver_license_number)
+            setLicenseExpiration(renterData.license_expiration_date)
+            const url = 'http://localhost:8000'
+            const filePath = (`${url}${renterData.license_photo}`);
+            setLicensePhotoPath(filePath)
+        }
         
-        setRenterName(renterData.renter_name)
-        setPhoneno(renterData.phonenumber)
-        setAddress(renterData.address)
-        setDriverLicenseNo(renterData.driver_license_number)
-        setLicenseExpiration(renterData.license_expiration_date)
-        const url = 'http://localhost:8000'
-        const filePath = (`${url}${renterData.license_photo}`);
-        setLicensePhotoPath(filePath)
+        
+        
     };
     fetchRenterInfo();
 }, []);
