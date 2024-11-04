@@ -9,6 +9,7 @@ import apiService from "@/app/services/apiService";
 import { renameSync } from "fs";
 import { differenceInDays, eachDayOfInterval, format, setDate } from "date-fns";
 import axios from "axios";
+import Link from "next/link";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -40,7 +41,7 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
     const [totalPrice, setTotalPrice] = useState<number>();
     const [texFee, setTexFee] = useState<number>();
     const [error, setError] = useState('');
-    const [message, setMessage] = useState<string>('');
+    const [message, setMessage] = useState<React.JSX.Element>();
 
     useEffect(()=>{
       const fetchRenterInfo = async()=>{
@@ -111,7 +112,7 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
 
     const bookCar = async(e:React.FormEvent)=>{
       e.preventDefault()
-      
+      const content = <><p>Login First</p><Link href='/Login'>Go to Login!</Link></>;
       if (renter && userId){
         console.log(renter)
         if(dateRange.startDate && dateRange.endDate){
@@ -149,6 +150,7 @@ const DatePicker:React.FC<ReservationProps> = ({car, userId}) => {
         }
       }else{
         setError('errpr')
+        setMessage(content)
       }
     }
 

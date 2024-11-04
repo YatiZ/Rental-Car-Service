@@ -132,6 +132,8 @@ def update_renter_info(request,id):
         return Response({'error': 'An unexpected error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 @api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 def reservation(request, id):
     try:
         car_info = Car.objects.get(id=id)
