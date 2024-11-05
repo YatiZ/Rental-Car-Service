@@ -25,20 +25,18 @@ const LoginPage = () => {
     };
     
     try {
-      const response = await apiService.SignUpPost("/api/jwt/create/", formData);
+      const response = await apiService.AuthPost("/api/jwt/create/", formData);
 
       console.log("Login response:", response);
       console.log("Login response access:", response.access);
       if (!response.access) {
-        setErrors(response);
-        return;
-      }else if(response){
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error:any)=> error
         );
         setErrors(tmpErrors);
-      }else{
-        setErrors(["Unknown error occurred"]);
+
+      }else if(response.detail){
+        console.log(response.detail)
       }
   
       const accessToken = response.access;

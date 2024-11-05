@@ -30,7 +30,7 @@ const SignupPage = () => {
     };
 
     try {
-      const response = await apiService.SignUpPost(
+      const response = await apiService.AuthPost(
         "/api/users/",
         formData
       ); // No need to JSON.stringify here

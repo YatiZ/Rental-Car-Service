@@ -75,7 +75,7 @@ const apiService = {
         }
     },
 
-    SignUpPost: async function(url:string, data: any):Promise<any>{
+    AuthPost: async function(url:string, data: any):Promise<any>{
           try{
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
                 method:'POST',

@@ -165,6 +165,8 @@ STATIC_URL = "static/"
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR/'media'
 
+
+
 DJOSER = {
   'PASSWORD_RESET_CONFIRM_URL' : 'password-reset/{uid}/{token}',
   'SEND_ACTIVATION_EMAIL': True,
@@ -173,9 +175,9 @@ DJOSER = {
   'PASSWORD_RESET_CONFIRM_RETYPE': True,
   'TOKEN_MODEL': None,
   'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS').split(','),
-  'SERIALIZER':{
-      'user_create':'users.serializers.UserAccountSerializer'
-  }
+#   'SERIALIZERS':{
+#       'user':'users.serializers.UserAccountSerializer',
+#   }
 }
 
 #cookie session
