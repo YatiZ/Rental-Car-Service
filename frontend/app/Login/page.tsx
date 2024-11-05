@@ -23,40 +23,75 @@ const LoginPage = () => {
       email: email,
       password: password,
     };
+    
+    try {
+      const response = await apiService.SignUpPost("/api/jwt/create/", formData);
 
-    const response = await apiService.post("/api/jwt/create/", formData);
-
-    console.log("Login response:", response);
-    console.log("Login response access:", response.access);
-    if (!response.access) {
-      setErrors(response);
-      return;
-    }
-
-    const accessToken = response.access;
-    const refreshToken = response.refresh;
-
-    //fetch user details with the access token
-    const userResponse = await axios.get(
-      "http://localhost:8000/api/users/me/",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      console.log("Login response:", response);
+      console.log("Login response access:", response.access);
+      if (!response.access) {
+        setErrors(response);
+        return;
+      }else if(response){
+        const tmpErrors: string[] = Object.values(response).flatMap(
+          (error:any)=> error
+        );
+        setErrors(tmpErrors);
+      }else{
+        setErrors(["Unknown error occurred"]);
       }
-    );
-    console.log("Id", userResponse.data.id);
-
-    if (userResponse && userResponse.data.id) {
-      handleLogin(userResponse.data.id, accessToken, refreshToken);
-      setSuccessMessage("Login Successfully");
-      router.push("/");
+  
+      const accessToken = response.access;
+      const refreshToken = response.refresh;
+  
+      //fetch user details with the access token
+      const userResponse = await axios.get(
+        "http://localhost:8000/api/users/me/",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("Id", userResponse.data.id);
+  
+      if (userResponse && userResponse.data.id) {
+        handleLogin(userResponse.data.id, accessToken, refreshToken);
+        setSuccessMessage("Login Successfully");
+        router.push("/");
+      }
+    } catch (error:any) {
+      if(error.response && error.response.status === 401){
+        console.error("Incorrect email or password. Please try again.")
+      }else{
+        setErrors([error.message]);
+      }
+      console.error("Login error:", error);
     }
+
+   
   };
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
-      <div className="flex flex-row md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
-        <p>{successMessage}</p>
+     <div className="flex justify-center">
+        {successMessage && (
+          <div className="p-5 mx-5 md:right-8 absolute md:top-32 top-24 bg-green-600 text-black rounded-xl opacity-80">
+            {successMessage}
+          </div>
+        )}
+      </div>
+      <div className="flex justify-center">
+        {Array.isArray(errors) && errors.length > 0 && (
+          <div className="p-5 mx-5 md:right-8 absolute md:top-32 top-24 bg-red-600 text-white rounded-xl opacity-80">
+            {" "}
+            {errors.map((error, index) => {
+              return <div key={`error_${index}`}>{error}</div>;
+            })}
+          </div>
+        )}
+      </div>
+      <div className="flex flex-row mt-14 md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
+  
         <div className="border mx-5 p-10 shadow-lg md:w-full">
           <h1 className="text-xl font-bold leading-relaxed">Login</h1>
           <p className="text-sm flex">

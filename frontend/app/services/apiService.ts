@@ -39,15 +39,11 @@ const apiService = {
 
             if (!response.ok) {
                 // If response is not OK, log and throw an error with the response message
-                console.log('Full error response: ', json);
-    
-                // Check if the response still has account creation data
-                if (json.email && json.id) {
-                    return json; // Return success data
-                }
-    
-                // Throw an error for other cases
-                throw new Error(json.non_field_errors ? json.non_field_errors.join(', ') : 'Unknown error');
+                console.log('Full error response: ', json.password);
+                console.log('Status Code:', response.status); // Log status code
+                console.log('Error Detail:', json.detail); // Log specific error detail from response
+                throw new Error(json.detail || response);
+          
             }
     
             console.log('Response from signup', json);
@@ -79,20 +75,36 @@ const apiService = {
         }
     },
 
-    // signUpPost: async function (url: string, data:any):Promise<any> {
-    //     const token = await getAccessToken();
-
-    //     return new Promise((resolve, reject)=>{
-    //         fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
-    //             method:'POST',
-    //             body: data,
-    //             headers:{
-    //                 'Authorization':
-    //             }
-    //         })
-    //     })
-    // }
-    
+    SignUpPost: async function(url:string, data: any):Promise<any>{
+          try{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+                method:'POST',
+                body: JSON.stringify(data),
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            let json;
+            try {
+                json = await response.json();
+              
+            } catch (parsingError) {
+                console.error("Response is not JSON:", parsingError);
+                throw new Error("The server returned an unexpected response format.");
+            }
+            if(!response.ok){
+                console.log("Full error response: ",json);
+                throw new Error(json.password || json.email || json.non_field_errors || json.detail|| "An error occurred.");
+            }
+            return json;
+          }catch(error){
+             console.error("Error during API call",error)
+             throw error;
+          }
+      }
+   
  }
 
  export default apiService;
