@@ -13,6 +13,10 @@ const SignupPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('')
+    const [showPassword, setShowPassword] = useState<Boolean>(false);
+    const [showCfPassword, setShowCfPassword] = useState<Boolean>(false);
+    const [isFocused, setIsFocused] = useState<Boolean>(false);
+    const [isCfpwFocused, setIsCfpwFocused] = useState<Boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
     const [successMessage, setSuccessMessage] = useState('');
    
@@ -50,18 +54,19 @@ const SignupPage = () => {
 
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
-         {errors.map((error, index) => {
+       
+
+      <div className="flex flex-row md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
+        <p>  {errors.map((error, index) => {
           return (
             <div key={`error_${index}`} className="p-5 bg-red-600 text-white rounded-xl opacity-80">
               {error}
             </div>
           );
-        })}
-
-      <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
-        <div className="border md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
+        })}</p>
+        <div className="border mx-5 p-10 shadow-lg md:w-full">
           <h1 className="text-xl font-bold leading-relaxed">Create your account!</h1>
-          <p className="text-sm">
+          <p className="text-sm flex">
             Already have account?
             <Link href="Login" className=" font-bold underline text-blue-400">
               Login
@@ -92,17 +97,65 @@ const SignupPage = () => {
             <div className="flex-col flex">
               <div className="flex justify-between">
                 <label className="text-sm my-2">Password</label>
-                <span className="text-sm my-2 underline text-blue-400">
-                  Forget Password
-                </span>
               </div>
 
-              <input
-                type="password"
+             <div className={`border flex justify-around pr-2 focus:outline focus:outline-blue-600 ${isFocused ? 'outline outline-blue-600 rounded outline-2':''}`}>
+             <input
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter 8 characters or more"
-                className="auth__input"
+                className="auth__input w-full border-hidden focus:outline-none"
+                onFocus={()=>setIsFocused(true)}
+                onBlur={()=>setIsFocused(false)}
                 onChange={(e)=>setPassword(e.target.value)}
               />
+               <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                  </p>
+                ) : (
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                      />
+                    </svg>
+                    
+                  </p>
+                )}
+              </button>
+             </div>
+             
             </div>
 
             <div className="flex-col flex">
@@ -110,12 +163,64 @@ const SignupPage = () => {
                 <label className="text-sm my-2">confirmation Password</label>
               </div>
 
-              <input
-                type="password"
+              <div className={`border flex justify-around pr-2 focus:outline focus:outline-blue-600 ${isCfpwFocused ? 'outline outline-blue-600 rounded outline-2':''}`}>
+             <input
+                type={showCfPassword ? "text" : "password"}
                 placeholder="Must same with your password"
-                className="auth__input"
+                className="auth__input w-full border-hidden focus:outline-none"
+                onFocus={()=>setIsCfpwFocused(true)}
+                onBlur={()=>setIsCfpwFocused(false)}
                 onChange={(e)=>setPassword2(e.target.value)}
               />
+               <button
+                type="button"
+                onClick={() => setShowCfPassword(!showPassword)}
+              >
+                {showCfPassword ? (
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                  </p>
+                ) : (
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                      />
+                    </svg>
+                    
+                  </p>
+                )}
+              </button>
+             </div>
+
+             
             </div>
 
             {/* <div className="flex flex-row gap-2">
@@ -132,11 +237,11 @@ const SignupPage = () => {
             </div>
           </form>
 
-          <div className="flex mt-5 gap-3">
+          <div className="flex mt-5">
             <button
               onClick={handleGoogleLogin}
               type="button"
-              className="border flex items-center gap-2 border-red-500 rounded-md px-6 py-2 w-40"
+              className="border flex items-center justify-center gap-2 border-red-500 rounded-md px-6 py-2 w-full"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -166,15 +271,7 @@ const SignupPage = () => {
               <span>Google</span>
             </button>
 
-            <button
-              type="button"
-              className="border border-blue-500 rounded-md flex items-center gap-2 px-6 py-2 w-40"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
-<path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"></path><path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"></path>
-</svg>
-              <span>Facebook</span>
-            </button>
+     
           </div>
         </div>
         <div className="md:flex hidden">

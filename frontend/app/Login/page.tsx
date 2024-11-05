@@ -55,9 +55,9 @@ const LoginPage = () => {
   };
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
-      <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 w-full border-none">
+      <div className="flex flex-row md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
         <p>{successMessage}</p>
-        <div className="border md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
+        <div className="border mx-5 p-10 shadow-lg md:w-full">
           <h1 className="text-xl font-bold leading-relaxed">Login</h1>
           <p className="text-sm flex">
             Doesn't have an account yet?
