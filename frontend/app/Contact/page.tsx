@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CustomBtn } from "@/components";
 import apiService from "../services/apiService";
+import AuthBox from "@/components/AuthBox";
 
 const containerVarients = {
   hidden: {
@@ -68,12 +69,12 @@ const ContactPage = () => {
   }, [successMessage]);
 
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      variants={containerVarients}
-    >
+    <motion.section initial="hidden"
+    animate="visible"
+    exit="exit"
+    variants={containerVarients} className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
+    <div className="flex flex-row md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
+      <>
       {successMessage && (
         <div
           className="flex bg-green-100 rounded-lg p-4 mb-4 text-sm text-green-700"
@@ -118,13 +119,12 @@ const ContactPage = () => {
           </div>
         </div>
       )}
-      <div className="flex flex-row md:border lg:border justify-center gap-10 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
-        <div className="border w-96 md:mx-20 lg:mx-20 mx-5 p-10 shadow-lg">
-          <h1 className="text-xl font-bold leading-relaxed text-center">
-            Contact Us
-          </h1>
-          <p className="text-sm text-cen">We will get back to you ASAP.</p>
-          <form
+      </>
+      <div className="border mx-5 p-10 shadow-lg md:w-full">
+        <h1 className="text-xl font-bold leading-relaxed">Contact Us</h1>
+        
+        <p className="text-sm text-cen">We will get back to you ASAP.</p>
+        <form
             className="flex flex-col gap-y-4 mt-3"
             onSubmit={handleSendMessages}
           >
@@ -171,9 +171,17 @@ const ContactPage = () => {
               />
             </div>
           </form>
-        </div>
+
+       
       </div>
-    </motion.div>
+      <div className="md:flex hidden">
+        <AuthBox />
+      </div>
+    </div>
+  </motion.section>
+
+
+   
   );
 };
 
