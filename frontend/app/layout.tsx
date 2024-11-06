@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 import UpdateRentInfoModal from "@/components/modals/UpdateRentInfo";
 import MessageBox from "@/components/MessageBox";
+import DialogBox from "@/components/DialogBox";
 
 
 
@@ -26,8 +27,9 @@ export default function RootLayout({
         {children}
         <AddRentInfoModal/>
         <UpdateRentInfoModal/>
-        <div id="scroll" className=" fixed z-30 bottom-5 right-5">
-           <MessageBox/>
+        <div id="scroll" className=" ">
+           {/* <MessageBox/> */}
+           <DialogBox/>
         </div>
         <Footer/>
       </body>
