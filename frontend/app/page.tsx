@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import MessageBox from "@/components/MessageBox";
 import Image from "next/image";
 
 export default function Home() {
@@ -6,9 +7,7 @@ export default function Home() {
     <main className="min-h-screen ">
         <Hero/>
 
-        <div id="scroll">
-           
-        </div>
+     
     </main>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { CustomBtn } from "@/components";
+import CustomBtn from "@/components/CustomBtn";
 import AuthBox from "@/components/AuthBox";
 import Link from "next/link";
 import React, { useState } from "react";

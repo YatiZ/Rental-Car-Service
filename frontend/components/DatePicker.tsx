@@ -4,7 +4,7 @@ import { Range } from "react-date-range";
 import { CarType } from "@/types";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { CustomBtn } from "@/components";
+import CustomBtn from "./CustomBtn";
 import apiService from "@/app/services/apiService";
 import { renameSync } from "fs";
 import { differenceInDays, eachDayOfInterval, format, setDate } from "date-fns";

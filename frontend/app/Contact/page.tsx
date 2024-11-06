@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CustomBtn } from "@/components";
+import CustomBtn from "@/components/CustomBtn";
 import apiService from "../services/apiService";
 import AuthBox from "@/components/AuthBox";
 

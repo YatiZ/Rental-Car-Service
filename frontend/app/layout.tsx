@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { NavBar, Footer } from "@/components";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 import UpdateRentInfoModal from "@/components/modals/UpdateRentInfo";
+import MessageBox from "@/components/MessageBox";
 
 
 
@@ -24,6 +26,9 @@ export default function RootLayout({
         {children}
         <AddRentInfoModal/>
         <UpdateRentInfoModal/>
+        <div id="scroll" className=" fixed z-30 bottom-5 right-5">
+           <MessageBox/>
+        </div>
         <Footer/>
       </body>
     </html>

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { CustomBtn } from '.';
+import CustomBtn from './CustomBtn';
 import Link from 'next/link';
 import { CarType } from '@/types';
 import useRentInfoModal from '@/app/hooks/useRentInfoModal';

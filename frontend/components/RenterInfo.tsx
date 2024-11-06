@@ -2,7 +2,7 @@
 import AddRenterInfo from "@/components/AddRenterInfo";
 import React, { useEffect, useState } from "react";
 import useRentInfoModal from "../app/hooks/useRentInfoModal";
-import { CustomBtn } from "@/components";
+import CustomBtn from "./CustomBtn";
 import apiService from "../app/services/apiService";
 import Link from "next/link";
 import { getUserId } from "../app/lib/action";

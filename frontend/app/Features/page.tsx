@@ -1,5 +1,5 @@
 'use client'
-import { HomeCard } from '@/components'
+import HomeCard from '@/components/HomeCard'
 import SearchFilter from '@/components/SearchFilter'
 import React, { useEffect, useState } from 'react'
 import apiService from '../services/apiService'
