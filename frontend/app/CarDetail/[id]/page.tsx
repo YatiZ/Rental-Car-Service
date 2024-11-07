@@ -8,8 +8,6 @@ import { getUserId } from "@/app/lib/action";
 
 
 const CarDetailPage = async({ params}: {params:{id:string}}) => {
- 
- 
             const userId = await getUserId();
             const car_detail = await apiService.get(`/api/cars/${params.id}/`); 
             console.log('Car Detail->',car_detail.id); // Check if the image array is included
