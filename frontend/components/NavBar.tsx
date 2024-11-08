@@ -2,29 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { getUserId } from "@/app/lib/action";
 import LogoutBtn from "./LogoutBtn";
 import AddRenterPage from "@/components/RenterInfo";
+import { useUser } from "@/app/context/useUserIdContext";
 
-const NavBar = () => {
+const NavBar =  () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserId = async () => {
-      const id = await getUserId();
-      console.log("Id Testing", id);
-        setUserId(id);
-     
-    };
-
-    fetchUserId();
-
-    const interval = setInterval(fetchUserId, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
+const {userId} = useUser();
+//  if(loading) return <div>Loading ...</div>;
   console.log("User Id from NavBar:", userId);
+
   return (
     <AnimatePresence>
       <motion.nav className="sticky bg-blue-200 top-0 z-50 md:px-14 ">

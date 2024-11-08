@@ -7,6 +7,7 @@ import apiService from "../services/apiService";
 import { handleLogin } from "../lib/action";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useUser } from "../context/useUserIdContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState<Boolean>(false);
   const router = useRouter();
-
+  const {refreshUserId} = useUser();
   const submitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = {
@@ -52,9 +53,9 @@ const LoginPage = () => {
         }
       );
       console.log("Id", userResponse.data.id);
-  
       if (userResponse && userResponse.data.id) {
         handleLogin(userResponse.data.id, accessToken, refreshToken);
+        await refreshUserId();
         setSuccessMessage("Login Successfully");
         router.push("/");
       }

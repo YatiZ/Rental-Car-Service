@@ -6,6 +6,7 @@ import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 import UpdateRentInfoModal from "@/components/modals/UpdateRentInfo";
 import MessageBox from "@/components/MessageBox";
 import DialogBox from "@/components/DialogBox";
+import { UserProvider } from "./context/useUserIdContext";
 
 
 
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <UserProvider>
         <NavBar/>
         {children}
         <AddRentInfoModal/>
@@ -32,6 +34,7 @@ export default function RootLayout({
            <DialogBox/>
         </div>
         <Footer/>
+        </UserProvider>
       </body>
     </html>
   );

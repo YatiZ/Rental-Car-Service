@@ -6,6 +6,7 @@ import DatePicker from "@/components/DatePicker";
 import { CarType } from "@/types";
 import { getUserId } from "@/app/lib/action";
 
+
 const CarDetailPage = async ({ params }: { params: { id: string } }) => {
   const userId = await getUserId();
   const car_detail = await apiService.get(`/api/cars/${params.id}/`);

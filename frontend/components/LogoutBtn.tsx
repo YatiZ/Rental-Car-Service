@@ -1,17 +1,18 @@
-import React from 'react'
-import CustomBtn from './CustomBtn'
-import { resetAuthCookies } from '@/app/lib/action'
-import { useRouter } from 'next/navigation'
+import React from "react";
+import CustomBtn from "./CustomBtn";
+import { resetAuthCookies } from "@/app/lib/action";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/app/context/useUserIdContext";
 
 const LogoutBtn = () => {
-    const router = useRouter();
-  const submitLogout = async()=>{
+  const { setUserId } = useUser();
+  const router = useRouter();
+  const submitLogout = async () => {
+    setUserId(null);
     resetAuthCookies();
-    router.push('/');
-}
-  return (
-    <CustomBtn btnType='button' btnName='logout' onClick={submitLogout}/>
-  )
-}
+    router.push("/");
+  };
+  return <CustomBtn btnType="button" btnName="logout" onClick={submitLogout} />;
+};
 
-export default LogoutBtn
+export default LogoutBtn;
