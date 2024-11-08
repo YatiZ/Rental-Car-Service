@@ -2,25 +2,24 @@ const apiService = {
     //get data from backend
     get: async function(url:string): Promise<any>{
     //  console.log('get',url)
- 
-     return new Promise((resolve, reject)=>{
-         fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
-             method:'GET',
-             headers:{
-                 'Accept':'application/json',
-                 'Content-Type':'application/json'
-             }
-         })
-         .then(response => response.json())
-         .then((json)=>{
-             console.log('Response', json)
- 
-             resolve(json)
-         })
-         .catch((error)=>{
-             reject(error)
-         })
-     })
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+            method:'GET',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            }
+        });
+        if(!response.ok){
+            console.error("Error fetching data:",response.statusText);
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log("response car lists:",data)
+        return data;
+    } catch (error) {
+        console.log("error")
+    }
     },
 
     post: async function(url: string, data: any): Promise<any> {
