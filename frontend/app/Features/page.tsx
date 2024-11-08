@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import apiService from '../services/apiService'
 import { CarType } from '@/types'
 import {motion, AnimatePresence, delay} from "framer-motion";
+import FeatureLoading from '@/components/loading/FeatureLoading'
 
 // for types for Home Model
 
@@ -28,15 +29,25 @@ const containerVarients = {
 
 const FeaturePage = () => {
   const [cars, setCars] = useState<CarType[]>([]);
-  
+  const [loading, setLoading] = useState(true);
   //fetching data from backend through apiService.ts
   const getCarsList = async()=>{
-    const tmpCars = await apiService.get('/api/cars')
-    setCars(tmpCars.data)
-    // console.log('car-list:',tmpCars.data)
+    setLoading(true);
+    try {
+      await new Promise((resolve)=>setTimeout(resolve,2500));
+      const tmpCars = await apiService.get('/api/cars')
+      setCars(tmpCars.data)
+       // console.log('car-list:',tmpCars.data)
+    } catch (error) {
+      console.error(error)
+    }finally{
+      setLoading(false)
+    }
+   
   }
   // must add useEffect 
   useEffect(()=>{
+    
     getCarsList()
   },[])
   return (
@@ -46,11 +57,15 @@ const FeaturePage = () => {
        <SearchFilter/>
        </div>
         <div className='home__card-wrappers'>
-      {cars.map((car)=>{
-        return (
-          <HomeCard  key={car.id} car={car}/>
-        )
-      })}
+          {loading? (<FeatureLoading/>
+):
+           (cars.map((car)=>{
+            return (
+              <HomeCard  key={car.id} car={car}/>
+            )
+          }))
+          }
+     
         </div>
    
     </motion.div>
