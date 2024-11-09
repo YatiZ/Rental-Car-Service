@@ -4,7 +4,7 @@ import SearchFilter from '@/components/SearchFilter'
 import React, { useEffect, useState } from 'react'
 import apiService from '../services/apiService'
 import { CarType } from '@/types'
-import {motion, AnimatePresence, delay} from "framer-motion";
+import {motion} from "framer-motion";
 import FeatureLoading from '@/components/loading/FeatureLoading'
 
 // for types for Home Model
@@ -37,7 +37,6 @@ const FeaturePage = () => {
       await new Promise((resolve)=>setTimeout(resolve,2500));
       const tmpCars = await apiService.get('/api/cars')
       setCars(tmpCars.data)
-       // console.log('car-list:',tmpCars.data)
     } catch (error) {
       console.error(error)
     }finally{
