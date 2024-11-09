@@ -27,9 +27,7 @@ const AddRentInfoModal = () => {
       setUserId(id);
     };
     fetchUserId();
-    
-    const interval = setInterval(fetchUserId, 500);
-    return ()=> clearInterval(interval);
+   
   },[])
   console.log('User Id from add rent info',userId)
 

@@ -4,12 +4,14 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import LogoutBtn from "./LogoutBtn";
 import AddRenterPage from "@/components/RenterInfo";
-import { useUser } from "@/app/context/useUserIdContext";
 
-const NavBar =  () => {
+interface NavBarProps{
+  userId: string | null;
+}
+const NavBar =  ({userId}:NavBarProps) => {
   const [openMenu, setOpenMenu] = useState(false);
 
-const {userId} = useUser();
+
 //  if(loading) return <div>Loading ...</div>;
   console.log("User Id from NavBar:", userId);
 
@@ -120,6 +122,7 @@ const {userId} = useUser();
               )}
             </div>
           </motion.div>
+
         </motion.div>
       </motion.nav>
     </AnimatePresence>

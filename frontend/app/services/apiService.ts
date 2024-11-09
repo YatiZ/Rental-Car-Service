@@ -62,10 +62,10 @@ const apiService = {
                     'Content-Type': 'application/json',
                 }
             });
-            if(!response.ok){
-                const errorResponse = await response.json();
-                throw new Error(errorResponse || 'AN error ')
-            }
+            // if(!response.ok){
+            //     const errorResponse = await response.json();
+            //     throw new Error(errorResponse || 'AN error ')
+            // }
             return await response.json();
 
         } catch (error) {

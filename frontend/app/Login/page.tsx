@@ -2,22 +2,22 @@
 import CustomBtn from "@/components/CustomBtn";
 import AuthBox from "@/components/AuthBox";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import apiService from "../services/apiService";
 import { handleLogin } from "../lib/action";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useUser } from "../context/useUserIdContext";
+import { resolve } from "path";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState<Boolean>(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState<Boolean>(false);
   const router = useRouter();
-  const {refreshUserId} = useUser();
   const submitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = {
@@ -42,7 +42,8 @@ const LoginPage = () => {
   
       const accessToken = response.access;
       const refreshToken = response.refresh;
-  
+      
+
       //fetch user details with the access token
       const userResponse = await axios.get(
         "http://localhost:8000/api/users/me/",
@@ -55,10 +56,12 @@ const LoginPage = () => {
       console.log("Id", userResponse.data.id);
       if (userResponse && userResponse.data.id) {
         handleLogin(userResponse.data.id, accessToken, refreshToken);
-        await refreshUserId();
+        // await new Promise((resolve)=>setTimeout(resolve,500))
         setSuccessMessage("Login Successfully");
         router.push("/");
       }
+
+
     } catch (error:any) {
       if(error.response && error.response.status === 401){
         console.error("Incorrect email or password. Please try again.")

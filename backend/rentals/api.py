@@ -172,7 +172,11 @@ def reservation(request, id):
         renter = UserAccount.objects.get(id = renter_id)
 
         if total_price is None:
-            return Response({'success': False, 'message': 'Total price cannot be null'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success': False, 'message': 'Total price cannot be null!'}, status=status.HTTP_400_BAD_REQUEST)
+        if pickup_location is None:
+            return Response({'success':False, 'message':'Please, Pick Up Location must be filled!'},status=status.HTTP_400_BAD_REQUEST)
+        if dropoff_location is None:
+            return Response({'success':False, 'message':'Please, Drop Off Location must be filled!'},status=status.HTTP_400_BAD_REQUEST)
 
         # Convert total_price to float if necessary, or check its value
         try:
@@ -197,7 +201,7 @@ def reservation(request, id):
         return Response({'success':False,'message':'Car does not exist!'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         print(e)
-    return Response({'success':False,'message':'An error occurred!'})
+        return Response({'success':False,'message':'An error occurred!'})
 
 @api_view(['GET'])
 def get_reservation(request, id):
