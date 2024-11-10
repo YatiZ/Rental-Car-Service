@@ -7,7 +7,7 @@ import apiService from "../services/apiService";
 import { handleLogin } from "../lib/action";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { resolve } from "path";
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -55,10 +55,13 @@ const LoginPage = () => {
       );
       console.log("Id", userResponse.data.id);
       if (userResponse && userResponse.data.id) {
-        handleLogin(userResponse.data.id, accessToken, refreshToken);
+        const isSuccess = await handleLogin(userResponse.data.id, accessToken, refreshToken);
+        if(isSuccess){
+          setSuccessMessage("Login Successfully");
+          router.push("/");
+        }
         // await new Promise((resolve)=>setTimeout(resolve,500))
-        setSuccessMessage("Login Successfully");
-        router.push("/");
+
       }
 
 

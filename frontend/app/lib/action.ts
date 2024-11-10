@@ -23,6 +23,7 @@ export async function handleLogin(userId: string, accessToken: string, refreshTo
         maxAge: 60 * 60 * 24 * 7,
         path:'/'
     })
+    return true;
 }
 
 export async function getUserId(){

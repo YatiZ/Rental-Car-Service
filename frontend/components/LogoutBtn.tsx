@@ -7,8 +7,10 @@ const LogoutBtn = () => {
   const router = useRouter();
   const submitLogout = async () => {
     // setUserId(null);
-    resetAuthCookies();
-    router.push("/");
+    resetAuthCookies().then(()=>{
+      router.push("/");
+    });
+
   };
   return <CustomBtn btnType="button" btnName="logout" onClick={submitLogout} />;
 };
