@@ -60,7 +60,7 @@ const LoginPage = () => {
           setSuccessMessage("Login Successfully");
           router.push("/");
         }
-        // await new Promise((resolve)=>setTimeout(resolve,500))
+  
 
       }
 

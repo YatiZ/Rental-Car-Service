@@ -14,31 +14,6 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="mx-4 overflow-hidden relative">
-      {/* for images */}
-      {/* <div className="grid grid-cols-4 md:gap-5 md:p-10">
-        <div className="relative w-full h-full col-span-3 row-span-2">
-          <Image
-            src={`http://localhost:8000/${carDetail.main_img}`}
-            alt="home"
-            fill
-            className="object-cover"
-            // onClick={openModal.bind(this, 0)}
-          />
-        </div>
-        {Array.isArray(carDetail.image) &&carDetail.image.map((img, index) => (
-                    <div key={index} className="relative w-full h-60">
-                        <Image
-                            src={`http://localhost:8000${img.image}`} // Adjust as needed
-                            alt={`Car image`}
-                            className="object-cover"
-                            fill
-                        />
-                    </div>
-                ))}
-            
-
-  
-      </div> */}
 
       <div className="flex items-center justify-center">
         <h2 className="text-lg font-bold">{car_detail.brand}</h2>
