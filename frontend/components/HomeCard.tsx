@@ -16,17 +16,37 @@ interface CarProps {
   car: CarType;
 }
 const HomeCard: React.FC<CarProps> = ({ car }) => {
+  const [checkStatus, setCheckStatus] = useState(false);
   const openRentInfoBox = useRentInfoModal();
   const get_reservation = async()=>{
       const reservations = await apiService.get(`/api/get_bookings/${car.id}`)
-      console.log("Reservation:", reservations);
+      console.log("Reservation:", reservations.reservation_data);
 
-      const booked_date = reservations.reservation_date;
-  };
+      const booked_date = reservations.reservation_data;
+      const todayDate = new Date();
+      const booked_start_dates = booked_date.map((booked:any)=>new Date(booked.start_date))
+      console.log("Booked_start_dates",booked_start_dates)
+      const booked_end_dates = booked_date.map((booked:any)=>new Date(booked.end_date))
+      console.log("Booked_end_dates",booked_end_dates)
+
+      let isUnavailable = false;
+      for(let i = 0; i< booked_start_dates.length; i++){
+        if(todayDate >= booked_start_dates[i] && todayDate <= booked_end_dates[i]){
+          isUnavailable =true;
+          break;
+        }
+      }
+
+      if(isUnavailable){
+        setCheckStatus(false)
+      }else{
+        setCheckStatus(true)
+      }
+  };  
   
-  useEffect(()=>{
+ 
     get_reservation();
-  })
+
   // const additionalImages = home.images?.map(imgObj => `http://localhost:8000${imgObj.image}`);
   // console.log('Additional Images:', additionalImages);
   const handleRent = () => {
@@ -86,7 +106,7 @@ const HomeCard: React.FC<CarProps> = ({ car }) => {
             </div>
 
             <hr />
-            <p>{car.status}</p>
+           {checkStatus? <>Available</>:<>Unavailable</>}
 
             <div className="mt-3 flex gap-4">
               {/* <CustomBtn btnName='Rent' onClick={handleRent} btnStyles='w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition' /> */}
