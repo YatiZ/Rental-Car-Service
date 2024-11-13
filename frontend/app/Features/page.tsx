@@ -34,7 +34,7 @@ const FeaturePage = () => {
   const getCarsList = async()=>{
     setLoading(true);
     try {
-      await new Promise((resolve)=>setTimeout(resolve,2500));
+      // await new Promise((resolve)=>setTimeout(resolve,2500));
       const tmpCars = await apiService.get('/api/cars')
       setCars(tmpCars.data)
     } catch (error) {
@@ -55,7 +55,7 @@ const FeaturePage = () => {
        <div className="flex space-x-6 items-center justify-center">
        <SearchFilter/>
        </div>
-        <div className='home__card-wrappers'>
+        <div className='grid grid-cols-3 m-3 gap-3'>
           {loading? (<FeatureLoading/>
 ):
            (cars.map((car)=>{

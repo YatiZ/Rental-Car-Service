@@ -126,7 +126,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
 
     if (renter && userId) {
       console.log(renter);
-      if (dateRange.startDate && dateRange.endDate) {
+      if (dateRange.startDate && dateRange.endDate && pickup && dropoff) {
         const formData = {
           renter_id: userId,
           start_date: format(dateRange.startDate, "yyyy-MM-dd"),
@@ -154,6 +154,8 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           .catch((error) => {
             console.log(error);
           });
+      }else{
+        setMessage(<div className="p-5 mx-5 md:right-8 absolute top-4 bg-red-600 text-white rounded-xl opacity-80">Fill All Data!</div>)
       }
     } else {
       setError("errpr");
@@ -213,7 +215,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Would you like to rent?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Login your account here <Link href='login' className="text-blue-600 underline">Login</Link> and fill renter info form. if you don't have an account, go to 
+                    Login your account here <Link href='/Login' className="text-blue-600 underline">Login</Link> and fill renter info form. if you don't have an account, go to 
                     <Link href='/signup' className="text-blue-600 underline"> SignUp Page</Link>
                   </AlertDialogDescription>
                 </AlertDialogHeader>
