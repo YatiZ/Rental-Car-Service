@@ -16,7 +16,7 @@ export default function Home() {
     <main className="min-h-screen ">
      
         <Hero/>
-
+ 
         <div className="flex justify-evenly my-10">
           <Card>
             <CardHeader>
@@ -51,11 +51,33 @@ export default function Home() {
            
           </Card>
         </div>
+        
+        <h1 className="text-3xl font-bold text-center p-2">Available Location</h1>
+        <div className="border shadow relative overflow-hidden  p-4 items-center flex ">
 
-        <div className="">
-          <h1>Available Location</h1>
-          <div className="">Hiii</div>
+        <div className="animate-scroll px-8 whitespace-nowrap flex gap-10 space-x-10">
+          <div className="card w-fit p-5">San Jose</div>
+          <div className="card w-fit p-5">San Francisco</div>
+          <div className="card w-fit p-5">Los Angeles</div>
+          <div className="card w-fit p-5">San Jose</div>
+          <div className="card w-fit p-5">San Jose</div>
+          <div className="card w-fit p-5">San Francisco</div>
+          <div className="card w-fit p-5">Los Angeles</div>
+          <div className="card w-fit p-5">San Bruno</div>
         </div>
+
+        <div className="animate-scroll px-8 whitespace-nowrap flex gap-10 space-x-10">
+          <div className="card w-fit p-5">San Jose</div>
+          <div className="card w-fit p-5">San Francisco</div>
+          <div className="card w-fit p-5">Los Angeles</div>
+          <div className="card w-fit p-5">San Jose</div>
+          <div className="card w-fit p-5">San Jose</div>
+          <div className="card w-fit p-5">San Francisco</div>
+          <div className="card w-fit p-5">Los Angeles</div>
+          <div className="card w-fit p-5">San Bruno</div>
+        </div>
+        </div>
+      
          <BestReviews/>
      
     </main>
