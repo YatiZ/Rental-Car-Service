@@ -202,7 +202,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
             required
           ></textarea>
         </Card>
-        <Card className="p-3">
+        <Card className="px-7 py-5 space-y-3">
           <h1 className="font-bold text-xl">Price details</h1>
           <p className="text-xs">Pay at pick-up</p>
           <div className="flex justify-between text-[15px]">

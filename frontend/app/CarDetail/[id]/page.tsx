@@ -5,6 +5,7 @@ import DatePicker from "@/components/DatePicker";
 import { CarType } from "@/types";
 import { getUserId } from "@/app/lib/action";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { CarouselPlugin } from "@/components/CarGallery";
 
 const CarDetailPage = async ({ params }: { params: { id: string } }) => {
   const userId = await getUserId();
@@ -24,8 +25,10 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
       {/* for text */}
 
       <div className="flex justify-between md:flex-row gap-x-5 flex-col items-center px-auto md:px-12 mx-auto">
-        <div className="flex flex-col gap-y-5 w-full">
-          <div className="">hello</div>
+        <div className="flex flex-col gap-y-5 w-full items-center">
+         
+            <CarouselPlugin car_images={car_detail.image}/>
+         
           <Card className="w-full py-5 px-3">
             <CardTitle className="my-3 text-xl text-center">
               {car_detail.brand}
