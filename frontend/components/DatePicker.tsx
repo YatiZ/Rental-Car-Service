@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { Card } from "./ui/card";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -32,6 +33,7 @@ export type Car = {
   id: string;
   price_per_day: number;
   model: string;
+  total_date: number;
 };
 
 interface ReservationProps {
@@ -108,13 +110,13 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
       const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
       const pricePerDay = car.price_per_day;
       if (dayCount && pricePerDay) {
-        const _taxFee = ((dayCount * pricePerDay) / 100) * 5;
+        const _taxFee = ((dayCount * pricePerDay) / 100) * 15;
 
         setTexFee(_taxFee);
         setTotalPrice(dayCount * pricePerDay + _taxFee);
         setTotalDate(dayCount);
       } else {
-        const _taxFee = (pricePerDay / 100) * 5;
+        const _taxFee = (pricePerDay / 100) * 15;
         setTexFee(_taxFee);
         setTotalPrice(pricePerDay + _taxFee);
       }
@@ -154,8 +156,12 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           .catch((error) => {
             console.log(error);
           });
-      }else{
-        setMessage(<div className="p-5 mx-5 md:right-8 absolute top-4 bg-red-600 text-white rounded-xl opacity-80">Fill All Data!</div>)
+      } else {
+        setMessage(
+          <div className="p-5 mx-5 md:right-8 absolute top-4 bg-red-600 text-white rounded-xl opacity-80">
+            Fill All Data!
+          </div>
+        );
       }
     } else {
       setError("errpr");
@@ -164,70 +170,89 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   };
 
   return (
-    <>
-      <p>{message}</p>
-      <form className="flex flex-col border">
-        <div className="flex">
+    <div className="">
+      <form className="flex flex-col gap-y-5">
+        <Card className="flex flex-col p-3">
+          <p>{message}</p>
+
           <Calendar
             value={dateRange}
             bookedDates={bookedDates}
             onChange={(value) => _setDateRange(value.selection)}
           />
-          <div className="flex flex-col mt-10">
-            <div className="flex flex-col h-28">
-              <label htmlFor="pickup_location">pick up location</label>
-              <input
-                type="text"
-                name=""
-                id=""
-                className="border"
-                onChange={(e) => setPickup(e.target.value)}
-                required
-              />
-            </div>
-            <div className="flex flex-col h-28">
-              <label htmlFor="dropoff_location">Drop off location</label>
-              <textarea
-                name="dropoff_location"
-                id=""
-                className="border"
-                onChange={(e) => setDropoff(e.target.value)}
-                required
-              ></textarea>
-            </div>
-          </div>
-        </div>
-        <div className="">
-          car price per day : {car.price_per_day}
-          Tax Fees: {texFee}
-          total cost: {totalPrice}
-        </div>
 
-        {userId ? (
-          <>
-            <CustomBtn btnName="Rent" btnType="submit" onClick={bookCar} />
-          </>
-        ) : (
-          <>
-            <AlertDialog>
-              <AlertDialogTrigger>Rent</AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Would you like to rent?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Login your account here <Link href='/Login' className="text-blue-600 underline">Login</Link> and fill renter info form. if you don't have an account, go to 
-                    <Link href='/signup' className="text-blue-600 underline"> SignUp Page</Link>
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </>
-        )}
+          <label htmlFor="pickup_location">pick up location</label>
+          <input
+            type="text"
+            name=""
+            id=""
+            className="border"
+            onChange={(e) => setPickup(e.target.value)}
+            required
+          />
+
+          <label htmlFor="dropoff_location">Drop off location</label>
+          <textarea
+            name="dropoff_location"
+            id=""
+            className="border"
+            onChange={(e) => setDropoff(e.target.value)}
+            required
+          ></textarea>
+
+    
+        </Card>
+        <Card className="p-3">
+          <h1 className="font-bold text-xl">Price details</h1>
+          <p className="text-xs">Pay at pick-up</p>
+          <div className="flex justify-between">
+            <p>Car rental fee * {totalDate}</p>
+            <p className="">${car.price_per_day * totalDate}</p>
+          </div>
+          <div className="flex justify-between">
+            <p>Taxes and fees</p>
+            <p>${texFee}</p>
+          </div>
+          <hr />
+          <div className="flex justify-between text-md font-bold">
+            <p className="">Total</p>
+            <p>${totalPrice}</p>
+          </div>
+          
+          {userId ? (
+            <>
+              <CustomBtn btnStyles="flex items-center" btnName="Rent" btnType="submit" onClick={bookCar} />
+            </>
+          ) : (
+            <>
+              <AlertDialog>
+                <AlertDialogTrigger>Rent</AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Would you like to rent?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Login your account here{" "}
+                      <Link href="/Login" className="text-blue-600 underline">
+                        Login
+                      </Link>{" "}
+                      and fill renter info form. if you don't have an account,
+                      go to
+                      <Link href="/signup" className="text-blue-600 underline">
+                        {" "}
+                        SignUp Page
+                      </Link>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
+          )}
+        </Card>
       </form>
-    </>
+    </div>
   );
 };
 
