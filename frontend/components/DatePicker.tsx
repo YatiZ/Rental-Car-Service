@@ -21,7 +21,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+
 import { Card } from "./ui/card";
+import { DropdownMenuCheckboxes } from "./DropDownMenu";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -199,18 +201,37 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
             onChange={(e) => setDropoff(e.target.value)}
             required
           ></textarea>
-
-    
         </Card>
         <Card className="p-3">
           <h1 className="font-bold text-xl">Price details</h1>
           <p className="text-xs">Pay at pick-up</p>
-          <div className="flex justify-between">
-            <p>Car rental fee * {totalDate}</p>
+          <div className="flex justify-between text-[15px]">
+            <div className="flex items-center gap-x-2">
+              <span>Car rental fee</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-3"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+
+              <p> {totalDate}</p>
+            </div>
             <p className="">${car.price_per_day * totalDate}</p>
           </div>
           <div className="flex justify-between">
-            <p>Taxes and fees</p>
+            <div className="flex gap-x-1">
+              <span>Taxes and fees</span>
+              <DropdownMenuCheckboxes />
+            </div>
             <p>${texFee}</p>
           </div>
           <hr />
@@ -218,10 +239,15 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
             <p className="">Total</p>
             <p>${totalPrice}</p>
           </div>
-          
+
           {userId ? (
             <>
-              <CustomBtn btnStyles="flex items-center" btnName="Rent" btnType="submit" onClick={bookCar} />
+              <CustomBtn
+                btnStyles="flex items-center"
+                btnName="Rent"
+                btnType="submit"
+                onClick={bookCar}
+              />
             </>
           ) : (
             <>
