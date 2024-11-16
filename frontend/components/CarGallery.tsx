@@ -40,7 +40,7 @@ export function CarouselPlugin({car_images}:ImagesProps) {
             <div className="p-1">
               <Card className="">
                 <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <Image src={`http://localhost:8000${imgObj.image}`} alt="car-img" width={300} height={300} className="object-contain"/>
+                    <Image src={`http://localhost:8000${imgObj.image}`} alt="car-img" width={500} height={500} className=""/>
                   {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
                 </CardContent>
               </Card>

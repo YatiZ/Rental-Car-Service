@@ -1,8 +1,6 @@
 "use client";
 import Calendar from "@/components/forms/Calendar";
 import { Range } from "react-date-range";
-import { CarType } from "@/types";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import CustomBtn from "./CustomBtn";
 import apiService from "@/app/services/apiService";
@@ -172,9 +170,9 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   };
 
   return (
-    <div className="">
+
       <form className="flex flex-col gap-y-5">
-        <Card className="flex flex-col p-3">
+        <Card className="flex flex-col px-7 py-5">
           <p>{message}</p>
 
           <Calendar
@@ -278,7 +276,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           )}
         </Card>
       </form>
-    </div>
+
   );
 };
 

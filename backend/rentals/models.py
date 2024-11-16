@@ -55,17 +55,17 @@ class Contact(models.Model):
         return self.username
     
 class Renter(models.Model):
-        id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
-        account_name = models.OneToOneField(UserAccount, related_name='renter', on_delete=models.CASCADE)
-        renter_name = models.CharField(max_length=255)
-        phonenumber = models.CharField(max_length=255)
-        address = models.TextField()
-        driver_license_number = models.CharField(max_length=255)
-        license_expiration_date = models.DateField()
-        license_photo = models.ImageField(upload_to='uploads/license')
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+    account_name = models.OneToOneField(UserAccount, related_name='renter', on_delete=models.CASCADE)
+    renter_name = models.CharField(max_length=255)
+    phonenumber = models.CharField(max_length=255)
+    address = models.TextField()
+    driver_license_number = models.CharField(max_length=255)
+    license_expiration_date = models.DateField()
+    license_photo = models.ImageField(upload_to='uploads/license')
 
-        def __str__(self):
-             return f"{self.account_name} - {self.renter_name}"
+    def __str__(self):
+            return f"{self.account_name} - {self.renter_name}"
 
 class Reservation(models.Model):
      id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
@@ -99,9 +99,15 @@ class Payment(models.Model):
     status = models.CharField(choices=STAUTS, default='pending',max_length=100)
 
 class Review(models.Model):
-     id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
-     customer = models.ForeignKey(Renter,on_delete=models.CASCADE)
-     car = models.ForeignKey(Car, on_delete=models.CASCADE)
-     rating = models.IntegerField()
-     comments = models.TextField()
-     review_date = models.DateTimeField()
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(UserAccount,on_delete=models.CASCADE, related_name='user')
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='uploads/reviews', null=True, blank=True)
+    rating = models.IntegerField()
+    comments = models.TextField()
+    review_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+         return f"{self.user} - {self.car}"
+    
+

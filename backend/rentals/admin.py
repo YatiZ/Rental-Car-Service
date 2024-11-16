@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import  Car, CarGallery, Contact, Renter,Reservation
+from .models import  Car, CarGallery, Contact, Renter,Reservation, Review
+
 
 # Register your models here.
 
@@ -11,3 +12,4 @@ admin.site.register(CarGallery)
 admin.site.register(Contact)
 admin.site.register(Renter)
 admin.site.register(Reservation)
+admin.site.register(Review)

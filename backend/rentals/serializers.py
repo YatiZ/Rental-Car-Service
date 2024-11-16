@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.serializers import UserAccountSerializer
-from . models import CarGallery, Car, Contact, Renter, Reservation, Payment, Review
+from . models import CarGallery, Car, Contact, Renter, Reservation, Payment
 
 
 

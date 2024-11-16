@@ -119,6 +119,9 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
         </div>
         <div className="flex flex-col">
           <DatePicker car={car_detail} userId={userId} />
+          <div className=" h-36">
+            <p>hello</p>
+          </div>
         </div>
       </div>
     </div>
