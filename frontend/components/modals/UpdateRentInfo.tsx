@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useId, useState } from 'react'
 import Image from 'next/image'
 import Modal from '../Modal'
 import useRentInfoModal from '@/app/hooks/useRentInfoModal'
@@ -26,7 +26,6 @@ const UpdateRentInfoModal = () => {
   const [userId, setUserId] = useState<string|null>(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const router = useRouter();
 
 
   //trying not to get every render
@@ -34,19 +33,23 @@ const UpdateRentInfoModal = () => {
     const fetchRenterInfo = async () => {
         const id = await getUserId();
         setUserId(id);
-       
+        console.log("userId",userId)
         if(id){
-            const response = await apiService.get(`/api/update_renter_info/${id}`);
-            const renterData = response.data || response;
-            console.log('renterData from update rent info',renterData)
-            setRenterName(renterData.renter_name)
-            setPhoneno(renterData.phonenumber)
-            setAddress(renterData.address)
-            setDriverLicenseNo(renterData.driver_license_number)
-            setLicenseExpiration(renterData.license_expiration_date)
-            const url = 'http://localhost:8000'
-            const filePath = (`${url}${renterData.license_photo}`);
-            setLicensePhotoPath(filePath)
+          console.log("id",id)
+            const response = await apiService.get(`/api/renter_info_display/${id}?timestamp=${Date.now()}`)
+            .then((response)=>{
+              const renterData = response?.data || response || {};
+              console.log('renterData from update rent info',renterData)
+              setRenterName(renterData.renter_name)
+              setPhoneno(renterData.phonenumber)
+              setAddress(renterData.address)
+              setDriverLicenseNo(renterData.driver_license_number)
+              setLicenseExpiration(renterData.license_expiration_date)
+              const url = 'http://localhost:8000'
+              const filePath = (`${url}${renterData.license_photo}`);
+              setLicensePhotoPath(filePath)
+            })
+            
         }
         
         

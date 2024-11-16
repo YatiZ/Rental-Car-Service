@@ -3,8 +3,13 @@ import apiService from "@/app/services/apiService";
 import Image from "next/image";
 import DatePicker from "@/components/DatePicker";
 import { getUserId } from "@/app/lib/action";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { CarouselPlugin } from "@/components/CarGallery";
+import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
+import AddRenterPage from "@/components/RenterInfo";
+import Link from "next/link";
+
+
 
 const CarDetailPage = async ({ params }: { params: { id: string } }) => {
   const userId = await getUserId();
@@ -121,15 +126,16 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
         <div className="flex flex-col gap-y-5">
           <DatePicker car={car_detail} userId={userId} />
 
-          <Card className="px-1 pt-7">
+          {get_renter_info && Object.values(get_renter_info).some(value=> value) ? (
+            <Card className="px-1 pt-7">
             <CardTitle className="text-center text-xl font-bold">{get_renter_info.account_name.name}'s info for rent</CardTitle>
             <CardContent className="flex text-[15px] justify-between items-center pt-2">
-                <div className="font-bold">
+                <div className="font-bold space-y-2">
                   <p>Renter name: </p>
                   <p>Phone no: </p>
                   <p>License: </p>
                 </div>
-                <div className="">
+                <div className="space-y-2">
                   <p>{get_renter_info.renter_name}</p>
                   <p>{get_renter_info.phonenumber}</p>
                   <p>
@@ -139,6 +145,35 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
         
             </CardContent>
           </Card>
+          )
+          
+          :(
+            <Card className="px-1 pt-7">
+            <CardTitle className="text-center text-xl font-bold"> User's info for rent</CardTitle>
+            <CardContent className="">
+              <div className="flex text-[15px] justify-between items-center pt-2">
+              <div className="font-bold space-y-3">
+                  <p>Renter name: </p>
+                  <p>Phone no: </p>
+                  <p>License: </p>
+                </div>
+                <div className="space-y-3">
+                  <p className="">.............</p>
+                  <p className="">.............</p>
+                  <p className="">
+                    .............
+                  </p>
+                </div>
+              </div>
+               
+              <hr/>
+              {userId ?  <AddRenterPage/> : <Link href='/Login' className="border bg-blue-600 p-1 w-full rounded text-center text-white">Login</Link>}
+            </CardContent>
+           
+      
+          </Card>
+          )}
+          
         </div>
       </div>
     </div>

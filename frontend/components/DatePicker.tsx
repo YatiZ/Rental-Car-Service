@@ -51,6 +51,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   const [texFee, setTexFee] = useState<number>();
   const [error, setError] = useState("");
   const [alert, setAlert] = useState(false);
+  const [data, setData] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchRenterInfo = async () => {
@@ -84,7 +85,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
     });
     setBookedDates(dates);
   };
-  console.log("Booked Dates:", bookedDates);
+
 
   const _setDateRange = (selection: any) => {
     const newStartDate = new Date(selection.startDate);
@@ -136,8 +137,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           pickup_location: pickup,
           dropoff_location: dropoff,
         };
-
-        console.log("FormData from date picker", formData);
+        
 
         const response = await apiService
           .BookPost(`/api/booking/${car.id}`, formData)
@@ -149,6 +149,9 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
                 title: "Congratulations! You successfully booked!.",
                 description: response.message,
               })
+              setTotalPrice(0);
+              setPickup('');
+              setDropoff('');
             } else {
               console.log("error");
             }
@@ -172,6 +175,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   return (
 
       <form className="flex flex-col gap-y-5">
+       
         <Card className="flex flex-col px-7 py-7 text-[15px]">
           <CardTitle className="text-center text-xl font-bold">Fill data for rent</CardTitle>
           <Calendar
@@ -184,7 +188,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           <textarea
             name="pickup_location"
             id=""
-            className="border rounded"
+            className="border rounded pl-4"
             onChange={(e) => setPickup(e.target.value)}
             required
           ></textarea>
@@ -193,7 +197,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           <textarea
             name="dropoff_location"
             id=""
-            className="border rounded"
+            className="border rounded pl-4 "
             onChange={(e) => setDropoff(e.target.value)}
             required
           ></textarea>
@@ -238,13 +242,47 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
 
           {userId ? (
             <>
-              <CustomBtn
+              {/* <CustomBtn
                 btnStyles="text-white text-center flex items-center justify-center border bg-blue-600 p-1 w-full rounded cursor-pointer"
                 btnName="Rent"
                 btnType="submit"
                 onClick={bookCar}
-              />
-             
+              /> */}
+             <AlertDialog>
+                <AlertDialogTrigger className="flex items-center justify-center border bg-blue-600 p-1 w-full rounded text-white text-center">Rent</AlertDialogTrigger>
+                <AlertDialogContent> 
+                    <AlertDialogTitle>Are you sure to rent?</AlertDialogTitle>
+                    <AlertDialogDescription className="space-y-2">
+                      <h2 className="text-center font-bold text-lg">Your Booking Date</h2>
+                      <div className="flex justify-around">
+                      <div className="flex justify-center space-x-3">
+                        <h2>Start Day: </h2>
+                        <p> {dateRange.startDate? dateRange.startDate.toLocaleDateString():"Not set"}</p>
+                      </div>
+                      <div className="flex justify-center space-x-3">
+                        <h2>End Day: </h2>
+                        <p> {dateRange.endDate? dateRange.endDate.toLocaleDateString():"Not set"}</p>
+                      </div>
+                      </div>
+                      
+                      <h2 className="text-center font-bold text-lg">Your Location</h2>
+                      <div className="flex justify-around">
+                      <div className="flex justify-center space-x-3">
+                        <h2>Pickup: </h2>
+                        <p> {pickup? pickup:"Not set"}</p>
+                      </div>
+                      <div className="flex justify-center space-x-3">
+                        <h2>Dropoff: </h2>
+                        <p> {dropoff? dropoff:"Not set"}</p>
+                      </div>
+                      </div>
+                    </AlertDialogDescription>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={bookCar} type="submit">Confirm</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </>
           ) : (
             <>

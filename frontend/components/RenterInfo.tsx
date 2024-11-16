@@ -1,5 +1,4 @@
 "use client";
-import AddRenterInfo from "@/components/AddRenterInfo";
 import React, { useEffect, useState } from "react";
 import useRentInfoModal from "../app/hooks/useRentInfoModal";
 import CustomBtn from "./CustomBtn";
@@ -39,7 +38,6 @@ const AddRenterPage = () => {
 
   const handleRent = () => {
     addRentInfoModal.open();
-    console.log("Open");
   };
   
   const handleUpdateRentInfo = ()=>{
