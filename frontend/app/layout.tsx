@@ -7,6 +7,7 @@ import UpdateRentInfoModal from "@/components/modals/UpdateRentInfo";
 import MessageBox from "@/components/MessageBox";
 import DialogBox from "@/components/DialogBox";
 import { getUserId } from "./lib/action";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,6 +30,7 @@ export default async function RootLayout({
         {children}
         <AddRentInfoModal/>
         <UpdateRentInfoModal/>
+        <Toaster/>
         <div id="scroll" className=" ">
            <DialogBox/>
         </div>

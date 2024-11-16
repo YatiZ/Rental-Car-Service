@@ -4,9 +4,7 @@ import { Range } from "react-date-range";
 import React, { useEffect, useState } from "react";
 import CustomBtn from "./CustomBtn";
 import apiService from "@/app/services/apiService";
-import { renameSync } from "fs";
 import { differenceInDays, eachDayOfInterval, format, setDate } from "date-fns";
-import axios from "axios";
 import Link from "next/link";
 import {
   AlertDialog,
@@ -22,6 +20,7 @@ import {
 
 import { Card, CardTitle } from "./ui/card";
 import { DropdownMenuCheckboxes } from "./DropDownMenu";
+import { toast } from "@/hooks/use-toast";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -51,7 +50,6 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   const [totalPrice, setTotalPrice] = useState<number>();
   const [texFee, setTexFee] = useState<number>();
   const [error, setError] = useState("");
-  const [message, setMessage] = useState<React.JSX.Element>();
   const [alert, setAlert] = useState(false);
 
   useEffect(() => {
@@ -145,23 +143,25 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           .BookPost(`/api/booking/${car.id}`, formData)
           .then((response) => {
             if (response && response.success) {
-              console.log("Response booking result:", response);
               console.log("Booking successful", response);
-              setMessage(response.message);
+              toast({
+                variant:"success",
+                title: "Congratulations! You successfully booked!.",
+                description: response.message,
+              })
             } else {
               console.log("error");
-              setMessage(response.message);
             }
           })
           .catch((error) => {
             console.log(error);
           });
       } else {
-        setMessage(
-          <div className="p-5 mx-5 md:right-8 absolute top-4 bg-red-600 text-white rounded-xl opacity-80">
-            Fill All Data!
-          </div>
-        );
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your book.",
+        })
       }
     } else {
       setError("errpr");
@@ -172,8 +172,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   return (
 
       <form className="flex flex-col gap-y-5">
-        <Card className="flex flex-col px-7 py-4">
-          <p className=" absolute z-10 top-20 right-0">{message}</p>
+        <Card className="flex flex-col px-7 py-7 text-[15px]">
           <CardTitle className="text-center text-xl font-bold">Fill data for rent</CardTitle>
           <Calendar
             value={dateRange}
@@ -199,7 +198,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
             required
           ></textarea>
         </Card>
-        <Card className="px-7 py-5 space-y-1">
+        <Card className="px-7 py-7 space-y-1">
           <h1 className="font-bold text-xl text-center">Price details</h1>
           <p className="text-xs">Pay at pick-up</p>
           <div className="flex justify-between text-[15px]">
@@ -225,7 +224,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
             <p className="">${car.price_per_day * totalDate}</p>
           </div>
           <div className="flex justify-between">
-            <div className="flex gap-x-1">
+            <div className="flex gap-x-1 text-[15px]">
               <span>Taxes and fees</span>
               <DropdownMenuCheckboxes />
             </div>

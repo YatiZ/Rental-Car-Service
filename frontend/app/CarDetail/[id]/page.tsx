@@ -25,7 +25,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
       </div>
       {/* for text */}
 
-      <div className="flex justify-between md:flex-row gap-x-5 flex-col items-center px-auto md:px-12 mx-auto">
+      <div className="flex justify-between md:flex-row gap-5 flex-col items-center px-auto md:px-12 mx-auto text-[15px]">
         <div className="flex flex-col gap-y-5 w-full items-center">
          
             <CarouselPlugin car_images={car_detail.image}/>
@@ -121,9 +121,9 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
         <div className="flex flex-col gap-y-5">
           <DatePicker car={car_detail} userId={userId} />
 
-          <Card className="px-1 pt-4">
+          <Card className="px-1 pt-7">
             <CardTitle className="text-center text-xl font-bold">{get_renter_info.account_name.name}'s info for rent</CardTitle>
-            <CardContent className="flex justify-between items-center pt-2">
+            <CardContent className="flex text-[15px] justify-between items-center pt-2">
                 <div className="font-bold">
                   <p>Renter name: </p>
                   <p>Phone no: </p>
