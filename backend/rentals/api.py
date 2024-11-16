@@ -75,16 +75,17 @@ def renter_info(request,id):
     
 @api_view(['GET'])
 def renter_info_display(request,id):
-    renter = Renter.objects.get(id=id)
+    account_name = UserAccount.objects.get(id=id)
+    renter = Renter.objects.filter(account_name = account_name).first()
+
     serializer = RenterSerializer(renter)
-    return JsonResponse(serializer.data)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def renter_info_check(request, id):
     try:
         account_name = UserAccount.objects.get(id=id)
         renter_exists = Renter.objects.filter(account_name = account_name).exists()
-
         return Response({'success': True, 'renter_exists': renter_exists})
     
     except UserAccount.DoesNotExist:

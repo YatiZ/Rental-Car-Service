@@ -20,7 +20,7 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 
-import { Card } from "./ui/card";
+import { Card, CardTitle } from "./ui/card";
 import { DropdownMenuCheckboxes } from "./DropDownMenu";
 
 const initialDateRange = {
@@ -172,36 +172,35 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   return (
 
       <form className="flex flex-col gap-y-5">
-        <Card className="flex flex-col px-7 py-5">
-          <p>{message}</p>
-
+        <Card className="flex flex-col px-7 py-4">
+          <p className=" absolute z-10 top-20 right-0">{message}</p>
+          <CardTitle className="text-center text-xl font-bold">Fill data for rent</CardTitle>
           <Calendar
             value={dateRange}
             bookedDates={bookedDates}
             onChange={(value) => _setDateRange(value.selection)}
           />
 
-          <label htmlFor="pickup_location">pick up location</label>
-          <input
-            type="text"
-            name=""
+          <label htmlFor="pickup_location" className="my-2">Pick up location</label>
+          <textarea
+            name="pickup_location"
             id=""
-            className="border"
+            className="border rounded"
             onChange={(e) => setPickup(e.target.value)}
             required
-          />
+          ></textarea>
 
-          <label htmlFor="dropoff_location">Drop off location</label>
+          <label htmlFor="dropoff_location" className="my-2">Drop off location</label>
           <textarea
             name="dropoff_location"
             id=""
-            className="border"
+            className="border rounded"
             onChange={(e) => setDropoff(e.target.value)}
             required
           ></textarea>
         </Card>
-        <Card className="px-7 py-5 space-y-3">
-          <h1 className="font-bold text-xl">Price details</h1>
+        <Card className="px-7 py-5 space-y-1">
+          <h1 className="font-bold text-xl text-center">Price details</h1>
           <p className="text-xs">Pay at pick-up</p>
           <div className="flex justify-between text-[15px]">
             <div className="flex items-center gap-x-2">
@@ -241,16 +240,17 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           {userId ? (
             <>
               <CustomBtn
-                btnStyles="flex items-center"
+                btnStyles="text-white text-center flex items-center justify-center border bg-blue-600 p-1 w-full rounded cursor-pointer"
                 btnName="Rent"
                 btnType="submit"
                 onClick={bookCar}
               />
+             
             </>
           ) : (
             <>
               <AlertDialog>
-                <AlertDialogTrigger>Rent</AlertDialogTrigger>
+                <AlertDialogTrigger className="flex items-center justify-center border bg-blue-600 p-1 w-full rounded text-white text-center">Rent</AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>Would you like to rent?</AlertDialogTitle>
