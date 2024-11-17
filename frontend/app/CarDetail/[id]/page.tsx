@@ -8,6 +8,9 @@ import { CarouselPlugin } from "@/components/CarGallery";
 import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 import AddRenterPage from "@/components/RenterInfo";
 import Link from "next/link";
+import { DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { ReviewModal } from "@/components/ReviewModal";
 
 
 
@@ -122,6 +125,10 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
               </ul>
             </CardContent>
           </Card>
+
+          <h1>Would you like to suggest about this car?</h1>
+          {userId && <ReviewModal user={userId} car_id={car_detail.id}/>}
+          
         </div>
         <div className="flex flex-col gap-y-5">
           <DatePicker car={car_detail} userId={userId} />
