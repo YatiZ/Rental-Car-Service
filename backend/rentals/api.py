@@ -1,5 +1,5 @@
 from datetime import datetime
-from . models import Car, Contact, UserAccount, Renter, Reservation
+from . models import Car, Contact, UserAccount, Renter, Reservation, Review
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -229,3 +229,39 @@ def get_reservation(request, id):
     except Exception as e:
         print(e)
     return Response({'success':False,'message':'An error occurred!'})
+
+@api_view(['POST'])
+def create_review(request,id):
+    try:
+        user = UserAccount.objects.get(id = id)
+        car_id = request.data.get('car_id')
+        if not car_id:
+            return Response(
+                {'success': False, 'error': 'Car ID is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        car = Car.objects.get(id = car_id)
+        
+        rating = request.data.get('rating')
+        comments = request.data.get('comments','')
+        image = request.data.get('image')
+
+        Review.objects.create(
+            user = user,
+            car = car,
+            image = image,
+            rating = rating,
+            comments = comments,
+        )
+        return Response({'success':True,'message':'review is uploaded successfully'},status=status.HTTP_201_CREATED)
+    except UserAccount.DoesNotExist:
+        return Response({
+            'success':False,
+            'error':'Need to create account first'
+        },status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response(
+            {'success': False, 'error': 'An unexpected error occurred'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+         

@@ -55,7 +55,7 @@ const FeaturePage = () => {
        <div className="flex space-x-6 items-center justify-center">
        <SearchFilter/>
        </div>
-        <div className='grid grid-cols-3 m-3 gap-3'>
+        <div className='grid md:grid-cols-3 grid-cols-1 m-5 gap-4'>
           {loading? (<FeatureLoading/>
 ):
            (cars.map((car)=>{

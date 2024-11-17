@@ -33,7 +33,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
       <div className="flex justify-between md:flex-row gap-5 flex-col items-center px-auto md:px-12 mx-auto text-[15px]">
         <div className="flex flex-col gap-y-5 w-full items-center">
          
-            <CarouselPlugin car_images={car_detail.image}/>
+          <CarouselPlugin car_images={car_detail.image}/>
          
           <Card className="w-full py-5 px-3">
             <CardTitle className="my-3 text-xl font-bold text-center">
@@ -75,7 +75,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6"
+                    className="size-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -92,7 +92,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6"
+                    className="size-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -109,7 +109,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6"
+                    className="size-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -175,7 +175,17 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
           )}
           
         </div>
+
       </div>
+      <div className="mx-12 mt-6">
+      <Card className="w-full flex gap-x-5 items-center justify-around p-5">
+        <Card className="w-full">Hi</Card>
+        <Card className="w-full">Hi</Card>
+        <Card className="w-full">Hi</Card>
+        <Card className="w-full">Hi</Card>
+      </Card>
+      </div>
+  
     </div>
   );
 };
