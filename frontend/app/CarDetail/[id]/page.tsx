@@ -11,6 +11,7 @@ import Link from "next/link";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ReviewModal } from "@/components/ReviewModal";
+import Reviews from "@/components/Reviews";
 
 
 
@@ -126,8 +127,14 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
             </CardContent>
           </Card>
 
-          <h1>Would you like to suggest about this car?</h1>
-          {userId && <ReviewModal user={userId} car_id={car_detail.id}/>}
+          
+         
+          {userId && <>
+            <h1>Would you like to suggest about this car?</h1>
+            <ReviewModal user={userId} car_id={car_detail.id}/>
+          </>}
+    
+          
           
         </div>
         <div className="flex flex-col gap-y-5">
@@ -174,7 +181,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
               </div>
                
               <hr/>
-              {userId ?  <AddRenterPage/> : <Link href='/Login' className="border bg-blue-600 p-1 w-full rounded text-center text-white">Login</Link>}
+              {userId ?  <AddRenterPage/> : <Link href='/Login' className="flex items-center justify-center border bg-blue-600 p-1 w-full rounded text-white text-center">Login</Link>}
             </CardContent>
            
       
@@ -185,12 +192,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
 
       </div>
       <div className="mx-12 mt-6">
-      <Card className="w-full flex gap-x-5 items-center justify-around p-5">
-        <Card className="w-full">Hi</Card>
-        <Card className="w-full">Hi</Card>
-        <Card className="w-full">Hi</Card>
-        <Card className="w-full">Hi</Card>
-      </Card>
+       <Reviews/>
       </div>
   
     </div>

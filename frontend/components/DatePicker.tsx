@@ -143,7 +143,6 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           .BookPost(`/api/booking/${car.id}`, formData)
           .then((response) => {
             if (response && response.success) {
-              console.log("Booking successful", response);
               toast({
                 variant:"success",
                 title: "Congratulations! You successfully booked!.",
@@ -242,12 +241,6 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
 
           {userId ? (
             <>
-              {/* <CustomBtn
-                btnStyles="text-white text-center flex items-center justify-center border bg-blue-600 p-1 w-full rounded cursor-pointer"
-                btnName="Rent"
-                btnType="submit"
-                onClick={bookCar}
-              /> */}
              <AlertDialog>
                 <AlertDialogTrigger className="flex items-center justify-center border bg-blue-600 p-1 w-full rounded text-white text-center">Rent</AlertDialogTrigger>
                 <AlertDialogContent> 

@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
@@ -39,13 +40,27 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
     try {
       const create_review = await apiService.post(`/api/create-review/${user}`,formData);
       console.log("create_review",create_review)
+      if(create_review.success == true){
+        toast({
+            variant:"success",
+            title:"Thank you for your feedback!",
+            description: create_review.message,
+        })
+      }else{
+        toast({
+            variant:"destructive",
+            title:"Error!",
+            description: create_review.message,
+        })
+      }
   } catch (error) {
-
+      console.log(error)
   }
   }
   
   return (
-    <Dialog>
+   <div className="px-5">
+        <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">Add review</Button>
       </DialogTrigger>
@@ -126,5 +141,6 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+   </div>
   );
 }
