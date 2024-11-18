@@ -45,8 +45,8 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
         description: "Comments are required.",
       });
       return;
-    }
-    
+    } 
+
     const formData = {
         user: user,
         car_id: car_id,
@@ -84,7 +84,7 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
   return (
    <div className="px-5">
    
-        <Dialog onOpenChange={setOpenDialog} open={openDialog}>
+        <Dialog onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button variant="outline" onClick={()=>setOpenDialog(true)}>Add review</Button>
       </DialogTrigger>

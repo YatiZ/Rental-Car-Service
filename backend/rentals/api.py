@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer
+from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer
 from django.db import IntegrityError
 from django.utils import timezone
 
@@ -269,4 +269,16 @@ def create_review(request,id):
             {'success': False, 'error': 'An unexpected error occurred'},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-         
+
+@api_view(['GET'])
+def get_review(request):
+    reviews = Review.objects.all()
+    serialized_reviews = ReviewSerializer(reviews, many=True)
+    return Response({'success':True,'reviews':serialized_reviews.data})
+
+@api_view(['GET'])
+def filtered_review_by_car(request,id):
+    car_id = Car.objects.get(id = id)
+    filtered_review = Review.objects.filter(car=car_id).all()
+    serializer = ReviewSerializer(filtered_review, many=True)
+    return Response({'success':True,'reviews':serializer.data})

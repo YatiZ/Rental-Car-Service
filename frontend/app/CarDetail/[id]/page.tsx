@@ -192,7 +192,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
 
       </div>
       <div className="mx-12 mt-6">
-       <Reviews/>
+       <Reviews car={car_detail.id}/>
       </div>
   
     </div>

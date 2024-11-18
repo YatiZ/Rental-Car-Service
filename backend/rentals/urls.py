@@ -18,4 +18,6 @@ urlpatterns = [
 
     #review
     path('api/create-review/<int:id>',api.create_review, name='create-review'),
+    path('api/reviews',api.get_review, name='get-review'),
+    path('api/filtered-reviews/<uuid:id>',api.filtered_review_by_car, name='filtered-review'),
 ]

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.serializers import UserAccountSerializer
-from . models import CarGallery, Car, Contact, Renter, Reservation, Payment
+from . models import CarGallery, Car, Contact, Renter, Reservation, Payment, Review
 
 
 
@@ -33,4 +33,9 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
+        fields = '__all__'
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
         fields = '__all__'
