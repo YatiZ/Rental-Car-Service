@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
@@ -25,9 +24,29 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
   const [rating, setRating] = useState(0);
   const [image, setImage] = useState<string>('');
   const [comments, setComments] = useState<string>('');
+  const [openDialog, setOpenDialog] = useState(true)
 
   const handleSendReview = async(e:React.FormEvent)=>{
-    e.preventDefault()
+    e.preventDefault();
+
+    if(rating <= 0 || rating == null){
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Rating is required. Please select a rating before submitting.",
+      });
+      return;
+    }
+
+    if(!comments.trim()){
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Comments are required.",
+      });
+      return;
+    }
+    
     const formData = {
         user: user,
         car_id: car_id,
@@ -40,12 +59,16 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
     try {
       const create_review = await apiService.post(`/api/create-review/${user}`,formData);
       console.log("create_review",create_review)
-      if(create_review.success == true){
+      if(create_review.success === true && create_review ){
         toast({
             variant:"success",
             title:"Thank you for your feedback!",
             description: create_review.message,
         })
+        setRating(0);
+        setComments('');
+        setImage('');
+        setOpenDialog(!openDialog)
       }else{
         toast({
             variant:"destructive",
@@ -60,9 +83,10 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
   
   return (
    <div className="px-5">
-        <Dialog>
+   
+        <Dialog onOpenChange={setOpenDialog} open={openDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add review</Button>
+        <Button variant="outline" onClick={()=>setOpenDialog(true)}>Add review</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -86,6 +110,7 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
                     value={ratingValue}
                     onClick={(e) => setRating(Number((e.target as HTMLInputElement).value))}
                     className=" hidden"
+                    required
                   />
                   <FaStar
                     key={ratingValue}
@@ -107,6 +132,7 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
               onChange={(e)=>setComments(e.target.value)}
               className="border w-full p-2 rounded h-24 text-sm"
               placeholder="Tell us about your experience"
+              required
             />
           </div>
           <div className="flex items-center justify-center ">
@@ -141,6 +167,8 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+    
+
    </div>
   );
 }

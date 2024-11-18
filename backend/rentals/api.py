@@ -243,7 +243,12 @@ def create_review(request,id):
         car = Car.objects.get(id = car_id)
         
         rating = request.data.get('rating')
-        comments = request.data.get('comments','')
+        # if rating == 0 | comments == '':
+        #     return Response({
+        #         'success':False, 'message':'Please complete the feedback form'
+        #     }, status=status.HTTP_400_BAD_REQUEST)
+        
+        comments = request.data.get('comments')
         image = request.data.get('image')
 
         Review.objects.create(
