@@ -5,10 +5,15 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer
+from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer, UserAccountSerializer
 from django.db import IntegrityError
 from django.utils import timezone
 
+@api_view(['GET'])
+def get_user(request):
+    user = UserAccount.objects.all()
+    serializer = UserAccountSerializer(user, many=True)
+    return Response({'user':serializer.data})
 
 @api_view(['GET'])
 def car_list(request):
@@ -282,3 +287,10 @@ def filtered_review_by_car(request,id):
     filtered_review = Review.objects.filter(car=car_id).all()
     serializer = ReviewSerializer(filtered_review, many=True)
     return Response({'success':True,'reviews':serializer.data})
+
+# @api_view(['GET'])
+# def filtered_review_by_user(request,id):
+#     user_id = UserAccount.objects.all(id=id)
+#     filtered_users = Review.objects.filter(user = user_id).all()
+#     serializer = ReviewSerializer(filtered_users, many=True)
+#     return Response({'success':True,'reviews'})
