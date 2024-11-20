@@ -7,6 +7,7 @@ import apiService from "../services/apiService";
 import { useRouter } from "next/navigation";
 import { handleLogin } from "../lib/action";
 import { toast } from "@/hooks/use-toast";
+import FeatureLoading from "@/components/loading/FeatureLoading";
 
 const SignupPage = () => {
   const router = useRouter();
@@ -18,8 +19,7 @@ const SignupPage = () => {
   const [showCfPassword, setShowCfPassword] = useState<Boolean>(false);
   const [isFocused, setIsFocused] = useState<Boolean>(false);
   const [isCfpwFocused, setIsCfpwFocused] = useState<Boolean>(false);
-  const [errors, setErrors] = useState<string[]>([]);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,14 +36,14 @@ const SignupPage = () => {
         formData
       ); // No need to JSON.stringify here
       console.log("account-registration-Response:", response);
-
+      setIsLoading(true);
       if (response && response.id) {
         toast({
           variant: "success",
           title: "Registration successful! Please check your email for activation.",
           description: response.message,
         })
-       
+       setIsLoading(false)
       } else if (response) {
         // Handle errors returned from the API
         const tmpErrors: string[] = Object.values(response).flatMap(
@@ -68,6 +68,7 @@ const SignupPage = () => {
         description: error.message
       })
     // Show error message to the user
+    setIsLoading(false)
     }
   };
 
@@ -78,7 +79,7 @@ const SignupPage = () => {
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
       
-
+       {isLoading && <p>Loading...</p>}
       <div className="flex flex-row mt-20 md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
         <div className="border mx-5 p-10 shadow-lg md:w-full">
           <h1 className="text-xl font-bold leading-relaxed">

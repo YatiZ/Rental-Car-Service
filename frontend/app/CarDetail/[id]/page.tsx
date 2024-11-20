@@ -8,8 +8,6 @@ import { CarouselPlugin } from "@/components/CarGallery";
 import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 import AddRenterPage from "@/components/RenterInfo";
 import Link from "next/link";
-import { DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { ReviewModal } from "@/components/ReviewModal";
 import Reviews from "@/components/Reviews";
 

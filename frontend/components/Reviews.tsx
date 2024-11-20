@@ -44,7 +44,7 @@ const Reviews = async ({ car, userId }: ReviewProps) => {
                 <DateFormat date={review.review_date} />
               </div>
 
-              <div className="flex w-[300px] h-[100px] overflow-y-scroll p-4 text-sm">
+              <div className="flex w-[500px] h-[100px] overflow-y-scroll p-4 text-sm">
                 <p>{review.comments}</p>
               </div>
               
