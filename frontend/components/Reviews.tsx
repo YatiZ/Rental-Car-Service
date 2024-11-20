@@ -3,6 +3,7 @@ import { Card } from "./ui/card";
 import apiService from "@/app/services/apiService";
 import { FaStar } from "react-icons/fa";
 import DateFormat from "./DateFormat";
+import Image from "next/image";
 
 interface ReviewProps {
   car: string;
@@ -16,7 +17,7 @@ const Reviews = async ({ car, userId }: ReviewProps) => {
   console.log("Reviews", reviews);
 
   return (
-    <Card className="w-full flex items-center justify-around p-5">
+    <Card className="w-full flex overflow-scroll gap-x-6 items-center justify-around p-5">
       {reviews.map((review: any) => {
         return (
           <Card className="px-10 p-2" key={review.id}>
@@ -45,9 +46,18 @@ const Reviews = async ({ car, userId }: ReviewProps) => {
               </div>
 
               <div className="flex">
-                <p>{review.user.name}</p>
+                <p>{review.comments}</p>
               </div>
-              <p>{review.comments} </p>
+              
+              <div className="flex items-center">
+                <div className="">
+                    <Image src={review.user.avatar} alt={review.user.name} width={60} height={60}/>
+                </div>
+                <div className="flex flex-col">
+                    <p>{review.user.name}</p>
+                    <p>{review.user.email}</p>
+                </div>
+              </div>
             </div>
           </Card>
         );

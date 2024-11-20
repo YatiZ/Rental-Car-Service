@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import apiService from "../services/apiService";
 import { useRouter } from "next/navigation";
 import { handleLogin } from "../lib/action";
+import { toast } from "@/hooks/use-toast";
 
 const SignupPage = () => {
   const router = useRouter();
@@ -37,21 +38,36 @@ const SignupPage = () => {
       console.log("account-registration-Response:", response);
 
       if (response && response.id) {
-        setSuccessMessage(
-          "Registration successful! Please check your email for activation."
-        );
+        toast({
+          variant: "success",
+          title: "Registration successful! Please check your email for activation.",
+          description: response.message,
+        })
+       
       } else if (response) {
         // Handle errors returned from the API
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error: any) => error
         );
-        setErrors(tmpErrors);
+        toast({
+          variant: "destructive",
+          title:"Account Registration Error!",
+          description: tmpErrors,
+        })
       } else {
-        setErrors(["Unknown error occurred"]);
+        toast({
+          variant: "destructive",
+          title:"Account Registration Error!",
+          description: "Unknown error occurred",
+        })
       }
     } catch (error: any) {
-      console.error("Error during registration:", error);
-      setErrors([error.message]); // Show error message to the user
+      toast({
+        variant: "destructive",
+        title:"Account Registration Error!",
+        description: error.message
+      })
+    // Show error message to the user
     }
   };
 
@@ -61,23 +77,7 @@ const SignupPage = () => {
 
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
-      <div className="flex justify-center">
-        {successMessage && (
-          <div className="p-5 mx-5 md:right-8 absolute md:top-32 top-24 bg-green-600 text-black rounded-xl opacity-80">
-            {successMessage}
-          </div>
-        )}
-      </div>
-      <div className="flex justify-center">
-        {Array.isArray(errors) && errors.length > 0 && (
-          <div className="p-5 mx-5 md:right-8 absolute md:top-32 top-24 bg-red-600 text-white rounded-xl opacity-80">
-            {" "}
-            {errors.map((error, index) => {
-              return <div key={`error_${index}`}>{error}</div>;
-            })}
-          </div>
-        )}
-      </div>
+      
 
       <div className="flex flex-row mt-20 md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
         <div className="border mx-5 p-10 shadow-lg md:w-full">

@@ -288,7 +288,11 @@ def filtered_review_by_car(request,id):
     filtered_reviews = Review.objects.filter(car=car_id).select_related('user')
     review_data = []
     for review in filtered_reviews:
-       
+        avatar_url = (
+            request.build_absolute_uri(review.user.avatar.url)
+            if review.user.avatar
+            else 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar.png'
+        )
         review_data.append({
             'id': review.id,
             'rating': review.rating,
@@ -296,7 +300,7 @@ def filtered_review_by_car(request,id):
             'user': {
                 'name':review.user.name,
                 'email':review.user.email,
-                'avatar':review.user.avatar or 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar.png',
+                'avatar': avatar_url,
             },
             'review_date':review.review_date,
         })

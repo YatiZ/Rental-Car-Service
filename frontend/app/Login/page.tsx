@@ -7,6 +7,7 @@ import apiService from "../services/apiService";
 import { handleLogin } from "../lib/action";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 
 const LoginPage = () => {
@@ -34,7 +35,11 @@ const LoginPage = () => {
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error:any)=> error
         );
-        setErrors(tmpErrors);
+        toast({
+          variant:"destructive",
+          title: "Account Login Error!",
+          description: tmpErrors,
+        })
 
       }else if(response.detail){
         console.log(response.detail)
@@ -57,7 +62,11 @@ const LoginPage = () => {
       if (userResponse && userResponse.data.id) {
         const isSuccess = await handleLogin(userResponse.data.id, accessToken, refreshToken);
         if(isSuccess){
-          setSuccessMessage("Login Successfully");
+          toast({
+            variant:"success",
+            title: "Account Login Successfully!",
+            description: userResponse.statusText,
+          })
           router.push("/");
         }
   
@@ -67,34 +76,27 @@ const LoginPage = () => {
 
     } catch (error:any) {
       if(error.response && error.response.status === 401){
-        console.error("Incorrect email or password. Please try again.")
+        toast({
+          variant:"destructive",
+          title: "Account Login Error!",
+          description: "Incorrect email or password. Please try again.",
+        })
+
       }else{
-        setErrors([error.message]);
+        toast({
+          variant:"destructive",
+          title: "Account Login Error!",
+          description: error.message,
+        })
+    
       }
-      console.error("Login error:", error);
     }
 
    
   };
   return (
     <section className="container mx-auto px-0 w-fit md:tracking-wider lg:tracking-wider tracking-normal">
-     <div className="flex justify-center">
-        {successMessage && (
-          <div className="p-5 mx-5 md:right-8 absolute md:top-32 top-24 bg-green-600 text-black rounded-xl opacity-80">
-            {successMessage}
-          </div>
-        )}
-      </div>
-      <div className="flex justify-center">
-        {Array.isArray(errors) && errors.length > 0 && (
-          <div className="p-5 mx-5 md:right-8 absolute md:top-32 top-24 bg-red-600 text-white rounded-xl opacity-80">
-            {" "}
-            {errors.map((error, index) => {
-              return <div key={`error_${index}`}>{error}</div>;
-            })}
-          </div>
-        )}
-      </div>
+  
       <div className="flex flex-row mt-14 md:border lg:border justify-center md:gap-10 gap-0 md:shadow-lg lg:shadow-lg md:m-10 m-0 md:py-10 py-8 border-none">
   
         <div className="border mx-5 p-10 shadow-lg md:w-full">
