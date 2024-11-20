@@ -1,47 +1,81 @@
-'use client'
-import React, { useState } from 'react'
-import { CarType } from '@/types'
-interface CarsProps{
-  cars:CarType[]
+"use client";
+import React, { useEffect, useState } from "react";
+import { CarType } from "@/types";
+import FeatureLoading from "./loading/FeatureLoading";
+import HomeCard from "./HomeCard";
+import { motion } from "framer-motion";
+
+const containerVarients = {
+  hidden: {
+    opacity: 0,
+    x: "100vw",
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    trasition: {
+      type: "spring",
+    },
+  },
+  exit: {
+    x: "-100vh",
+    transition: { ease: "easeInOut" },
+  },
+};
+
+interface CarsProps {
+  cars: CarType[];
+  loading: boolean;
 }
 
-const SearchFilter = ({cars}:CarsProps) => {
-  const [filteredData, setFilteredData] = useState<string[]>([])
-  const [searchData, setSearchData] = useState<string>('');
-  const handleFilter = (e:React.FormEvent)=>{
-     console.log(searchData)
-  }
+const SearchFilter = ({ cars, loading }: CarsProps) => {
+  const [filteredData, setFilteredData] = useState(cars);
+  const [searchData, setSearchData] = useState<string>("");
+
+  useEffect(() => {
+    setFilteredData(cars);
+  }, [cars]);
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchData(value);
+
+    const filteredBrands = cars.filter((car) =>
+      car.brand.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filteredBrands);
+    console.log(filteredBrands);
+  };
   return (
-    <div className='h-[64px] md:w-[500px] w-[350px] shadow-xl mt-4 flex flex-row items-center justify-between border rounded-lg'>
-        <input type="text" value={searchData} onChange={(e)=>setSearchData(e.target.value)} placeholder='Type your message ...' className='w-full ml-2 px-3 py-3 bg-gray-200 rounded-lg' />
-        <div className='p-2'>
-        <div className="p-2 lg:p-4 cursor-pointer btn__color hover:bg-blue-600 transition rounded-lg text-white">
-          <svg
-            viewBox="0 0 32 32"
-            style={{
-              display: "block",
-              fill: "none",
-              height: "16px",
-              width: "16px",
-              stroke: "currentColor",
-              strokeWidth: 4,
-              overflow: "visible",
-            }}
-            aria-hidden="true"
-            role="presentation"
-            focusable="false"
-            onClick={handleFilter}
-          >
-            <path
-              fill="none"
-              d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"
-            ></path>
-          </svg>
+    <>
+      <div className="flex space-x-6 items-center justify-center">
+        <div className="h-[64px] md:w-[500px] w-[350px] shadow-xl mt-4 flex flex-row items-center justify-between border rounded-lg">
+          <input
+            type="text"
+            value={searchData}
+            onChange={handleFilter}
+            placeholder="Search your desired cars ..."
+            className="w-full mx-2 px-3 py-3 bg-gray-200 rounded-lg"
+          />
         </div>
-        </div>
-     
-    </div>
-  )
-}
+      </div>
+      <motion.div
+        variants={containerVarients}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="grid md:grid-cols-3 grid-cols-1 m-5 gap-4"
+      >
+        {loading ? (
+          <FeatureLoading />
+        ) : (
+          filteredData.map((car) => {
+            return <HomeCard key={car.id} car={car} />;
+          })
+        )}
+        {filteredData.length === 0 && <div className="mt-7">No car found!</div>}
+      </motion.div>
+    </>
+  );
+};
 
-export default SearchFilter
+export default SearchFilter;

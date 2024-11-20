@@ -46,28 +46,15 @@ const FeaturePage = () => {
   }
   // must add useEffect 
   useEffect(()=>{
-    
     getCarsList()
   },[])
   return (
 
-    <motion.div variants={containerVarients} initial='hidden' animate='visible' exit='exit'>
-       <div className="flex space-x-6 items-center justify-center">
-       <SearchFilter cars={cars}/>
-       </div>
-        <div className='grid md:grid-cols-3 grid-cols-1 m-5 gap-4'>
-          {loading? (<FeatureLoading/>
-):
-           (cars.map((car)=>{
-            return (
-              <HomeCard  key={car.id} car={car}/>
-            )
-          }))
-          }
-     
-        </div>
-   
-    </motion.div>
+    <div>
+       
+       <SearchFilter cars={cars} loading={loading}/>
+      
+    </div>
 
   )
 }
