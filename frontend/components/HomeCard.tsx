@@ -12,6 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import apiService from "@/app/services/apiService";
+import UnavailableSign from "./UnavailableSign";
+import AvailableSign from "./AvailableSign";
 interface CarProps {
   car: CarType;
 }
@@ -106,7 +108,7 @@ const HomeCard: React.FC<CarProps> = ({ car }) => {
             </div>
 
             <hr />
-           {checkStatus? <>Available</>:<>Unavailable</>}
+           {checkStatus? <AvailableSign/>:<><UnavailableSign/></>}
 
             <div className="mt-3 flex gap-4">
               {/* <CustomBtn btnName='Rent' onClick={handleRent} btnStyles='w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition' /> */}
