@@ -6,7 +6,7 @@ import CustomBtn from '../CustomBtn'
 import { getUserId } from '@/app/lib/action'
 import apiService from '@/app/services/apiService'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const AddRentInfoModal = () => {
   const addRentInfoModal = useRentInfoModal();
@@ -17,6 +17,7 @@ const AddRentInfoModal = () => {
   const [driverLicense, setDriverLicenseNo] = useState('');
   const [licenseExpiration,setLicenseExpiration] = useState('')
   const [LicensePhoto, setLicensePhoto] = useState<File | null>(null)
+  const [LicensePhotoPath, setLicensePhotoPath] = useState<string>('');
   const [userId, setUserId] = useState<string|null>(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -35,6 +36,8 @@ const AddRentInfoModal = () => {
     const file = e.target.files ? e.target.files[0] : null;
     if(file){
       setLicensePhoto(file);
+      const preview = URL.createObjectURL(file);
+      setLicensePhotoPath(preview);
     }else{
       console.error("No file selected");
     }
@@ -65,13 +68,7 @@ const AddRentInfoModal = () => {
       if(response.data.success === true){
         setAlertMessage('');
         setSuccessMessage(response.data.message);
-        useEffect(()=>{
-          if(successMessage){
-            setTimeout(()=>{
-              setSuccessMessage('')
-            },2000)
-          }
-        },[successMessage])
+       
         addRentInfoModal.close()
       
       
@@ -213,6 +210,8 @@ const AddRentInfoModal = () => {
                 onChange={handleChangePhoto}
                 accept="image/*"
               />
+              {LicensePhotoPath && <Image src={LicensePhotoPath} alt='license-pic' width={200} height={200}/>}
+             
           <CustomBtn btnName='Previous' onClick={()=>setCurrentStep(2)} btnStyles='previous__btn'/>
           <CustomBtn btnName='Submit' onClick={submitRenterInfo} btnStyles='submit__btn'/>
         </>}

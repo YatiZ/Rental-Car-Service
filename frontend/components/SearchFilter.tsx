@@ -9,7 +9,7 @@ const SearchFilter = ({cars}:CarsProps) => {
   const [filteredData, setFilteredData] = useState<string[]>([])
   const [searchData, setSearchData] = useState<string>('');
   const handleFilter = (e:React.FormEvent)=>{
-     console.log(filteredData)
+     console.log(searchData)
   }
   return (
     <div className='h-[64px] md:w-[500px] w-[350px] shadow-xl mt-4 flex flex-row items-center justify-between border rounded-lg'>

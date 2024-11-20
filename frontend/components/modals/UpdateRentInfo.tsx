@@ -58,22 +58,7 @@ const UpdateRentInfoModal = () => {
     fetchRenterInfo();
 }, []);
 
-//   const fetchUserId = async()=>{
-//     const id = await getUserId();
-//     setUserId(id);
-//     const renterData = await apiService.get(`/api/update_renter_info/${id}`);
-//     console.log('renterData from update rent info',renterData)
-    
-//     setRenterName(renterData.renter_name)
-//     setPhoneno(renterData.phonenumber)
-//     setAddress(renterData.address)
-//     setDriverLicenseNo(renterData.driver_license_number)
-//     setLicenseExpiration(renterData.license_expiration_date)
-//     setLicensePhoto(renterData.license_photo)
-//   }
 
-//   fetchUserId();
-//   console.log('User Id from add rent info',userId)
 
   const handleChangePhoto =(e:React.ChangeEvent<HTMLInputElement>)=>{
     const file = e.target.files ? e.target.files[0] : null;
