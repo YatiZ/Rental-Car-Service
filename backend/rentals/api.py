@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer, UserAccountSerializer
 from django.db import IntegrityError
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 @api_view(['GET'])
 def get_user(request):
@@ -284,13 +285,20 @@ def get_review(request):
 @api_view(['GET'])
 def filtered_review_by_car(request,id):
     car_id = Car.objects.get(id = id)
-    filtered_review = Review.objects.filter(car=car_id).all()
-    serializer = ReviewSerializer(filtered_review, many=True)
-    return Response({'success':True,'reviews':serializer.data})
+    filtered_reviews = Review.objects.filter(car=car_id).select_related('user')
+    review_data = []
+    for review in filtered_reviews:
+       
+        review_data.append({
+            'id': review.id,
+            'rating': review.rating,
+            'comments':review.comments,
+            'user': {
+                'name':review.user.name,
+                'email':review.user.email,
+                'avatar':review.user.avatar or 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar.png',
+            },
+            'review_date':review.review_date,
+        })
+    return Response({'success':True,'reviews':review_data})
 
-# @api_view(['GET'])
-# def filtered_review_by_user(request,id):
-#     user_id = UserAccount.objects.all(id=id)
-#     filtered_users = Review.objects.filter(user = user_id).all()
-#     serializer = ReviewSerializer(filtered_users, many=True)
-#     return Response({'success':True,'reviews'})

@@ -36,7 +36,7 @@ class ReservationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
-    user = UserAccountSerializer(read_only=True, many=True)
+    # user = UserAccountSerializer(read_only=True, many=True)
     class Meta:
         model = Review
         fields = '__all__'
