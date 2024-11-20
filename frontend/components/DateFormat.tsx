@@ -24,7 +24,7 @@ const DateFormat = ({date}:DateProps) => {
     const isoDate = date;
     const formattedDate = formateDate(isoDate)
   return (
-    <div>{formattedDate}</div>
+    <div className='text-sm'>{formattedDate}</div>
   )
 }
 

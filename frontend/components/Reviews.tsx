@@ -11,17 +11,16 @@ interface ReviewProps {
 }
 
 const Reviews = async ({ car, userId }: ReviewProps) => {
-  //   const get_user_response = await apiService.get('/api/users');
   const response = await apiService.get(`/api/filtered-reviews/${car}`);
   const reviews = response.reviews;
   console.log("Reviews", reviews);
 
   return (
-    <Card className="w-full flex overflow-scroll gap-x-6 items-center justify-around p-5">
+    <Card className="w-full flex overflow-x-scroll gap-x-6 items-center justify-around p-5">
       {reviews.map((review: any) => {
         return (
-          <Card className="px-10 p-2" key={review.id}>
-            <div className="flex flex-col">
+          <Card className="px-10 p-5" key={review.id}>
+            <div className="flex flex-col gap-5">
               <div className="flex justify-around gap-x-10">
                 <div className="flex">
                   {[...Array(5)].map((_, index) => {
@@ -45,17 +44,17 @@ const Reviews = async ({ car, userId }: ReviewProps) => {
                 <DateFormat date={review.review_date} />
               </div>
 
-              <div className="flex">
+              <div className="flex w-[300px] h-[100px] overflow-y-scroll p-4 text-sm">
                 <p>{review.comments}</p>
               </div>
               
-              <div className="flex items-center">
+              <div className="flex items-center gap-x-3 ml-3">
                 <div className="">
                     <Image src={review.user.avatar} alt={review.user.name} width={60} height={60}/>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col font-bold">
                     <p>{review.user.name}</p>
-                    <p>{review.user.email}</p>
+                    <p className="text-xs hover:underline">{review.user.email}</p>
                 </div>
               </div>
             </div>

@@ -39,11 +39,13 @@ const ActivationPage = () => {
             }
         };
         activationAccount();
+
     },[])
   return (
-    <div>ActivationPage
-        <h1>Activating account ...</h1>
-        <p>Please wait while we activate your account.</p>
+    <div>
+        <h1>Your account is now active!</h1>
+        <p>Thank you for confirming your account. You may log in now!</p>
+       
     </div>
   )
 }
