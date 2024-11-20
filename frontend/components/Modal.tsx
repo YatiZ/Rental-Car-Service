@@ -21,7 +21,7 @@ const Modal = ({ label, content, isOpen, close }: ModalProps) => {
     setTimeout(() => {
       close();
     }, 300);
-    console.log("close");
+
   }, [close]);
 
   //this support the handleclose to close the modal

@@ -40,11 +40,11 @@ const ContactPage = () => {
       email: email,
       message: message,
     };
-    console.log("form data:", formData);
+
 
     try {
       const response = await apiService.post("/api/contact", formData);
-      console.log("Response from contact", response);
+  
 
       if (response.success) {
         setSuccessMessage(response.message);

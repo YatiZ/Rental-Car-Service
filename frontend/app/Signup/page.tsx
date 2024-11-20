@@ -35,7 +35,7 @@ const SignupPage = () => {
         "/api/users/",
         formData
       ); // No need to JSON.stringify here
-      console.log("account-registration-Response:", response);
+
       setIsLoading(true);
       if (response && response.id) {
         toast({

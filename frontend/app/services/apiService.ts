@@ -15,7 +15,7 @@ const apiService = {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log("response car lists:",data)
+
         return data;
     } catch (error) {
         console.log("error")
@@ -34,7 +34,7 @@ const apiService = {
             });
     
             const json = await response.json(); // Parse the response as JSON
-            console.log('Full response from API:', json);
+  
 
             if (!response.ok) {
                 // If response is not OK, log and throw an error with the response message

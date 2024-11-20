@@ -54,11 +54,11 @@ export function ReviewModal({ user, car_id }: ReviewProps) {
         rating: rating,
         comments: comments
     }
-    console.log("Form Data from review", formData)
+
 
     try {
       const create_review = await apiService.post(`/api/create-review/${user}`,formData);
-      console.log("create_review",create_review)
+  
       if(create_review.success === true && create_review ){
         toast({
             variant:"success",

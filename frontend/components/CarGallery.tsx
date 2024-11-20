@@ -19,7 +19,7 @@ interface ImagesProps{
 }
 
 export function CarouselPlugin({car_images}:ImagesProps) {
-    console.log('Car Images from carousel:',car_images)
+
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   )

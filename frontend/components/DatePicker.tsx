@@ -69,7 +69,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
     const reservation_list = await apiService.get(
       `/api/get_bookings/${car.id}`
     );
-    console.log("Reservation:", reservation_list.reservation_data);
+   
     const reservations = reservation_list.reservation_data;
 
     let dates: Date[] = [];
@@ -79,9 +79,9 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
         start: new Date(reservation.start_date),
         end: new Date(reservation.end_date),
       });
-      console.log("Range", range);
+
       dates = [...dates, ...range];
-      console.log("dates", dates);
+
     });
     setBookedDates(dates);
   };
@@ -126,7 +126,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
     e.preventDefault();
 
     if (renter && userId) {
-      console.log(renter);
+
       if (dateRange.startDate && dateRange.endDate && pickup && dropoff) {
         const formData = {
           renter_id: userId,

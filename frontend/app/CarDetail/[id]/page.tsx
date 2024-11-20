@@ -15,11 +15,11 @@ import Reviews from "@/components/Reviews";
 
 const CarDetailPage = async ({ params }: { params: { id: string } }) => {
   const userId = await getUserId();
-  console.log("UserId",userId)
+
   const car_detail = await apiService.get(`/api/cars/${params.id}/`);
-  console.log("Car Detail->"); // Check if the image array is included
+ 
   const get_renter_info = await apiService.get(`/api/renter_info_display/${userId}`);
-  console.log("get_renter_info",get_renter_info)
+  
   return (
     <div className="mx-4 overflow-hidden relative">
       <div className="flex items-center justify-center">

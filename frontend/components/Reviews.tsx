@@ -13,7 +13,6 @@ interface ReviewProps {
 const Reviews = async ({ car, userId }: ReviewProps) => {
   const response = await apiService.get(`/api/filtered-reviews/${car}`);
   const reviews = response.reviews;
-  console.log("Reviews", reviews);
 
   return (
     <Card className="w-full flex overflow-x-scroll gap-x-6 items-center justify-around p-5">
@@ -47,14 +46,19 @@ const Reviews = async ({ car, userId }: ReviewProps) => {
               <div className="flex w-[500px] h-[100px] overflow-y-scroll p-4 text-sm">
                 <p>{review.comments}</p>
               </div>
-              
+
               <div className="flex items-center gap-x-3 ml-3">
                 <div className="">
-                    <Image src={review.user.avatar} alt={review.user.name} width={60} height={60}/>
+                  <Image
+                    src={review.user.avatar}
+                    alt={review.user.name}
+                    width={60}
+                    height={60}
+                  />
                 </div>
                 <div className="flex flex-col font-bold">
-                    <p>{review.user.name}</p>
-                    <p className="text-xs hover:underline">{review.user.email}</p>
+                  <p>{review.user.name}</p>
+                  <p className="text-xs hover:underline">{review.user.email}</p>
                 </div>
               </div>
             </div>

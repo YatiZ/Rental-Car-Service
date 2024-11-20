@@ -23,9 +23,9 @@ const ActivationPage = () => {
                     })
                     
                     // const response  = await result.json();
-                    console.log(response)
+         
                     if(response.ok && response.status === 204){
-                        console.log('Account activated!',response)
+              
 
                         router.push('/Login')
                     }

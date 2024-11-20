@@ -29,8 +29,6 @@ const LoginPage = () => {
     try {
       const response = await apiService.AuthPost("/api/jwt/create/", formData);
 
-      console.log("Login response:", response);
-      console.log("Login response access:", response.access);
       if (!response.access) {
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error:any)=> error
@@ -41,9 +39,10 @@ const LoginPage = () => {
           description: tmpErrors,
         })
 
-      }else if(response.detail){
-        console.log(response.detail)
       }
+      // else if(response.detail){
+      //   console.log(response.detail)
+      // }
   
       const accessToken = response.access;
       const refreshToken = response.refresh;
@@ -58,7 +57,7 @@ const LoginPage = () => {
           },
         }
       );
-      console.log("Id", userResponse.data.id);
+
       if (userResponse && userResponse.data.id) {
         const isSuccess = await handleLogin(userResponse.data.id, accessToken, refreshToken);
         if(isSuccess){

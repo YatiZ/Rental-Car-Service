@@ -22,14 +22,14 @@ const HomeCard: React.FC<CarProps> = ({ car }) => {
   const openRentInfoBox = useRentInfoModal();
   const get_reservation = async()=>{
       const reservations = await apiService.get(`/api/get_bookings/${car.id}`)
-      console.log("Reservation:", reservations.reservation_data);
+ 
 
       const booked_date = reservations.reservation_data;
       const todayDate = new Date();
       const booked_start_dates = booked_date.map((booked:any)=>new Date(booked.start_date))
-      console.log("Booked_start_dates",booked_start_dates)
+ 
       const booked_end_dates = booked_date.map((booked:any)=>new Date(booked.end_date))
-      console.log("Booked_end_dates",booked_end_dates)
+
 
       let isUnavailable = false;
       for(let i = 0; i< booked_start_dates.length; i++){
@@ -53,7 +53,7 @@ const HomeCard: React.FC<CarProps> = ({ car }) => {
   // console.log('Additional Images:', additionalImages);
   const handleRent = () => {
     openRentInfoBox.open();
-    console.log("Open");
+
   };
   return (
    

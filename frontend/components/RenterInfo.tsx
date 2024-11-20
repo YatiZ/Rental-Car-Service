@@ -15,11 +15,11 @@ const AddRenterPage = () => {
   useEffect(() => {
     const renterInfoChecker = async () => {
       const id = await getUserId();
-      console.log("Id from renterinfo", id);
+
       try {
         if(id){
           const response = await apiService.get(`/api/renter_info_check/${id}`);
-          console.log(response);
+
           if (response.renter_exists === true) {
             setRenterExists(true);
           } else {

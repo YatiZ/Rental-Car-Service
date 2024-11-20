@@ -29,7 +29,7 @@ const AddRentInfoModal = () => {
     fetchUserId();
    
   },[])
-  console.log('User Id from add rent info',userId)
+
 
   const handleChangePhoto =(e:React.ChangeEvent<HTMLInputElement>)=>{
     const file = e.target.files ? e.target.files[0] : null;
@@ -52,7 +52,7 @@ const AddRentInfoModal = () => {
       license_expiration_date: licenseExpiration,
       license_photo: LicensePhoto
     }
-    console.log('Form Data:', formData)
+
     try {
   
       const response = await axios.post(`http://localhost:8000/api/renter_info/${userId}`,formData,{
@@ -61,7 +61,7 @@ const AddRentInfoModal = () => {
       },
       });
 
-      console.log('Response from renter info form:',response)
+
       if(response.data.success === true){
         setAlertMessage('');
         setSuccessMessage(response.data.message);

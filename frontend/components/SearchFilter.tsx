@@ -1,13 +1,21 @@
+'use client'
+import React, { useState } from 'react'
+import { CarType } from '@/types'
+interface CarsProps{
+  cars:CarType[]
+}
 
-import React from 'react'
-
-
-const SearchFilter = () => {
+const SearchFilter = ({cars}:CarsProps) => {
+  const [filteredData, setFilteredData] = useState<string[]>([])
+  const [searchData, setSearchData] = useState<string>('');
+  const handleFilter = (e:React.FormEvent)=>{
+     console.log(filteredData)
+  }
   return (
-    <div className='h-[64px] w-[500px] shadow-xl mt-4 flex flex-row items-center justify-between border rounded-full'>
-        <input type="text" placeholder='Type your message ...' className='w-full ml-2 px-3 py-3 bg-gray-200 rounded-full' />
+    <div className='h-[64px] md:w-[500px] w-[350px] shadow-xl mt-4 flex flex-row items-center justify-between border rounded-lg'>
+        <input type="text" value={searchData} onChange={(e)=>setSearchData(e.target.value)} placeholder='Type your message ...' className='w-full ml-2 px-3 py-3 bg-gray-200 rounded-lg' />
         <div className='p-2'>
-        <div className="p-2 lg:p-4 cursor-pointer btn__color hover:bg-blue-600 transition rounded-full text-white">
+        <div className="p-2 lg:p-4 cursor-pointer btn__color hover:bg-blue-600 transition rounded-lg text-white">
           <svg
             viewBox="0 0 32 32"
             style={{
@@ -22,6 +30,7 @@ const SearchFilter = () => {
             aria-hidden="true"
             role="presentation"
             focusable="false"
+            onClick={handleFilter}
           >
             <path
               fill="none"

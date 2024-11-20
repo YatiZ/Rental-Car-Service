@@ -33,13 +33,13 @@ const UpdateRentInfoModal = () => {
     const fetchRenterInfo = async () => {
         const id = await getUserId();
         setUserId(id);
-        console.log("userId",userId)
+   
         if(id){
-          console.log("id",id)
+       
             const response = await apiService.get(`/api/renter_info_display/${id}?timestamp=${Date.now()}`)
             .then((response)=>{
               const renterData = response?.data || response || {};
-              console.log('renterData from update rent info',renterData)
+     
               setRenterName(renterData.renter_name)
               setPhoneno(renterData.phonenumber)
               setAddress(renterData.address)
@@ -57,7 +57,7 @@ const UpdateRentInfoModal = () => {
     };
     fetchRenterInfo();
 }, []);
-console.log('License Photo Path: ',LicensePhotoPath)
+
 //   const fetchUserId = async()=>{
 //     const id = await getUserId();
 //     setUserId(id);
@@ -103,7 +103,7 @@ console.log('License Photo Path: ',LicensePhotoPath)
     }
    
 
-    console.log('Form Data:', formData)
+
     try {
   
       const response = await axios.patch(`http://localhost:8000/api/update_renter_info/${userId}`,formData,{
@@ -112,7 +112,7 @@ console.log('License Photo Path: ',LicensePhotoPath)
       },
       });
 
-      console.log('Response from renter info form:',response)
+   
       if(response.data.success === true){
         setAlertMessage('');
         setSuccessMessage(response.data.message);
@@ -136,7 +136,6 @@ console.log('License Photo Path: ',LicensePhotoPath)
     }
   };
   
-
 
   const content = (
     <>

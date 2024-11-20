@@ -13,7 +13,7 @@ const NavBar =  ({userId}:NavBarProps) => {
 
 
 //  if(loading) return <div>Loading ...</div>;
-  console.log("User Id from NavBar:", userId);
+
 
   return (
     <AnimatePresence>
