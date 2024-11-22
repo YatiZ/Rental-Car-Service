@@ -74,7 +74,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
 
     let dates: Date[] = [];
 
-    reservations.map((reservation: any) => {
+    reservations.forEach((reservation: any) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.start_date),
         end: new Date(reservation.end_date),

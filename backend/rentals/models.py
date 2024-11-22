@@ -111,3 +111,8 @@ class Review(models.Model):
          return f"{self.user} - {self.car}"
     
 
+class Favorite(models.Model):
+     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+     car = models.ForeignKey(Car, on_delete=models.CASCADE)
+     isFavorite = models.BooleanField(default=False)
