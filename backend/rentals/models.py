@@ -116,3 +116,6 @@ class Favorite(models.Model):
      user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
      car = models.ForeignKey(Car, on_delete=models.CASCADE)
      isFavorite = models.BooleanField(default=False)
+
+     def __str__(self):
+          return f"{self.user.name} {self.car.brand} {self.isFavorite}"

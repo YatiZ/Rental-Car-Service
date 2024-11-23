@@ -1,5 +1,5 @@
 from datetime import datetime
-from . models import Car, Contact, UserAccount, Renter, Reservation, Review
+from . models import Car, Contact, UserAccount, Renter, Reservation, Review, Favorite
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -306,3 +306,28 @@ def filtered_review_by_car(request,id):
         })
     return Response({'success':True,'reviews':review_data})
 
+@api_view(['POST'])
+def favorited_car(request, id):
+    car_id = get_object_or_404(Car, id=id)
+    userId = request.data.get('userId')
+    if not userId:
+        return Response({'success':False,'message':'No user account'}, status=status.HTTP_400_BAD_REQUEST)
+    user = get_object_or_404(UserAccount, id=userId)
+    isFavorite = request.data.get('isFavorite')
+
+    if isFavorite not in [True, False, 'true','false', 'True','False']:
+        return Response({'success':False, 'message': 'Invalid isFavorite value'}),
+    
+    isFavorite = isFavorite in [True, 'true','True']
+
+    existing_favorite = Favorite.objects.filter(car=car_id, user= user).first()
+    if existing_favorite:
+        existing_favorite.delete()
+        return Response({'success':False,'message':'false fav', 'isFavorite': None})
+
+    favorited = Favorite.objects.create(
+        user = user,
+        car = car_id,
+        isFavorite = isFavorite
+    )
+    return Response({'success':True, 'message':'Successfully added!'})
