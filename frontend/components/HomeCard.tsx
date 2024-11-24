@@ -122,8 +122,9 @@ const handleFav = async() => {
   return (
    
       <Card className="w-full">
+        <div className="m-4">
         {userId && 
-         <button className="cursor-pointer absolute m-4" onClick={handleFav}>
+         <button className="cursor-pointer absolute" onClick={handleFav}>
          {!isFavorite ? 
          <svg
              xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +148,7 @@ const handleFav = async() => {
            
          </button>
         }
-     
+     </div>
            
         <CardHeader>
        
