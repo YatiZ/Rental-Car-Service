@@ -30,6 +30,7 @@ const containerVarients = {
 const FeaturePage = () => {
   const [cars, setCars] = useState<CarType[]>([]);
   const [loading, setLoading] = useState(true);
+  
   //fetching data from backend through apiService.ts
   const getCarsList = async()=>{
     setLoading(true);

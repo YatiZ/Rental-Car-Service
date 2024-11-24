@@ -330,4 +330,30 @@ def favorited_car(request, id):
         car = car_id,
         isFavorite = isFavorite
     )
-    return Response({'success':True, 'message':'Successfully added!'})
+    return Response({'success':True, 'message':'Successfully added!', 'favorited':{
+        'id': favorited.id,
+        'car': favorited.car.id,
+        'user':favorited.user.id,
+        'isFavorite': favorited.isFavorite
+    }})
+
+@api_view(['GET'])
+def get_favorite(request,car_id, user_id):
+    get_favorite = Favorite.objects.filter(car=car_id, user=user_id).first()
+
+    if get_favorite is None:
+        return Response({
+            "success": False,
+            "message": "Favorite record not found"
+        })
+    return Response({
+            "success": True,
+            "message": "You got fav data",
+            "get_favorite": {
+                "id": get_favorite.id,
+                "car": get_favorite.car.id,
+                "user": get_favorite.user.id,
+                "isFavorite": get_favorite.isFavorite
+            }
+        }, status=200)
+

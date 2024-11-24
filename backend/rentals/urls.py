@@ -26,4 +26,5 @@ urlpatterns = [
 
     #favorite
     path('api/favorite/<uuid:id>',api.favorited_car, name='favorite'),
+    path('api/get-favorite/<uuid:car_id>/<int:user_id>',api.get_favorite, name='get-favorite')
 ]

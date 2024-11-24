@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const apiService = {
     //get data from backend
     get: async function(url:string): Promise<any>{
@@ -22,6 +24,28 @@ const apiService = {
     }
     },
 
+    favGet: async (url:string) => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+                method:'GET',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                }
+            });
+            if(!response.ok){
+                console.error("Error fetching data:",response.statusText);
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+            // const data = await response.json();
+    
+            return response.json();// Ensure you're returning `response.data`
+        } catch (error) {
+          console.error("Error in API call:", error);
+          throw error; // Rethrow error for proper handling
+        }
+      },
+
     post: async function(url: string, data: any): Promise<any> {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
@@ -45,7 +69,7 @@ const apiService = {
           
             }
     
-            console.log('Response from signup', json);
+        
             return json;
 
         } catch (error) {
