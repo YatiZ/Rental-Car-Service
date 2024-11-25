@@ -186,9 +186,7 @@ const handleFav = async() => {
            {checkStatus? <AvailableSign/>:<><UnavailableSign/></>}
 
             <div className="mt-3 flex gap-4">
-              {/* <CustomBtn btnName='Rent' onClick={handleRent} btnStyles='w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition' /> */}
-
-              {/* <CustomBtn btnName='More Info' handleClick={handleRent} btnStyles='w-full bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition' /> */}
+            
               <Link
                 className="w-full text-center bg-blue-500 rounded-full border p-2 text-white hover:scale-110 transition"
                 href={`CarDetail/${car.id}`}

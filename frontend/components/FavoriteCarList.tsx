@@ -29,7 +29,7 @@ const handleRemoveFav =  async() => {
     <>
         {id && 
               <Card className="w-full" >
-              <button onClick={handleRemoveFav}>
+              <button onClick={handleRemoveFav} className="absolute p-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
