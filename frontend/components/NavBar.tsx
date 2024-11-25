@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import LogoutBtn from "./LogoutBtn";
 import AddRenterPage from "@/components/RenterInfo";
+import NavDropDown from "./NavDropDown";
 
 interface NavBarProps{
   userId: string | null;
@@ -103,7 +104,8 @@ const NavBar =  ({userId}:NavBarProps) => {
                 className="navbar__link"
               >
                 {/* <Link href="/RenterInfo">Your Info</Link> */}
-                <AddRenterPage />
+                {/* <AddRenterPage /> */}
+                <NavDropDown/>
               </motion.div>
             )}
 

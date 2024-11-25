@@ -50,14 +50,14 @@ const AddRenterPage = () => {
         <CustomBtn
         btnName="Your Info"
         onClick={handleUpdateRentInfo}
-        btnStyles="w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition"
+        btnStyles="w-full "
       />
       ) : (
         <>
           <CustomBtn
             btnName="Your Info"
             onClick={handleRent}
-            btnStyles="w-full bg-yellow-500 rounded-full border p-2 text-white hover:scale-110 transition"
+            btnStyles="w-full"
           />
         </>
       )}
