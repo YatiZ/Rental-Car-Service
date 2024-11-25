@@ -27,8 +27,13 @@ import Link from "next/link"
             Your Favorites
             </DropdownMenuItem>
             </Link>
-        
-          <DropdownMenuItem>Rented History</DropdownMenuItem>
+          
+          <Link href='Rent-History'>
+          <DropdownMenuItem>
+          Rented History
+          </DropdownMenuItem>
+          </Link>
+      
           <DropdownMenuItem>Setting</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer, UserAccountSerializer
+from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer, UserAccountSerializer, HistorySerializer
 from django.db import IntegrityError
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -231,6 +231,20 @@ def get_reservation(request, id):
         print(e)
     return Response({'success':False,'message':'An error occurred!'})
 
+
+@api_view(['GET'])
+def get_rented_history_by_user(request, user_id):
+    history = Reservation.objects.filter(renter = user_id)
+    if not history:
+        return Response({
+            'success':False,
+            'message':"No rented history"
+        })
+    
+    serialized_history = HistorySerializer(history, many= True)
+    return Response({'success':True, 'message':'Here is your history','history': serialized_history.data})
+
+# review sessions
 @api_view(['POST'])
 def create_review(request,id):
     try:
@@ -244,10 +258,6 @@ def create_review(request,id):
         car = Car.objects.get(id = car_id)
         
         rating = request.data.get('rating')
-        # if rating == 0 | comments == '':
-        #     return Response({
-        #         'success':False, 'message':'Please complete the feedback form'
-        #     }, status=status.HTTP_400_BAD_REQUEST)
         
         comments = request.data.get('comments')
         image = request.data.get('image')
@@ -301,6 +311,8 @@ def filtered_review_by_car(request,id):
         })
     return Response({'success':True,'reviews':review_data})
 
+
+# all favorite sessions
 @api_view(['POST'])
 def favorited_car(request, id):
     car_id = get_object_or_404(Car, id=id)
@@ -396,3 +408,4 @@ def remove_favorite(request,car_id, user_id):
         "success":True,
         "message":"removed car in your favorite lists!"
     })
+

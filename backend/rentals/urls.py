@@ -18,6 +18,7 @@ urlpatterns = [
     #booking 
     path('api/booking/<uuid:id>',api.reservation, name='car-booking'),
     path('api/get_bookings/<uuid:id>',api.get_reservation, name='get-reservation'),
+    path('api/rent-history/<int:user_id>',api.get_rented_history_by_user, name='get-history'),
 
     #review
     path('api/create-review/<int:id>',api.create_review, name='create-review'),

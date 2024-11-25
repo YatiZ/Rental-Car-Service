@@ -35,6 +35,13 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = '__all__'
 
+class HistorySerializer(serializers.ModelSerializer):
+    renter = UserAccountSerializer(read_only = True, many=False)
+
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+
 class ReviewSerializer(serializers.ModelSerializer):
     # user = UserAccountSerializer(read_only=True, many=True)
     class Meta:
