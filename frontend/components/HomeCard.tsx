@@ -84,7 +84,7 @@ const handleFav = async() => {
   }
 };
 
-  const openRentInfoBox = useRentInfoModal();
+
   const get_reservation = async()=>{
       const reservations = await apiService.get(`/api/get_bookings/${car.id}`)
  
@@ -115,10 +115,7 @@ const handleFav = async() => {
     get_reservation();
 
 
-  const handleRent = () => {
-    openRentInfoBox.open();
 
-  };
   return (
    
       <Card className="w-full">

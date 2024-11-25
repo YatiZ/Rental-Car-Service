@@ -9,6 +9,7 @@ import {
 
   import React from 'react'
 import AddRenterPage from "./RenterInfo"
+import Link from "next/link"
   
   const NavDropDown = () => {
     return (
@@ -20,7 +21,13 @@ import AddRenterPage from "./RenterInfo"
           <DropdownMenuItem>
             <AddRenterPage/>
           </DropdownMenuItem>
-          <DropdownMenuItem>Favorites</DropdownMenuItem>
+        
+            <Link href='/Favorite-List'>
+            <DropdownMenuItem>
+            Your Favorites
+            </DropdownMenuItem>
+            </Link>
+        
           <DropdownMenuItem>Rented History</DropdownMenuItem>
           <DropdownMenuItem>Setting</DropdownMenuItem>
         </DropdownMenuContent>

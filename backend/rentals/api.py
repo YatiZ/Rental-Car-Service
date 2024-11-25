@@ -169,11 +169,6 @@ def reservation(request, id):
         pickup_location = request.data.get('pickup_location')
         dropoff_location = request.data.get('dropoff_location')
         
-        # if request.user.is_authenticated:
-        #     renter = request.user
-        # else:
-        #     email = request.data.get('email')
-        #     renter, created = UserAccount.objects.get_or_create(email=email)
         
         renter_id = request.data.get('renter_id')
         renter = UserAccount.objects.get(id = renter_id)
@@ -351,9 +346,53 @@ def get_favorite(request,car_id, user_id):
             "message": "You got fav data",
             "get_favorite": {
                 "id": get_favorite.id,
-                "car": get_favorite.car.id,
+                "car": {
+                    "id":get_favorite.car.id,
+                    "brand":get_favorite.car.brand
+                },
                 "user": get_favorite.user.id,
                 "isFavorite": get_favorite.isFavorite
             }
         }, status=200)
 
+@api_view(['GET'])
+def favorite_list(request, user_id):
+    favorite_list = Favorite.objects.filter(user = user_id) #give query set
+    #query set none give always false, so use not-exist()
+    if not favorite_list.exists():
+        return Response({
+            "success": False,
+            "message": "There is no favorite lists"
+        })
+    
+    favorite_cars = []
+    for fav_car in favorite_list:
+        favorite_cars.append({
+            "id":fav_car.car.id,
+            "brand": fav_car.car.brand,
+            "main_img":fav_car.car.main_img.url,
+            "model":fav_car.car.model,
+            "price_per_day":fav_car.car.price_per_day,
+            "brand_logo":fav_car.car.brand_logo.url
+        })
+
+    return Response ({
+        "success": True,
+        "message":"Your Favorite lists",
+        "favorite_cars": favorite_cars
+    })
+
+@api_view(['GET'])
+def remove_favorite(request,car_id, user_id):
+    favorite_list = Favorite.objects.filter(car = car_id, user = user_id).first()
+    if not favorite_list:
+        return Response({
+            "success": False,
+            "message": "Car not found in your favorite list."
+        }, status=status.HTTP_404_NOT_FOUND)
+    
+    favorite_list.delete()
+    return Response({
+        "success":True,
+        "message":"removed car in your favorite lists!"
+    })
