@@ -10,12 +10,30 @@ from django.db import IntegrityError
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
+#User Session
 @api_view(['GET'])
 def get_user(request):
     user = UserAccount.objects.all()
     serializer = UserAccountSerializer(user, many=True)
     return Response({'user':serializer.data})
 
+@api_view(['GET','PATCH'])
+def get_each_user(request,user_id):
+    user = UserAccount.objects.filter(id=user_id).first()
+    if not user:
+        return Response({'success':False,'message':'No user found!'})
+    elif request.method == 'GET':
+        serializer = UserAccountSerializer(user, many=False)
+        return Response({'success':True,'user':serializer.data})
+    elif request.method == 'PATCH':
+        data = request.data.copy
+        patch_serializer = UserAccountSerializer(data=data, partial = True)
+        if patch_serializer.is_valid():
+            patch_serializer.save()
+            return Response({'success':True,'message':'Your account info is successfully updated!'})
+    # return Response({'success':True,'user':serializer.data})
+
+#Car sessions
 @api_view(['GET'])
 def car_list(request):
     cars = Car.objects.all()
@@ -29,6 +47,8 @@ def car_detail(request, id):
     serializer = CarListSerializer(car)
     return JsonResponse(serializer.data)
 
+
+#Contact - form sessions
 @api_view(['POST'])
 def contact_form(request):
     try:
@@ -47,6 +67,7 @@ def contact_form(request):
         print(e)
         return Response({'success': False, 'error': 'An unexpected error occurred.'})
 
+#Renter sessions
 @api_view(['POST'])
 # @authentication_classes([])
 # @permission_classes([])
@@ -137,7 +158,9 @@ def update_renter_info(request,id):
     except Exception as e:
         print(f"Error updating renter info: {e}")
         return Response({'error': 'An unexpected error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
+
+#Rservation sessions
 @api_view(['POST'])
 @authentication_classes([])
 @permission_classes([])

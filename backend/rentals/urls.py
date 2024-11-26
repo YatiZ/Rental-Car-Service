@@ -5,11 +5,17 @@ from . views import CarListView
 urlpatterns = [
     #user
     path('api/users',api.get_user, name='api-get-user'),
+    path('api/user/<int:user_id>',api.get_each_user, name='get-each-user'),
 
+    #car
     path('api/cars', api.car_list, name='api_car_list'),
     path('api/carList',CarListView.as_view(), name='car-list'),
     path('api/cars/<uuid:id>/',api.car_detail, name='api_car-detail'),
+
+    #contact
     path('api/contact',api.contact_form, name='contact-form'),
+
+    #renter
     path('api/renter_info/<int:id>',api.renter_info, name='renter_info'),
     path('api/renter_info_display/<int:id>',api.renter_info_display, name='api_renter_info_display'),
     path('api/renter_info_check/<int:id>',api.renter_info_check, name='renter-info-check'),

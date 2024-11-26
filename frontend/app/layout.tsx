@@ -4,7 +4,6 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 import UpdateRentInfoModal from "@/components/modals/UpdateRentInfo";
-import MessageBox from "@/components/MessageBox";
 import DialogBox from "@/components/DialogBox";
 import { getUserId } from "./lib/action";
 import { Toaster } from "@/components/ui/toaster";
