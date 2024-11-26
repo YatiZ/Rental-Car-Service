@@ -28,7 +28,7 @@ import Link from "next/link"
             </DropdownMenuItem>
             </Link>
           
-          <Link href='Rent-History'>
+          <Link href='/Rent-History'>
           <DropdownMenuItem>
           Rented History
           </DropdownMenuItem>

@@ -5,7 +5,6 @@ import DatePicker from "@/components/DatePicker";
 import { getUserId } from "@/app/lib/action";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { CarouselPlugin } from "@/components/CarGallery";
-import AddRentInfoModal from "@/components/modals/AddRentInfoModal";
 import AddRenterPage from "@/components/RenterInfo";
 import Link from "next/link";
 import { ReviewModal } from "@/components/ReviewModal";
@@ -129,17 +128,18 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
          
           {userId && <>
             <h1>Would you like to suggest about this car?</h1>
-            <ReviewModal user={userId} car_id={car_detail.id}/>
+            <ReviewModal key={`review-${userId}-${car_detail.id}`} user={userId} car_id={car_detail.id}/>
           </>}
     
           
           
         </div>
         <div className="flex flex-col gap-y-5">
-          <DatePicker car={car_detail} userId={userId} />
+          <DatePicker car={car_detail} userId={userId} renterId = {get_renter_info}/>
 
           {get_renter_info && Object.values(get_renter_info).some(value=> value) ? (
-            <Card className="px-1 pt-7">
+    
+            <Card className="px-1 pt-7" key={get_renter_info.id}>
             <CardTitle className="text-center text-xl font-bold">{get_renter_info.account_name.name}'s info for rent</CardTitle>
             <CardContent className="flex text-[15px] justify-between items-center pt-2">
                 <div className="font-bold space-y-2">
@@ -157,10 +157,11 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
         
             </CardContent>
           </Card>
+
           )
           
           :(
-            <Card className="px-1 pt-7">
+            <Card className="px-1 pt-7" key={get_renter_info.id}>
             <CardTitle className="text-center text-xl font-bold"> User's info for rent</CardTitle>
             <CardContent className="">
               <div className="flex text-[15px] justify-between items-center pt-2">

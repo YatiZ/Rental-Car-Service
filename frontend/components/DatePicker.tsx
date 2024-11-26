@@ -2,7 +2,6 @@
 import Calendar from "@/components/forms/Calendar";
 import { Range } from "react-date-range";
 import React, { useEffect, useState } from "react";
-import CustomBtn from "./CustomBtn";
 import apiService from "@/app/services/apiService";
 import { differenceInDays, eachDayOfInterval, format, setDate } from "date-fns";
 import Link from "next/link";
@@ -38,10 +37,11 @@ export type Car = {
 interface ReservationProps {
   car: Car;
   userId: string | null;
+  renterId: string | null;
 }
 
-const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
-  const [renter, setRenter] = useState("");
+const DatePicker: React.FC<ReservationProps> = ({ car, userId, renterId }) => {
+  const [renter, setRenter] = useState<Boolean>(false);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
   const [pickup, setPickup] = useState<string>("");
@@ -51,7 +51,7 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
   const [texFee, setTexFee] = useState<number>();
   const [error, setError] = useState("");
   const [alert, setAlert] = useState(false);
-  const [data, setData] = useState<string[]>([]);
+
 
   useEffect(() => {
     const fetchRenterInfo = async () => {
@@ -59,11 +59,11 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
         const renter_info = await apiService.get(
           `/api/renter_info_check/${userId}`
         );
-        setRenter(renter_info);
+        setRenter(renter_info.renter_exists);
       }
     };
     fetchRenterInfo();
-  }, []);
+  }, [renter]);
 
   const get_reservation = async () => {
     const reservation_list = await apiService.get(
@@ -242,7 +242,10 @@ const DatePicker: React.FC<ReservationProps> = ({ car, userId }) => {
           {userId ? (
             <>
              <AlertDialog>
-                <AlertDialogTrigger className="flex items-center justify-center border bg-blue-600 p-1 w-full rounded text-white text-center">Rent</AlertDialogTrigger>
+               {renter === false ? <div className="text-center text-red-600 font-bold">You must fill renter info first</div>:
+                 <AlertDialogTrigger className="flex items-center justify-center border bg-blue-600 p-1 w-full rounded text-white text-center">Rent</AlertDialogTrigger>
+               }
+              
                 <AlertDialogContent> 
                     <AlertDialogTitle>Are you sure to rent?</AlertDialogTitle>
                     <AlertDialogDescription className="space-y-2">

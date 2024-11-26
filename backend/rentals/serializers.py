@@ -16,6 +16,10 @@ class CarListSerializer(serializers.ModelSerializer):
         fields = ['id','brand','main_img','brand_logo','description','model','year','transmission',
                   'color','passengers','suitcases','gas_type','price_per_day','status', 'image'
                   ]
+class CarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Car
+        fields = '__all__'
     
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,7 +41,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 class HistorySerializer(serializers.ModelSerializer):
     renter = UserAccountSerializer(read_only = True, many=False)
-
+    car = CarSerializer(read_only=True, many=False)
     class Meta:
         model = Reservation
         fields = '__all__'

@@ -16,15 +16,16 @@ const Reviews = async ({ car, userId }: ReviewProps) => {
 
   return (
     <Card className="w-full flex overflow-x-scroll gap-x-6 items-center justify-around p-5">
-      {reviews.map((review: any) => {
+      {reviews.map((review: any, index:number) => {
         return (
-          <Card className="px-10 p-5" key={review.id}>
+          <Card className="px-10 p-5" key={index}>
             <div className="flex flex-col gap-5">
               <div className="flex justify-around gap-x-10">
                 <div className="flex">
-                  {[...Array(5)].map((_, index) => {
-                    const ratingValue = index + 1;
+                  {[...Array(5)].map((_, starIndex) => {
+                    const ratingValue = starIndex + 1;
                     return (
+                        <div key={starIndex}>
                       <label key={review.rating}>
                         <FaStar
                           key={review.rating}
@@ -37,6 +38,7 @@ const Reviews = async ({ car, userId }: ReviewProps) => {
                           size={25}
                         ></FaStar>
                       </label>
+                      </div>
                     );
                   })}
                 </div>
