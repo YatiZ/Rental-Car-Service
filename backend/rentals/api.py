@@ -1,5 +1,5 @@
 from datetime import datetime
-from . models import Car, Contact, UserAccount, Renter, Reservation, Review, Favorite
+from . models import FAQ, Car, Contact, UserAccount, Renter, Reservation, Review, Favorite
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -432,3 +432,15 @@ def remove_favorite(request,car_id, user_id):
         "message":"removed car in your favorite lists!"
     })
 
+@api_view(['GET'])
+def get_faq(request):
+    faq_list = FAQ.objects.all()
+    if not faq_list:
+        return Response({
+            "success": False,
+            "data":"Not found data"
+        }, status=status.HTTP_404_NOT_FOUND)
+    return Response({
+        "success":True,
+        "data":faq_list
+    })

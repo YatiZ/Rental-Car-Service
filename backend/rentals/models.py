@@ -119,3 +119,10 @@ class Favorite(models.Model):
 
      def __str__(self):
           return f"{self.user.name} {self.car.brand} {self.isFavorite}"
+     
+class FAQ(models.Model):
+     questions = models.TextField()
+     answers = models.TextField()
+
+     def __str__(self):
+          return f"{self.questions}"

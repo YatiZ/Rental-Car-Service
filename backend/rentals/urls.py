@@ -36,4 +36,7 @@ urlpatterns = [
     path('api/get-favorite/<uuid:car_id>/<int:user_id>',api.get_favorite, name='get-favorite'),
     path('api/favorite-list/<int:user_id>',api.favorite_list, name='favorite-list'),
     path('api/remove-favorite/<uuid:car_id>/<int:user_id>',api.remove_favorite, name='remove-favorite'),
+
+    #FAQ
+    path('api/faq',api.get_faq, name='get-faq'),
 ]
