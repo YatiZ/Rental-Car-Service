@@ -1,8 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
+import apiService from "../services/apiService";
+import { useToast } from "@/hooks/use-toast";
+import { FAQType } from "@/types";
 
 const containerVarients = {
   hidden: {
@@ -26,13 +29,35 @@ const containerVarients = {
   },
 };
 const QApage = () => {
-  const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
-  const handleIsOpen = (id: string) => {
+  const [faq, setFaq] = useState<FAQType[]>([]);
+  const { toast } = useToast();
+  const [isOpen, setIsOpen] = useState<{ [key: number]: boolean }>({});
+  const handleIsOpen = (id: number) => {
     setIsOpen((prevState) => ({
       // ...prevState,
       [id]: !prevState[id],
     }));
   };
+
+  const getFAQList = async () => {
+    try {
+      const response = await apiService.get("/api/get-faq");
+      if (response) {
+        setFaq(response.data);
+      } else {
+        toast({
+          title: "Scheduled: Catch up ",
+          description: response.data.data,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getFAQList();
+  }, []);
+
   return (
     <AnimatePresence>
       <motion.div
@@ -41,29 +66,43 @@ const QApage = () => {
         animate="visible"
         exit="exit"
       >
-        <h1 className="text-center text-3xl p-4"> Frequently Asked Questions (FAQ)</h1>
-        <div className="m-3">
-        <div className="border w-full">
-          <div className="border-l-4 flex justify-between">
-            <div className="py-3 pl-2 text-lg">
-              <Image src="/question.png" alt="question" width={50} height={50}/>
-            </div>
-            <button className="pr-2" id="1" onClick={() => handleIsOpen("1")}>
-            Open
-          </button>
-          </div>
+        <h1 className="text-center text-3xl p-4">
+          {" "}
+          Frequently Asked Questions (FAQ)
           
-          {isOpen["1"] && <div>Hi</div>}
+        </h1>
+      
+        <div className="m-5 md:mx-7 lg:mx-8">
+          {faq.map((f, index: number) => {
+            return (
+              <div className="border w-full mb-3" key={index}>
+                <div className="border-l-4 ">
+                  <div className="py-3 pl-2 flex justify-between items-center">
+                    <Image
+                      src="/question.png"
+                      alt="question"
+                      width={50}
+                      height={50}
+                    />
+                    <p className="">{f.question}</p>
+                    <button
+                      className="pr-2"
+                      onClick={() => handleIsOpen(index)}
+                    >
+                      open
+                    </button>
+                  </div>
+                </div>
+
+                {isOpen[index] && (
+                  <div className="border-l-4 border-l-blue-600">
+                    <p className="py-3 text-center px-6">{f.answer}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
-        <div className="border w-full">
-          <p>Hello</p>
-          <button id="2" onClick={() => handleIsOpen("2")}>
-            Open
-          </button>
-          {isOpen["2"] && <div>Hi</div>}
-        </div>
-        </div>
-       
       </motion.div>
     </AnimatePresence>
   );

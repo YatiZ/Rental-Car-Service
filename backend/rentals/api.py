@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer, UserAccountSerializer, HistorySerializer
+from .serializers import CarListSerializer,ContactSerializer, RenterSerializer, ReservationSerializer, ReviewSerializer, UserAccountSerializer, HistorySerializer, FaqSerializer
 from django.db import IntegrityError
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -435,12 +435,13 @@ def remove_favorite(request,car_id, user_id):
 @api_view(['GET'])
 def get_faq(request):
     faq_list = FAQ.objects.all()
-    if not faq_list:
+    serializer = FaqSerializer(faq_list,many=True)
+    if not faq_list.exists():
         return Response({
             "success": False,
             "data":"Not found data"
         }, status=status.HTTP_404_NOT_FOUND)
     return Response({
         "success":True,
-        "data":faq_list
+        "data":serializer.data
     })

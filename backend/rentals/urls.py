@@ -38,5 +38,5 @@ urlpatterns = [
     path('api/remove-favorite/<uuid:car_id>/<int:user_id>',api.remove_favorite, name='remove-favorite'),
 
     #FAQ
-    path('api/faq',api.get_faq, name='get-faq'),
+    path('api/get-faq',api.get_faq, name='get-faq'),
 ]

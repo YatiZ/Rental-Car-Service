@@ -57,3 +57,8 @@ export type CarType =  {
     status: 'available' | 'rented' | 'maintenance'; // Specific choices
     image: Image[];
 }
+
+export type FAQType = {
+    question: string;
+    answer: string;
+}
