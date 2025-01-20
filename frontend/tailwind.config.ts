@@ -63,15 +63,17 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
-      // animation:{
-      //   scroll: 'scroll 15s linear infinite'
-      // },
-      // keyframes:{
-      //   scroll:{
-      //     '0%':{transform: 'translateX(100%)'},
-      //     '100%':{transform: 'translateX(-100%)'}
-      //   }
-      // }
+   
+      keyframes:{
+        'border-spin':{
+			'100%':{
+				transform: 'rotate(-360deg)',
+			}
+		}
+      },
+	     animation:{
+        'border-spin': 'border-spin 7s linear infinite'
+      },
   	}
   },
   plugins: [require("tailwindcss-animate")],
