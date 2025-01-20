@@ -29,19 +29,17 @@ const containerVarients = {
 
 const FeaturePage = () => {
   const [cars, setCars] = useState<CarType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   
   //fetching data from backend through apiService.ts
   const getCarsList = async()=>{
     setLoading(true);
     try {
       // await new Promise((resolve)=>setTimeout(resolve,2500));
-      const tmpCars = await apiService.get('/api/cars')
+      const tmpCars = await apiService.getUC('/api/cars',setLoading)
       setCars(tmpCars.data)
     } catch (error) {
       console.error(error)
-    }finally{
-      setLoading(false)
     }
    
   }

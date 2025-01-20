@@ -30,6 +30,7 @@ const containerVarients = {
 };
 const QApage = () => {
   const [faq, setFaq] = useState<FAQType[]>([]);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState<{ [key: number]: boolean }>({});
   const handleIsOpen = (id: number) => {
@@ -41,9 +42,12 @@ const QApage = () => {
 
   const getFAQList = async () => {
     try {
-      const response = await apiService.get("/api/get-faq");
-      if (response) {
+      setLoading(true)
+      const response = await apiService.getUC("/api/get-faq",setLoading);
+    
+      if (response && response.data) {
         setFaq(response.data);
+        
       } else {
         toast({
           title: "Scheduled: Catch up ",
@@ -55,6 +59,7 @@ const QApage = () => {
     }
   };
   useEffect(() => {
+  
     getFAQList();
   }, []);
 
@@ -71,7 +76,10 @@ const QApage = () => {
           Frequently Asked Questions (FAQ)
           
         </h1>
-      
+        
+        {loading? <div>loading</div> :
+        
+  
         <div className="m-5 md:mx-7 lg:mx-8">
           {faq.map((f, index: number) => {
             return (
@@ -103,6 +111,7 @@ const QApage = () => {
             );
           })}
         </div>
+              }
       </motion.div>
     </AnimatePresence>
   );

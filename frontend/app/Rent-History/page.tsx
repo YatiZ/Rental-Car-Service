@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 
 const RentHistoryPage = async () => {
+
   const userId = await getUserId();
   const response = await apiService.get(`/api/rent-history/${userId}`);
   console.log(response)

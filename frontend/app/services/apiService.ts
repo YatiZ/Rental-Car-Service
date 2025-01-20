@@ -23,7 +23,30 @@ const apiService = {
         console.log("error")
     }
     },
-
+    getUC:async function(url:string, setLoading:(loading:boolean)=>void): Promise<any>{
+        setLoading(true);
+        try {
+            await new Promise(resolve=>setTimeout(resolve,3000))
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
+                method:'GET',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                }
+            });
+            if(!response.ok){
+                console.error("Error fetching data:",response.statusText);
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+            const data = await response.json();
+    
+            return data;
+        } catch (error) {
+            console.log("error")
+        }finally{
+            setLoading(false)
+        }
+        },
     favGet: async (url:string) => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
@@ -98,7 +121,8 @@ const apiService = {
         }
     },
 
-    AuthPost: async function(url:string, data: any):Promise<any>{
+    AuthPost: async function(url:string, data: any, setLoading:(loading:boolean)=>void):Promise<any>{
+        setLoading(true)
           try{
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`,{
                 method:'POST',
@@ -125,7 +149,9 @@ const apiService = {
           }catch(error){
              console.error("Error during API call",error)
              throw error;
-          }
+          }finally{
+            setLoading(false)
+        }
       }
    
  }

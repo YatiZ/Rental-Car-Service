@@ -25,9 +25,9 @@ const NavBar =  ({userId}:NavBarProps) => {
           transition={{ delay: 0.2, type: "spring", stiffness: 120 }}
           className=" py-2 flex flex-row justify-between items-center "
         >
-          <div className="m-4 items-center flex">
-            <h3 className="font-bold text-3xl md:text-4xl">
-              <Link href="/">Warm</Link>
+          <div className="my-5 mx-auto md:mx-0 items-center flex">
+            <h3 className="font-bold text-xl md:text-2xl">
+              <Link href="/">Enterprise Rent-A-Car</Link>
             </h3>
           </div>
 

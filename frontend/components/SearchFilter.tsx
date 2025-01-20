@@ -67,12 +67,14 @@ const SearchFilter = ({ cars, loading }: CarsProps) => {
       >
         {loading ? (
           <FeatureLoading />
-        ) : (
-          filteredData.map((car) => {
-            return <HomeCard key={car.id} car={car} />;
-          })
+        ) : (filteredData.length === 0 ? (<div className="mt-7">No car found!</div>)
+          :   (
+            filteredData.map((car) => {
+              return <HomeCard key={car.id} car={car} />;
+            })
+          )
         )}
-        {filteredData.length === 0 && <div className="mt-7">No car found!</div>}
+        
       </motion.div>
     </>
   );

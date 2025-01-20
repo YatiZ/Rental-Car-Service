@@ -166,7 +166,7 @@ const CarDetailPage = async ({ params }: { params: { id: string } }) => {
               </CardContent>
             </Card>
           ) : (
-            <Card className="px-1 pt-7" key={get_renter_info.id}>
+            <Card className="px-1 pt-7">
               <CardTitle className="text-center text-xl font-bold">
                 {" "}
                 User's info for rent
