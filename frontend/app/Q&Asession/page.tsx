@@ -6,6 +6,7 @@ import Image from "next/image";
 import apiService from "../services/apiService";
 import { useToast } from "@/hooks/use-toast";
 import { FAQType } from "@/types";
+import FAQLoading from "@/components/loading/FAQLoading";
 
 const containerVarients = {
   hidden: {
@@ -42,12 +43,11 @@ const QApage = () => {
 
   const getFAQList = async () => {
     try {
-      setLoading(true)
-      const response = await apiService.getUC("/api/get-faq",setLoading);
-    
+      setLoading(true);
+      const response = await apiService.getUC("/api/get-faq", setLoading);
+
       if (response && response.data) {
         setFaq(response.data);
-        
       } else {
         toast({
           title: "Scheduled: Catch up ",
@@ -59,7 +59,6 @@ const QApage = () => {
     }
   };
   useEffect(() => {
-  
     getFAQList();
   }, []);
 
@@ -74,44 +73,56 @@ const QApage = () => {
         <h1 className="text-center text-3xl p-4">
           {" "}
           Frequently Asked Questions (FAQ)
-          
         </h1>
-        
-        {loading? <div>loading</div> :
-        
-  
-        <div className="m-5 md:mx-7 lg:mx-8">
-          {faq.map((f, index: number) => {
-            return (
-              <div className="border w-full mb-3" key={index}>
-                <div className="border-l-4 ">
-                  <div className="py-3 pl-2 flex justify-between items-center">
-                    <Image
-                      src="/question.png"
-                      alt="question"
-                      width={50}
-                      height={50}
-                    />
-                    <p className="">{f.question}</p>
-                    <button
-                      className="pr-2"
-                      onClick={() => handleIsOpen(index)}
-                    >
-                      open
-                    </button>
-                  </div>
-                </div>
 
-                {isOpen[index] && (
-                  <div className="border-l-4 border-l-blue-600">
-                    <p className="py-3 text-center px-6">{f.answer}</p>
+        {loading ? (
+          <FAQLoading />
+        ) : (
+          <div className="m-5 md:mx-7 lg:mx-8">
+            {faq.map((f, index: number) => {
+              return (
+                <div className="border w-full mb-3" key={index}>
+                  <div className="border-l-4 border-l-gray-500">
+                    <div className="py-3 pl-2 flex justify-between items-center">
+                      <Image
+                        src="/question.png"
+                        alt="question"
+                        width={50}
+                        height={50}
+                      />
+                      <p className="">{f.question}</p>
+                      <button
+                        className="pr-2"
+                        onClick={() => handleIsOpen(index)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-              }
+
+                  {isOpen[index] && (
+                    <div className="border-l-4 border-l-blue-600">
+                      <p className="py-3 text-center px-6">{f.answer}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </motion.div>
     </AnimatePresence>
   );
