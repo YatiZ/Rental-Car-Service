@@ -3,6 +3,7 @@ import apiService from "../services/apiService";
 import { getUserId } from "../lib/action";
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
 
 const UserPage = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -10,33 +11,23 @@ const UserPage = () => {
   const [avatarPath, setAvatarPath] = useState<string>("");
   const [username, setUserName] = useState<string>("");
   const [email, setEmail] = useState("");
+
   useEffect(() => {
     const fetchUser = async () => {
       const userId = await getUserId();
-      const response = await apiService.get(`/api/user/${userId}`);
+      setUserId(userId)
+      const response = await axios.get(`http://localhost:8000/api/user/${userId}`);
+      console.log(userId)
       console.log(response);
-      setUserName(response.user.name);
-      setEmail(response.user.email);
+      setUserName(response.data.user.name);
+      setEmail(response.data.user.email);
       const url = "http://localhost:8000";
-      const filePath = `${url}${response.user.avatar}`;
+      const filePath = `${url}${response.data.user.avatar}`;
       setAvatarPath(filePath);
     };
     fetchUser();
-  }, []);
+  }, [userId]);
 
-//   const handleChangePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     console.log("hello");
-//     const file = e.target.files?.[0];
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.onload = () => {
-//         if (typeof reader.result === "string") {
-//           setAvatar(reader.result);
-//         }
-//       };
-//       reader.readAsDataURL(file);
-//     }
-//   };+
 
 const handleChangePhoto = (e:React.ChangeEvent<HTMLInputElement>)=>{
   const file = e.target.files ? e.target.files[0]: null;
@@ -49,7 +40,7 @@ const handleChangePhoto = (e:React.ChangeEvent<HTMLInputElement>)=>{
   }
 }
 
-  const updateProfile = (e: FormEvent) => {
+  const updateProfile = async(e: FormEvent) => {
     e.preventDefault();
     const formData = {
       avatar: avatar?.name,
@@ -57,10 +48,22 @@ const handleChangePhoto = (e:React.ChangeEvent<HTMLInputElement>)=>{
       email: email,
     }
     console.log("FormData", formData);
+
+    try {
+      await axios.patch(`http://localhost:8000/api/user/${userId}`,formData)
+      .then(response =>{
+        console.log(response)
+        // setAvatar(response.data.avatar)
+        // setUserName(response.data.name)
+        // setEmail(response.data.email)
+      })
+
+    } catch (error) {
+      console.log(error)
+    }
   };
   return (
     <div>
-      This is user page
       <form>
         <input
           type="file"

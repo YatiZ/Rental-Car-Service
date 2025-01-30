@@ -6,7 +6,8 @@ import re
 class UserAccountSerializer(UserCreateSerializer):
     class Meta:
         model = UserAccount
-        fields = ['email', 'password', 'name', 'avatar']
+        fields = '__all__'
+        # fields = ['email', 'password', 'name', 'avatar']
 
     #     extra_kwargs = {'password': {'write_only': True}}
 

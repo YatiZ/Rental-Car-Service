@@ -17,7 +17,7 @@ export default function Home() {
      
         <Hero/>
  
-        <div className="flex justify-evenly my-10">
+        <div className="flex justify-evenly my-10 md:flex-row flex-col mx-5 gap-y-5">
           <Card>
             <CardHeader>
               <CardTitle>Endless car & location options</CardTitle>

@@ -25,13 +25,25 @@ def get_each_user(request,user_id):
     elif request.method == 'GET':
         serializer = UserAccountSerializer(user, many=False)
         return Response({'success':True,'user':serializer.data})
+    
     elif request.method == 'PATCH':
-        data = request.data.copy
-        patch_serializer = UserAccountSerializer(data=data, partial = True)
+        data = request.data.copy()
+
+        # Handle potential None values safely
+        if 'email' in data and data['email']:
+            data['email'] = data['email'].lower()
+        if 'name' in data and data['name'] is None:
+            data['name'] = ''  # Assign default empty string if name is None
+        if 'avatar' in request.FILES:
+            data['avatar'] = request.FILES['avatar']
+
+        patch_serializer = UserAccountSerializer(user,data=data, partial = True)
         if patch_serializer.is_valid():
             patch_serializer.save()
-            return Response({'success':True,'message':'Your account info is successfully updated!'})
-    # return Response({'success':True,'user':serializer.data})
+            return Response({'success':True,'message':'Your account info is successfully updated!','user':patch_serializer.data})
+        else:
+            return Response({'success': False, 'errors': patch_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'success': False, 'message': 'Invalid request method.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 #Car sessions
 @api_view(['GET'])
